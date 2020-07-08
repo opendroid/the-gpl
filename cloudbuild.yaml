@@ -1,0 +1,15 @@
+# Build the module.
+steps:
+  - id: lint
+    name: "golangci/golangci-lint"
+    args: ["golangci-lint","run"]
+  - id: test
+    name: "gcr.io/cloud-builders/go"
+    args: ["test","./..."]
+    env: ["PROJECT_ROOT=the-gpl"]
+  - id: build
+    name: "gcr.io/cloud-builders/docker"
+    args: ['build', '--tag=gcr.io/the-gpl/book', '.']
+    env: ["PROJECT_ROOT=the-gpl"]
+images: ['gcr.io/the-gpl/book']
+
