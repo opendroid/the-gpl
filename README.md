@@ -1,4 +1,6 @@
 # the-gpl
+[![Build Status](https://travis-ci.org/opendroid/the-gpl.svg?branch=master)](https://travis-ci.org/opendroid/the-gpl)
+
 [The Go Programming 
 Language](https://www.amazon.com/Programming-Language-Addison-Wesley-Professional-Computing/dp/0134190440) 
 by _Alan A. A. Donovan_ and _Brian W. Kernighan_ is a classic Go book. This git repo is an attempt to share my learning from 
