@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+option go_package = "github.com/opendroid/the-gpl/chapter1/hillsongs/hillsongs";
+
+package hillsongs;
+
+// The greeting service definition.
+service Albums {
+  // Sends a greeting
+  rpc GetAlbumsList (AlbumsRequest) returns (AlbumsResponse) {}
+  rpc GetAlbumWithID (AlbumRequest) returns (AlbumsResponse) {}
+  rpc GetSongsList (SongsRequest) returns (HelloReply) {}
+  rpc PlaySongs (HelloRequest) returns (HelloReply) {}
+  rpc PlaySong (HelloRequest) returns (HelloReply) {}
+}
+
+message AlbumData {
+  string name = 1;
+  string  albumID = 2;
+  string  bandID = 3;
+  repeated string singers = 4;
+  string genre = 5;
+  repeated string songs = 6;
+  repeated uint32 songsID = 7;
+  string year = 8;
+  string studio = 9;
+}
+
+message AlbumsResponse {
+  repeated AlbumData albums = 1;
+}
+
+// The AlbumsRequest message contains list of genre or singer or years or none for all
+message AlbumsRequest {
+  repeated string genre = 1;
+  repeated string singer = 2;
+  repeated uint32 year = 3;
+}
+
+// The AlbumRequest request a specific album with ID or name
+message AlbumRequest {
+  uint32 albumID = 1;
+  string name = 2;
+}
+
+message AudioFormat {
+  int32 AverageBytesPerSecond = 1;
+  int32 BitsPerSample = 2;
+  int32 BlockAlign = 3;
+  int32 Channels = 4;
+  int32 ExtraSize = 5;
+  int32 SampleRate = 6;
+  string Encoding = 7;
+}
+
+message SongsRequest {
+
+}
