@@ -1,0 +1,387 @@
+[
+  {
+    "transcript": {
+      "transcript": " I say to you today my friend",
+      "confidence": 0.9568473
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 653,
+      "nanos": 920000000
+    }
+  },
+  {
+    "transcript": {
+      "transcript": " so even though we Face the difficulties of today and tomorrow",
+      "confidence": 0.98607117
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 670,
+      "nanos": 90000000
+    }
+  },
+  {
+    "transcript": {
+      "transcript": " I still have a dream",
+      "confidence": 0.9854131
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 673,
+      "nanos": 200000000
+    }
+  },
+  {
+    "transcript": {
+      "transcript": " it is a dream deeply rooted in the American dream",
+      "confidence": 0.98070836
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 678,
+      "nanos": 650000000
+    }
+  },
+  {
+    "transcript": {
+      "transcript": " I have a dream",
+      "confidence": 0.9869525
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 681,
+      "nanos": 250000000
+    }
+  },
+  {
+    "transcript": {
+      "transcript": " one day",
+      "confidence": 0.8741104
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 683,
+      "nanos": 550000000
+    }
+  },
+  {
+    "transcript": {
+      "transcript": " this nation will rise up",
+      "confidence": 0.9573217
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 687,
+      "nanos": 730000000
+    }
+  },
+  {
+    "transcript": {
+      "transcript": " live out the true meaning of its trees",
+      "confidence": 0.93020177
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 691,
+      "nanos": 560000000
+    }
+  },
+  {
+    "transcript": {
+      "transcript": " we hold these truths to be self-evident that all men are created equal",
+      "confidence": 0.9837635
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 698,
+      "nanos": 460000000
+    }
+  },
+  {
+    "transcript": {
+      "transcript": " I have a dream",
+      "confidence": 0.9862316
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 709,
+      "nanos": 120000000
+    }
+  },
+  {
+    "transcript": {
+      "transcript": " that one day on the Red Hills of Georgia",
+      "confidence": 0.89974374
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 713,
+      "nanos": 410000000
+    }
+  },
+  {
+    "transcript": {
+      "transcript": " sons of former slaves and the sons of former slave owners",
+      "confidence": 0.89879227
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 719,
+      "nanos": 220000000
+    }
+  },
+  {
+    "transcript": {
+      "transcript": " will baby be able to sit down together at the table of Brotherhood I have a dream",
+      "confidence": 0.9051835
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 725,
+      "nanos": 850000000
+    }
+  },
+  {
+    "transcript": {
+      "transcript": " the one thing",
+      "confidence": 0.7943255
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 727,
+      "nanos": 880000000
+    }
+  },
+  {
+    "transcript": {
+      "transcript": " even the state of Mississippi a state sweltering with the keto Zone Injustice",
+      "confidence": 0.7995154
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 737,
+      "nanos": 430000000
+    }
+  },
+  {
+    "transcript": {
+      "transcript": " sweltering with the heat of Oppression",
+      "confidence": 0.98369116
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 741,
+      "nanos": 280000000
+    }
+  },
+  {
+    "transcript": {
+      "transcript": " be transformed into an oasis of freedom and Justice I have a trees",
+      "confidence": 0.93226814
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 747,
+      "nanos": 560000000
+    }
+  },
+  {
+    "transcript": {
+      "transcript": " my four little children",
+      "confidence": 0.9315443
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 753,
+      "nanos": 220000000
+    }
+  },
+  {
+    "transcript": {
+      "transcript": " one day live in a nation where they will not be judged by the color of their skin but by the content of a character I have a dream today",
+      "confidence": 0.96685106
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 763,
+      "nanos": 540000000
+    }
+  },
+  {
+    "transcript": {
+      "transcript": " I have a dream that one day",
+      "confidence": 0.9864371
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 775,
+      "nanos": 490000000
+    }
+  },
+  {
+    "transcript": {
+      "transcript": " in Alabama with its vicious racists",
+      "confidence": 0.8937912
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 782,
+      "nanos": 50000000
+    }
+  },
+  {
+    "transcript": {
+      "transcript": " what's its Governor having his lips dripping with the words of interposition and nullification one day right there in Alabama little black boys and black girls little join hands with little white balls and white girls as sisters and brothers I have a dream today",
+      "confidence": 0.9446935
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 801,
+      "nanos": 250000000
+    }
+  },
+  {
+    "transcript": {
+      "transcript": " I have a dream that one day I shall be exalted never healed in Mountain shall be made Low Places would be made friends and the Crooked places will be made at All Flesh shall see it together and I hope this is a piece that I go back to the Southwest River space we will be able to shoot out of the Mountain of Despair a stone of hope we will be able to transform the jangling call Javon nation into a beautiful Symphony of Brotherhood with this face we will be able to work together to pray together to struggle together to go to jail for Freedom together knowing that we will be free one day",
+      "confidence": 0.9605301
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 862,
+      "nanos": 520000000
+    }
+  },
+  {
+    "transcript": {
+      "transcript": " this will be the day",
+      "confidence": 0.8912495
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 865,
+      "nanos": 760000000
+    }
+  },
+  {
+    "transcript": {
+      "transcript": " this will be the day when all of God's children",
+      "confidence": 0.93031025
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 870,
+      "nanos": 340000000
+    }
+  },
+  {
+    "transcript": {
+      "transcript": " be able to sing with new meaning my country tears would be",
+      "confidence": 0.9150924
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 875,
+      "nanos": 710000000
+    }
+  },
+  {
+    "transcript": {
+      "transcript": " sweet land of liberty of Beyonce the Pilgrim's Pride from every Mountainside Let Freedom Ring Americans to be a great nation this must be come true and so Let Freedom Ring",
+      "confidence": 0.9227419
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 900,
+      "nanos": 200000000
+    }
+  },
+  {
+    "transcript": {
+      "transcript": " from the mighty mountains of New York",
+      "confidence": 0.936418
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 903,
+      "nanos": 340000000
+    }
+  },
+  {
+    "transcript": {
+      "transcript": " Let Freedom Ring from the highwomen alligators of Pennsylvania Let Freedom Ring from the smoke",
+      "confidence": 0.8752858
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 912,
+      "nanos": 360000000
+    }
+  },
+  {
+    "transcript": {
+      "transcript": " Let Freedom Ring from the probation. California but not only that",
+      "confidence": 0.7575128
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 919,
+      "nanos": 20000000
+    }
+  },
+  {
+    "transcript": {
+      "transcript": " Let Freedom Ring from Stone Mountain of Georgia",
+      "confidence": 0.9817489
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 923,
+      "nanos": 590000000
+    }
+  },
+  {
+    "transcript": {
+      "transcript": " Let Freedom Ring from Lookout Mountain of Tennessee and Mississippi State play tomorrow in Japanese",
+      "confidence": 0.9612447
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 940,
+      "nanos": 110000000
+    }
+  },
+  {
+    "transcript": {
+      "transcript": " turn wheel of freedom",
+      "confidence": 0.61965084
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 945,
+      "nanos": 150000000
+    }
+  },
+  {
+    "transcript": {
+      "transcript": " when we let it ring from every finish whatever Hamlet from every state and their Parsippany",
+      "confidence": 0.90522814
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 952,
+      "nanos": 710000000
+    }
+  },
+  {
+    "transcript": {
+      "transcript": " we will be able to speed up that they put on Jews and Gentiles Protestants and Catholics will be able to tell her I'm sending the words of the old Negro spiritual free at last free at last thank God Almighty we are free",
+      "confidence": 0.9120797
+    },
+    "is_final": true,
+    "result_end_time": {
+      "seconds": 976,
+      "nanos": 570000000
+    }
+  }
+]
