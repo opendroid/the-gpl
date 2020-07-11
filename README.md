@@ -4,7 +4,8 @@
 [The Go Programming 
 Language](https://www.amazon.com/Programming-Language-Addison-Wesley-Professional-Computing/dp/0134190440) 
 by _Alan A. A. Donovan_ and _Brian W. Kernighan_ is a classic Go book. This git repo is an attempt to share my learning from 
-this book in terms of solving problems posed in the book and then some.
+this book in terms of solving problems posed in the book and then some. The source code by authors is on github 
+in repo [gopl.io](https://github.com/adonovan/gopl.io/).
 
 You can access the deployed artifacts as:
  1. GPC Cloud Run `the-gpl-book` service.
@@ -163,3 +164,8 @@ docker image prune
  - [GCP cloud containers](https://cloud.google.com/run/docs/quickstarts/build-and-deploy?_ga=2.91290522.-1679093051.1593441137).
  - [Tool builder: gcr.io/cloud-builders/go](https://github.com/GoogleCloudPlatform/cloud-builders/tree/master/go)
  - [Building Docker Containers for Go Applications](https://www.callicoder.com/docker-golang-image-container-example/)
+ 
+ ## Mandelbrot
+ 
+![Color](public/mandel-color-256.png?raw=true "Color Mandelbrot Graph")
+![B&W](public/mandel-bw-256.png?raw=true "Color Mandelbrot Graph")

@@ -3,6 +3,7 @@ package wwwexamples
 import (
 	"fmt"
 	graphs "github.com/opendroid/the-gpl/chapter1/graphs"
+	"github.com/opendroid/the-gpl/chapter3"
 	"io"
 	"log"
 	"net/http"
@@ -29,6 +30,8 @@ func ServerMethodOne() {
 	http.Handle("/incr", http.HandlerFunc(incrHandler))
 	http.Handle("/counter", counter)
 	http.Handle("/post", http.HandlerFunc(httpPostInfo))
+	http.Handle("/mandel", http.HandlerFunc(chapter3.MBGraphHandler))
+	http.Handle("/mandelbw", http.HandlerFunc(chapter3.MBGraphBWHandler))
 	_ = http.ListenAndServe(":8080", nil)
 }
 

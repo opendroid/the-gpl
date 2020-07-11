@@ -76,6 +76,8 @@ func setupWebServer() {
 	fmt.Println("Startgin server, try commands like:")
 	fmt.Println("http://localhost:8080/")
 	fmt.Println("http://localhost:8080/graph")
+	fmt.Println("http://localhost:8080/mandel")
+	fmt.Println("http://localhost:8080/mandelbw")
 	fmt.Println("http://localhost:8080/incr")
 	fmt.Println("http://localhost:8080/counter")
 	fmt.Println("http://localhost:8080/post?q=\"Ajay\"&r=\"Thakur\"&son=Aiden")
