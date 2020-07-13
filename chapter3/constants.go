@@ -30,7 +30,3 @@ const (
 type colorComponents struct {
 	red, green, blue float64
 }
-
-type mandelColor interface {
-	SetColor(z complex128, iteration float64)
-}
