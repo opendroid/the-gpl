@@ -14,7 +14,9 @@ There is no limit on this streaming version. Below is the transcription of `I Ha
 speech by this API. The [speech audio](../../public/MLKDream.wav) is 16 minutes long (at 22K bit rate).
 
 ## Mac Audio
-On a Mac you can create a sample .wav file using `ffmpeg` pre-installed program.
+On a Mac:
+1. You can create a sample .wav file using `ffmpeg` pre-installed program.
+2. Or you can stream audio to UDP port and forward it using Go routing to recognizer.
 
 ### Audio Samples on Mac
 
@@ -49,19 +51,26 @@ Output:
 You can check out yourself what stream client returned.
 
 ## Handy Mac Shell Commands
-You can use `ffmpeg` Macc command line program to record a .wav file. Some examples are:
+You can use `ffmpeg` Mac command line program to record a .wav file or stream PCM to a 
+UDP port. Some examples are:
  
 ```shell script
 # List audio devices, Mac
 ffmpeg -f avfoundation -list_devices true -i ""
 # Record 20 seconds of audio from the built in microphone and save it in playBlueDot.mp3
 ffmpeg -f avfoundation -i ":1" -t 20 ../../public/playBlueDot.wav
-# Stream to a RTP port
-ffmpeg -f avfoundation -i ":1" -acodec libmp3lame -ab 32k -ac 1 -f rtp rtp://0.0.0.0:12345
+# Stream s16le to a UDP port 9999, and send that audio to GCP
+ffmpeg -f avfoundation -i ":1" -acodec pcm_s16le -ab 48000 -f s16le udp://localhost:9999
+ffmpeg -formats | grep PCM  # see pcl formats
+nc -u -l localhost 9999 # Starts a UDP server, and listen to the port
+nc -u localhost 9999 # stats a client
+
+
 # Meta data
 mdls chapter1/audio/playBlueDot.wav
 # Test playback
 afplay chapter1/audio/playBlueDot.wav
+ffmpeg -i inputFilename.m4a OutputFilename.wav
 ```
 
 The same command can be used to recording Video files:

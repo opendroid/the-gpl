@@ -91,6 +91,8 @@ gcloud container images list --repository=gcr.io/the-gpl # Show your container r
 # Build on local docker 
 docker build -t the-gpl:v1 . # Build version v1
 docker image ls  # See docker images
+docker history the-gpl:v1  # See image layers
+docker image inspect the-gpl:v1
 ```
 
 ## Deploying Docker Images
@@ -160,7 +162,7 @@ docker image prune
  - [Command go](https://golang.org/cmd/go/)
  - [Go Modules](https://github.com/golang/go/wiki/Modules)
  - [Package Management With Go Modules: The Pragmatic Guide](https://medium.com/@adiach3nko/package-management-with-go-modules-the-pragmatic-guide-c831b4eaaf31)
- - [Golang Setup](https://www.callicoder.com/golang-installation-setup-gopath-workspace/)
+ - [Golang Setup](https://www.callicoder.com/golang-installation-setup-gopat**h-workspace/)
  - [GCP cloud containers](https://cloud.google.com/run/docs/quickstarts/build-and-deploy?_ga=2.91290522.-1679093051.1593441137).
  - [Tool builder: gcr.io/cloud-builders/go](https://github.com/GoogleCloudPlatform/cloud-builders/tree/master/go)
  - [Building Docker Containers for Go Applications](https://www.callicoder.com/docker-golang-image-container-example/)

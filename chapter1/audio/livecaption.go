@@ -1,40 +1,70 @@
 package audio
 
 import (
+	"bufio"
 	speech "cloud.google.com/go/speech/apiv1"
 	"context"
+	"encoding/json"
 	"fmt"
 	speechpb "google.golang.org/genproto/googleapis/cloud/speech/v1"
 	"io"
-	"log"
+	"net"
 	"os"
 	"sync"
+	"time"
 )
 
 // closeFile helper to close
 func closeFile(f *os.File) {
 	_ = f.Close()
 }
+func closeConnection(c net.Conn) {
+	_ = c.Close()
+}
 
-// StreamSpeechToText streams a test audio file 'currentTestFile' to Google speech
-// to text engine. It prints the output on io.Writer passed to it.
-func StreamSpeechToText(w io.Writer) {
-	f, err := os.Open(currentTestFile) // Prep a file to be streamed
+// StreamAudioFile streams a audio file to Google Speech to text enginer
+func StreamAudioFile(fName string, w io.Writer) {
+	f, err := os.Open(fName) // Prep a file to be streamed
 	if err != nil {
 		_, _ = fmt.Fprintf(w, "Error reading audio file: %s\n", err)
 		return
 	}
 	defer closeFile(f)
+	var wg sync.WaitGroup // run sending and receiving stream in parallel
+	wg.Add(nDoers)
+	StreamSpeechToText(w, bufio.NewReader(f), &wg)
+	wg.Wait() // Wait for it to finish.
+}
+
+func StreamRTPPort(address string, w io.Writer) {
+	addr, err := net.ResolveUDPAddr("udp", address)
+	if err != nil {
+		_, _ = fmt.Fprintf(w, "Error DialUDP: %v\n", err)
+		return
+	}
+	conn, err := net.ListenUDP("udp", addr)
+	if err != nil {
+		_, _ = fmt.Fprintf(w, "Error DialUDP: %v\n", err)
+		return
+	}
+	defer closeConnection(conn)
+	_, _ = fmt.Fprintf(w, "listening on %v\n", conn.LocalAddr().String())
+	var wg sync.WaitGroup // run sending and receiving stream in parallel
+	wg.Add(nDoers)
+	StreamSpeechToText(w, conn, &wg)
+	wg.Wait() // Wait for it to finish.
+}
+
+// StreamSpeechToText streams a test audio file 'currentTestFile' to Google speech
+// to text engine. It prints the output on io.Writer passed to it.
+func StreamSpeechToText(w io.Writer, r io.Reader, wg *sync.WaitGroup) {
 	stream, err := prepSpeechClient() // create a stream to GCP ML
 	if err != nil {
 		_, _ = fmt.Fprintf(w, "Error creating client: %s\n", err)
 		return
 	}
-	var wg sync.WaitGroup // run sending and receiving stream in parallel
-	wg.Add(nDoers)
-	go sendStreamToGCP(w, f, stream, &wg)
-	go recvStreamFromGCP(w, stream, &wg)
-	wg.Wait() // Wait for it to finish.
+	go sendStreamToGCP(w, r, stream, wg)
+	go recvStreamFromGCP(w, stream, wg)
 }
 
 // prepSpeechClient prep the speech to text client
@@ -52,13 +82,16 @@ func prepSpeechClient() (speechpb.Speech_StreamingRecognizeClient, error) {
 
 	// Send config data on recognize stream.
 	// TODO: you need to update config depending on type of audio file.
+	speechContext := &speechpb.SpeechContext{Phrases:trainingPhrases}
 	config := &speechpb.StreamingRecognizeRequest{
 		StreamingRequest: &speechpb.StreamingRecognizeRequest_StreamingConfig{
 			StreamingConfig: &speechpb.StreamingRecognitionConfig{
 				Config: &speechpb.RecognitionConfig{
+					// RecognitionConfig_FLAC or RecognitionConfig_LINEAR16
 					Encoding:        speechpb.RecognitionConfig_LINEAR16,
 					SampleRateHertz: audioSampleRate,
-					LanguageCode:    "en-US",
+					LanguageCode:    speakerLanguage,
+					SpeechContexts:  []*speechpb.SpeechContext{speechContext},
 				},
 			},
 		},
@@ -72,24 +105,26 @@ func prepSpeechClient() (speechpb.Speech_StreamingRecognizeClient, error) {
 	return stream, nil
 }
 
-// sendStreamToGCP sends stream to Google stream recognizer
-func sendStreamToGCP(w io.Writer, f *os.File, s speechpb.Speech_StreamingRecognizeClient,
+// sendStreamToGCP sends stream to Google stream recognizer.
+//  It returns if more than audioSpeakingTimeSec of time has elapsed. To account for
+//  ffmpeg's edge cases of termination of streams.
+func sendStreamToGCP(w io.Writer, r io.Reader, s speechpb.Speech_StreamingRecognizeClient,
 	wg *sync.WaitGroup) {
 	defer wg.Done()
 	buf := make([]byte, bufSize)
-	info, _ := f.Stat()
-	total, runs, max := 0, 0, info.Size()
+	timeStart := time.Now()
+
 	for {
-		n, err := f.Read(buf)
-		total += n
-		runs++
-		if err == io.EOF { // No more input
+		n, err := r.Read(buf) // Blocks on read until read.
+
+		secs := time.Since(timeStart).Seconds()
+		if err == io.EOF || secs > audioSpeakingTimeSec  { // No more input
 			ok := s.CloseSend()
 			if ok != nil {
 				_, _ = fmt.Fprintf(w, "Stream not closed: %s\n", ok)
 				return
 			}
-			_, _ = fmt.Fprintf(w, "Finished reading: %d/%d/%d in %d runs\n", n, total, max, runs)
+			_, _ = fmt.Fprintf(w, "Finished reading. \n")
 			return
 		}
 		if err != nil {
@@ -125,16 +160,12 @@ func recvStreamFromGCP(w io.Writer, s speechpb.Speech_StreamingRecognizeClient,
 			return
 		}
 		if err := resp.Error; err != nil {
-			// Workaround while the API doesn't give a more informative error.
-			if err.Code == 3 || err.Code == 11 {
-				log.Print("WARNING: Speech recognition request exceeded limit of 60 seconds.")
-				_, _ = fmt.Fprintln(w, "WARNING: Speech recognition request exceeded limit of 60 seconds.")
-			}
 			_, _ = fmt.Fprintf(w, "Could not recognize: %s\n", err)
 			return
 		}
 		for _, result := range resp.Results {
-			_, _ = fmt.Fprintf(w, "Result: %+v\n", result)
+			s, _ := json.MarshalIndent(result, "", " ")
+			_, _ = fmt.Fprintf(w, "Result: %+v\n", string(s))
 		} // seemingly forever (..) break when done or error
 	}
 }
