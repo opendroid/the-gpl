@@ -15,7 +15,7 @@ func TestStreamAudioFile(t *testing.T) {
 }
 
 // Setup: on Mac. stream audio to udp port 9999. Without encapsulating in RTP.
-// ffmpeg -f avfoundation -i ":1" -acodec pcm_s16le -ab 48000 -f s16le udp://localhost:9999
+// ffmpeg -f avfoundation -i ":1" -acodec pcm_s16le -ar 48000 -f s16le udp://localhost:9999
 // go test -run TestStreamRTPPort -v
 func TestStreamRTPPort(t *testing.T) {
 	t.Skip("Skipping test in GCP.") // skip for now

@@ -60,11 +60,10 @@ ffmpeg -f avfoundation -list_devices true -i ""
 # Record 20 seconds of audio from the built in microphone and save it in playBlueDot.mp3
 ffmpeg -f avfoundation -i ":1" -t 20 ../../public/playBlueDot.wav
 # Stream s16le to a UDP port 9999, and send that audio to GCP
-ffmpeg -f avfoundation -i ":1" -acodec pcm_s16le -ab 48000 -f s16le udp://localhost:9999
+ffmpeg -f avfoundation -i ":1" -acodec pcm_s16le -ar 48000 -f s16le udp://localhost:9999
 ffmpeg -formats | grep PCM  # see pcl formats
 nc -u -l localhost 9999 # Starts a UDP server, and listen to the port
 nc -u localhost 9999 # stats a client
-
 
 # Meta data
 mdls chapter1/audio/playBlueDot.wav

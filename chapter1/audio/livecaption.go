@@ -82,7 +82,7 @@ func prepSpeechClient() (speechpb.Speech_StreamingRecognizeClient, error) {
 
 	// Send config data on recognize stream.
 	// TODO: you need to update config depending on type of audio file.
-	speechContext := &speechpb.SpeechContext{Phrases:trainingPhrases}
+	speechContext := &speechpb.SpeechContext{Phrases: trainingPhrases}
 	config := &speechpb.StreamingRecognizeRequest{
 		StreamingRequest: &speechpb.StreamingRecognizeRequest_StreamingConfig{
 			StreamingConfig: &speechpb.StreamingRecognitionConfig{
@@ -93,6 +93,7 @@ func prepSpeechClient() (speechpb.Speech_StreamingRecognizeClient, error) {
 					LanguageCode:    speakerLanguage,
 					SpeechContexts:  []*speechpb.SpeechContext{speechContext},
 				},
+				InterimResults: speakerShowIntermediate, // Shows intermediate results.
 			},
 		},
 	}
@@ -118,13 +119,12 @@ func sendStreamToGCP(w io.Writer, r io.Reader, s speechpb.Speech_StreamingRecogn
 		n, err := r.Read(buf) // Blocks on read until read.
 
 		secs := time.Since(timeStart).Seconds()
-		if err == io.EOF || secs > audioSpeakingTimeSec  { // No more input
+		if err == io.EOF || secs > audioSpeakingTimeSec { // No more input
 			ok := s.CloseSend()
 			if ok != nil {
 				_, _ = fmt.Fprintf(w, "Stream not closed: %s\n", ok)
 				return
 			}
-			_, _ = fmt.Fprintf(w, "Finished reading. \n")
 			return
 		}
 		if err != nil {
@@ -164,8 +164,28 @@ func recvStreamFromGCP(w io.Writer, s speechpb.Speech_StreamingRecognizeClient,
 			return
 		}
 		for _, result := range resp.Results {
-			s, _ := json.MarshalIndent(result, "", " ")
-			_, _ = fmt.Fprintf(w, "Result: %+v\n", string(s))
+			showTranscript(result, w)
 		} // seemingly forever (..) break when done or error
+	}
+}
+
+// Shows transcript on a Mac Terminal
+func showTranscript(result *speechpb.StreamingRecognitionResult, w io.Writer)  {
+	if speakerShowIntermediate {
+		col := Red
+		nl := ""
+		transcript := result.Alternatives[0].GetTranscript()
+		n := len(transcript)
+		if result.IsFinal == true {
+			col = Green
+			nl = "\n"
+		} else if n > termWidth {
+			n = termWidth
+			transcript = transcript[0:n]
+		}
+		_, _ = fmt.Fprintf(w, "\033[2K%s\r%s\u001B[0m%s", col, transcript, nl)
+	} else {
+		s, _ := json.MarshalIndent(result, "", " ")
+		_, _ = fmt.Fprintf(w, "Result: %+v\n", string(s))
 	}
 }
