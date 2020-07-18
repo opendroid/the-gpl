@@ -4,8 +4,6 @@ go 1.14
 
 require (
 	cloud.google.com/go v0.60.0
-	github.com/go-audio/audio v1.0.0
-	github.com/go-audio/wav v1.0.0
 	github.com/google/uuid v1.1.1
 	github.com/stretchr/testify v1.6.1
 	google.golang.org/api v0.28.0

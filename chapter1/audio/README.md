@@ -11,7 +11,7 @@ The go routines run in parallel:
 
 The API limits  are specified in [Quotas & limits](https://cloud.google.com/speech-to-text/quotas).
 There is no limit on this streaming version. Below is the transcription of `I Have a Dream, Martin Luther King Jr.`
-speech by this API. The [speech audio](../../public/MLKDream.wav) is 16 minutes long (at 22K bit rate).
+speech by this API. The [speech audio](samples/MLKDream.wav) is 16 minutes long (at 22K bit rate).
 
 ## Mac Audio
 On a Mac:
