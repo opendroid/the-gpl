@@ -176,7 +176,7 @@ func showTranscript(result *speechpb.StreamingRecognitionResult, w io.Writer)  {
 		nl := ""
 		transcript := result.Alternatives[0].GetTranscript()
 		n := len(transcript)
-		if result.IsFinal == true {
+		if result.IsFinal {
 			col = Green
 			nl = "\n"
 		} else if n > termWidth {
