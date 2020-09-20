@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Golang About</title>
+</head>
+<p>
+
+<h1> Error</h1>
+
+<ul>
+    <li><a href="/loIndex/index.html">Home</a></li>
+    <li><a href="/loIndex/lissajous.html">Lissajous</a></li>
+    <li><a href="/loIndex/login.html">Login</a></li>
+    <li><a class="active" href="/loIndex/about.html">About</a></li>
+</ul>
+
+<h2 id="error-message">Page: {{.PageName}} does not exist. </h2> <br>
+<table id="headers_table">
+    <tr><th>Key</th><th>Value</th></tr>
+    {{ range $key, $value := .HeadersInRequest }}
+        <tr><td>{{$key}}</td><td>{{$value}}</td></tr>
+    {{ end }}
+</table>
+
+</body>
+</html>

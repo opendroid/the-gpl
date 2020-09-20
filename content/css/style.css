@@ -1,0 +1,78 @@
+/* Main body */
+body {
+    background-color: black;
+}
+/* h1: heading */
+h1 {
+    color: ghostwhite;
+    font-family: "Chalkduster", "sans-serif";
+    text-align: center;
+}
+
+#error-message {
+    color: ghostwhite;
+    font-family: "Courier", "sans-serif";
+    text-align: center;
+}
+/* Para */
+p {
+    color: white;
+    font-family: "Courier New", "sans-serif";
+    text-align: center;
+}
+
+/* CSS for navigation bar */
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+    font-family: "Chalkduster", "sans-serif";
+}
+
+li {
+    float: left;
+    border-right:1px solid #bbb;
+}
+
+li:last-child {
+    float: right;
+    border-right: none;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #111;
+}
+
+.active {
+    background-color: #4CAF50;
+}
+
+#headers_table {
+    font-family: "Courier", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+#headers_table td, #headers_table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+#headers_table tr:nth-child(odd){background-color: #f1f1f1;}
+#headers_table tr:nth-child(even){background-color: #cccccc;}
+#headers_table tr:hover {background-color: cornsilk;}
+#headers_table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}

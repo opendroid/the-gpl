@@ -19,7 +19,7 @@ var config = LissajousConfig{
 // cd graphs
 // go test -run TestLissajous -v
 func TestLissajous(t *testing.T) {
-	gifImageName := "../../public/lis.gif"
+	gifImageName := "../../content/media/lis.gif"
 	gifImage, err := os.Create(gifImageName)
 	require.Nil(t, err)
 	require.NotNil(t, gifImage)
@@ -33,7 +33,7 @@ func TestLissajous(t *testing.T) {
 func TestLissajous_Interface(t *testing.T) {
 
 	// Call on config
-	gifImageName := "../../public/lis2.gif"
+	gifImageName := "../../content/media/lis2.gif"
 	gifImage, err := os.Create(gifImageName)
 	require.Nil(t, err)
 	require.NotNil(t, gifImage)

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/login-form.css">
+    <title>Golang Login</title>
+</head>
+<body>
+<h1>Login here</h1>
+<ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="lissajous.html">Lissajous</a></li>
+    <li><a class="active">Login</a></li>
+    <li><a href="about.html">About</a></li>
+</ul>
+<br>
+<br>
+<form action="/dologin" method="post">
+    <div class="avatar-container">
+        <img src="../media/Uber-Driver.png" alt="Avatar" class="img.avatar">
+    </div>
+
+    <div class="container">
+        <label for="email">Username:
+            <input type="email" placeholder="Enter Email" name="email" autocomplete="email" required>
+        </label>
+        <br>
+        <label for="psw">Password:
+            <input type="password" placeholder="Enter Password" name="psw" autocomplete="current-password" required>
+        </label>
+        <br>
+        <label>
+            <input type="checkbox" checked="checked" name="remember"> Remember me
+        </label>
+        <br>
+        <button type="submit">Login</button>
+    </div>
+
+    <div class="container" style="background-color:darkgray">
+        <span class="psw">Forgot <a href="#">password?</a></span>
+        <button type="button" class="cancel-button">Cancel</button>
+
+    </div>
+</form>
+</body>
+</html>

@@ -169,5 +169,5 @@ docker image prune
  
  ## Mandelbrot
  
-![Color](public/mandel-color-256.png?raw=true "Color Mandelbrot Graph")
-![B&W](public/mandel-bw-256.png?raw=true "Color Mandelbrot Graph")
+![Color](content/media/mandel-color-256.png?raw=true "Color Mandelbrot Graph")
+![B&W](content/media/mandel-bw-256.png?raw=true "Color Mandelbrot Graph")
