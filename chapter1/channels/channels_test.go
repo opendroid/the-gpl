@@ -31,7 +31,7 @@ func TestFetch(t *testing.T) {
 //  go test -run TestFetch_jw -v
 func TestFetch_jw(t *testing.T) {
 	sitesChan := make(chan string) // Make 1 channel only
-	var testJW [100]string
+	var testJW [2]string
 	for i := 0; i < len(testJW); i++ {
 		testJW[i] = JWFF
 	}

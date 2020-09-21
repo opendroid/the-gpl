@@ -11,6 +11,11 @@ You can access the deployed artifacts as:
  1. GPC Cloud Run `the-gpl-book` service.
    - [Post data](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/post?q="hello"&l="TheGOGPL"&a="Pike+Donovan")
    - [See Lissajous Graph](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/graph)
+   - [Sinc Surface](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/sinc)
+   - [Eggs Surface](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/egg)
+   - [Valley Surface](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/valley)
+   - [Sq Surface](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/sq)
+
  2. As [docker container image](https://hub.docker.com/repository/docker/uopendocker/the-gpl).  
 
 ## Command go
@@ -166,6 +171,7 @@ docker image prune
  - [GCP cloud containers](https://cloud.google.com/run/docs/quickstarts/build-and-deploy?_ga=2.91290522.-1679093051.1593441137).
  - [Tool builder: gcr.io/cloud-builders/go](https://github.com/GoogleCloudPlatform/cloud-builders/tree/master/go)
  - [Building Docker Containers for Go Applications](https://www.callicoder.com/docker-golang-image-container-example/)
+ - [The GPL Solutions](https://xingdl2007.gitbooks.io/gopl-soljutions/content/chapter-1-tutorial.html)
  
  ## Mandelbrot
  

@@ -10,7 +10,7 @@ import (
 // TestNewBot tests
 // go test -run TestNewBot -v
 func TestNewBot(t *testing.T) {
-	t.Skip("Skipping test in GCP.")
+	t.Skip("Skipping TestNewBot in GCP.")
 	l := log.New(os.Stdout, "BOT ", log.LstdFlags)
 	b, err := New(l)
 	assert.Nil(t, err)
@@ -20,7 +20,7 @@ func TestNewBot(t *testing.T) {
 // TestConverse tests a conversation session
 // go test -run TestConverse -v
 func TestConverse(t *testing.T) {
-	t.Skip("Skipping test in GCP.")
+	t.Skip("Skipping TestConverse in GCP.")
 	l := log.New(os.Stdout, "BOT ", log.LstdFlags)
 	b, err := New(l)
 	assert.Nil(t, err)

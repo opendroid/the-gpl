@@ -21,7 +21,7 @@ var funcMap = map[string]func(){
 	"server":          setupWebServer,
 }
 
-// main: go run main.go -func="methodToCall"
+// main: go run main.go -func="setupWebServer"
 func main() {
 	flag.Parse()
 	if funcMap[*callMethod] != nil {
@@ -76,6 +76,8 @@ func setupWebServer() {
 	fmt.Println("Startgin server, try commands like:")
 	fmt.Println("http://localhost:8080/")
 	fmt.Println("http://localhost:8080/graph")
+	fmt.Println("http://localhost:8080/egg")
+	fmt.Println("http://localhost:8080/sinc")
 	fmt.Println("http://localhost:8080/mandel")
 	fmt.Println("http://localhost:8080/mandelbw")
 	fmt.Println("http://localhost:8080/incr")
