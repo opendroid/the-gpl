@@ -5,6 +5,7 @@ import (
 	speech "cloud.google.com/go/speech/apiv1"
 	"context"
 	"encoding/json"
+	"flag"
 	"fmt"
 	speechpb "google.golang.org/genproto/googleapis/cloud/speech/v1"
 	"io"
@@ -13,6 +14,25 @@ import (
 	"sync"
 	"time"
 )
+
+// Cmd allows to refer call send this module the CLI argument
+var Cmd *flag.FlagSet
+var port *int // flag for
+func init() {
+	Cmd = flag.NewFlagSet("audio", flag.ContinueOnError)
+	port = Cmd.Int("port", defaultRTPPort, "RTP Port")
+}
+
+// ExecCmd run audio command initiated from CLI
+func ExecCmd(args []string) {
+	err := Cmd.Parse(args)
+	if err != nil {
+		fmt.Printf("ExecCmd: Audio Parse Error %s\n", err.Error())
+		return
+	}
+	p := fmt.Sprintf(":%d", *port)
+	StreamRTPPort(p, os.Stdout)
+}
 
 // closeFile helper to close
 func closeFile(f *os.File) {

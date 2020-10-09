@@ -8,7 +8,7 @@ import (
 // TestNewSession tests
 // go test -run TestNewSession -v
 func TestNewSession(t *testing.T) {
-	s := NewSession(dfStaging)
+	s := NewSession(dfStaging, gcpProjectID)
 	assert.NotNil(t, s)
 	t.Logf("%s", s.path)
 }

@@ -3,6 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/opendroid/the-gpl/chapter1/audio"
+	"github.com/opendroid/the-gpl/chapter1/bot"
 	"github.com/opendroid/the-gpl/chapter1/channels"
 	"github.com/opendroid/the-gpl/chapter1/graphs"
 	mas "github.com/opendroid/the-gpl/chapter1/mas"
@@ -11,33 +13,72 @@ import (
 	"os"
 )
 
-// Maps argument="methodToCall" to function call.
-var funcMap = map[string]func(){
-	"callMas":         callMas,
-	"fetchSites":      fetchSites,
-	"saveSquareImage": saveSquareImage,
-	"tempConv":        tempConv,
-	"tryDefer":        tryDefer,
-	"server":          setupWebServer,
-}
-
 // main: go run main.go -func="setupWebServer"
 func main() {
-	flag.Parse()
-	if funcMap[*callMethod] != nil {
-		funcMap[*callMethod]() // execute func
-	} else {
-		fmt.Println("Usage: LangGO -func={callMas|fetchSites|saveSquareImage|..}")
-		flag.PrintDefaults()
+	// Flag in Main
+	if len(os.Args) < 2 {
+		printArgsHelp()
 		os.Exit(1)
 	}
-
+	switch os.Args[1] {
+	case "func":
+		execCmd(os.Args[2:])
+	case "bot":
+		bot.ExecCmd(os.Args[2:])
+	case "audio":
+		audio.ExecCmd(os.Args[2:])
+	case "temp":
+		chapter2.ExecTempConvCmd(os.Args[2:])
+	case "bits":
+		chapter2.ExecBitsCountCmd(os.Args[2:])
+	}
 }
 
-// Flag to run
-var callMethod = flag.String("func",
-	"",
-	"Method to call and test. (Required)")
+// Maps argument="methodToCall" to function call.
+var funcMap = map[string]func() {
+	"mas":    callMas,
+	"fetch":  fetchSites,
+	"image":  saveSquareImage,
+	"defer":  tryDefer,
+	"server": setupWebServer,
+}
+
+// cmd flag set for methods
+var cmd = flag.NewFlagSet("func", flag.ContinueOnError)
+// callMethod method to call.
+var callMethod = cmd.String("name", "", "Method to call and test.")
+// execCmd execute function maps
+func execCmd(args []string)  {
+	err := cmd.Parse(args)
+	if err != nil {
+		_ = fmt.Errorf("func error %s", err)
+		os.Exit(1)
+	}
+	if fn, ok := funcMap[*callMethod]; ok {
+		fn() // execute func
+	} else {
+		fmt.Printf("%s func %s does not exist\n", os.Args[0], *callMethod)
+		os.Exit(1)
+	}
+}
+// printArgsHelp Prinst help for all arguments
+func printArgsHelp() {
+	fmt.Println("Usage: the-gpl func")
+	cmd.PrintDefaults()
+	fmt.Print("\tMethods: ")
+	for k := range funcMap {
+		fmt.Printf("%s ", k)
+	}
+	fmt.Println("\nUsage: the-gpl bot")
+	bot.Cmd.PrintDefaults()
+	fmt.Println("\nUsage: the-gpl audio. First run this command")
+	fmt.Println(`ffmpeg -f avfoundation -i ":1" -acodec pcm_s16le -ar 48000 -f s16le udp://localhost:9999`)
+	audio.Cmd.PrintDefaults()
+	fmt.Println("\nUsage: the-gpl temp. Coverts c to f and visa versa")
+	chapter2.Cmd.PrintDefaults()
+	fmt.Println("\nUsage: the-gpl bits. Counts 1 bits in 64-bit int")
+	chapter2.BitCountCmd.PrintDefaults()
+}
 
 //  deferC Deferred functions may read and assign to the returning function's
 //  named return values. Returns 2. then defer multiples that
@@ -53,7 +94,6 @@ func tryDefer() {
 // callMas: Tests the mass functions
 func callMas() {
 	mas.IterateOverArray()
-
 	compResult, diff := mas.CompareNumbers(5, 2)
 	fmt.Printf("mas:CompareNumbers: ints: %d == %d, => %t, differance: %d\n", 5, 3, compResult, diff)
 	mas.AddToSlices()
@@ -100,7 +140,3 @@ func fetchSites() {
 	}
 }
 
-func tempConv() {
-	boilingPointC := chapter2.BoilingPointF.ToC().String()
-	fmt.Printf("tempConv: %s = %s\n", chapter2.BoilingPointF.String(), boilingPointC)
-}

@@ -19,7 +19,7 @@ const (
 )
 
 const (
-	// gcpProjectID GCP project ID in use
+	// gcpProjectName GCP project ID in use
 	gcpProjectID = "v3-eatscancelorder"
 	// gcpAuthFile name of the GOOGLE_APPLICATION_CREDENTIALS file
 	gcpAuthFile = "/Users/ajayt/Experiments/Keys/ajayt-gcp-experiments.json"

@@ -1,6 +1,7 @@
 package chapter2
 
 import (
+	"flag"
 	"fmt"
 )
 
@@ -37,10 +38,32 @@ func (c Celsius) ToF() Fahrenheit {
 
 // String prints in format 100℉ value
 func (f Fahrenheit) String() string {
-	return fmt.Sprintf("%.2f℉", f)
+	return fmt.Sprintf("%.2f°F", f)
 }
 
 // String prints in format 100℃ value
 func (c Celsius) String() string {
-	return fmt.Sprintf("%.2f℃", c)
+	return fmt.Sprintf("%.2f°C", c)
+}
+
+
+// Cmd allows to refer call send this module the CLI argument
+var Cmd *flag.FlagSet
+var c *float64 // flag for Celsius
+var f *float64 // flag for Fahrenheit
+func init() {
+	Cmd = flag.NewFlagSet("temp", flag.ContinueOnError)
+	c = Cmd.Float64("c", float64(FreezingPointC), "°Celsius")
+	f = Cmd.Float64("f", float64(FreezingPointC), "°Fahrenheit")
+}
+
+// ExecTempConvCmd run temp conversion command initiated from CLI
+func ExecTempConvCmd(args []string) {
+	err := Cmd.Parse(args)
+	if err != nil {
+		fmt.Printf("ExecCmd: TempConv Parse Error %s\n", err.Error())
+		return
+	}
+	fmt.Printf("\t%0.2f°C is %0.2f°F\n", *c, Celsius(*c).ToF())
+	fmt.Printf("\t%0.2f°F is %0.2f°C\n", *f, Fahrenheit(*f).ToC())
 }

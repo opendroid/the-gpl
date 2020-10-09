@@ -12,9 +12,9 @@ func Test_ToF(t *testing.T) {
 	boilingPointF := BoilingPointC.ToF().String()
 	absoluteZeroF := AbsoluteZeroC.ToF().String()
 	freezingF := FreezingPointC.ToF().String()
-	assert.Equal(t, "212.00℉", boilingPointF)
-	assert.Equal(t, "32.00℉", freezingF)
-	assert.Equal(t, "-459.67℉", absoluteZeroF)
+	assert.Equal(t, "212.00°F", boilingPointF)
+	assert.Equal(t, "32.00°F", freezingF)
+	assert.Equal(t, "-459.67°F", absoluteZeroF)
 	t.Logf("BP = %v, FP = %s, Abs = %s", boilingPointF, freezingF, absoluteZeroF)
 }
 
@@ -25,8 +25,8 @@ func Test_ToC(t *testing.T) {
 	boilingPointC := BoilingPointF.ToC().String()
 	absoluteZeroC := AbsoluteZeroF.ToC().String()
 	freezingC := FreezingPointF.ToC().String()
-	assert.Equal(t, "100.00℃", boilingPointC)
-	assert.Equal(t, "0.00℃", freezingC)
-	assert.Equal(t, "-273.15℃", absoluteZeroC)
+	assert.Equal(t, "100.00°C", boilingPointC)
+	assert.Equal(t, "0.00°C", freezingC)
+	assert.Equal(t, "-273.15°C", absoluteZeroC)
 	t.Logf("BP = %v, FP = %s, Abs = %s", boilingPointC, freezingC, absoluteZeroC)
 }

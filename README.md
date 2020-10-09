@@ -16,7 +16,18 @@ You can access the deployed artifacts as:
    - [Valley Surface](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/valley)
    - [Sq Surface](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/sq)
 
- 2. As [docker container image](https://hub.docker.com/repository/docker/uopendocker/the-gpl).  
+ 2. As [docker container image](https://hub.docker.com/repository/docker/uopendocker/the-gpl).
+ 
+## Running from CLI
+Assuming, the program is installed locally as `the-gpl` you can access several methods using a CLI. Some examples are:
+
+```shell script
+$ the-gpl func -name=fetch # Will fetch sites from URLs and measyre times. Output is dumpled
+$ the-gpl bot -project=gcp-project-id # Will do a short conversation with a bot. 
+$ the-gpl audio -port=9999 # Will listen to RTP stream on port 9999 for 2 minutes and transcribe in real time
+$ the-gpl temp -c=23.3 -f=100.02 # Will convert °C to °F and visa-versa
+$ the-gpl bits -n=0xBAD0FACE # will count 1 bits in n
+```
 
 ## Command go
 If you are starting out with Go, highly recommend reading [How to Write Go Code](https://golang.org/doc/code.html#ImportingLocal) first. 

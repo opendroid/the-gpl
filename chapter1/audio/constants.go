@@ -23,6 +23,9 @@ const (
 	speakerLanguage     = speakerLanguageEnUS
 	speakerShowIntermediate = true
 
+	// defaultRTPPort where RTP audio is being streamed
+	defaultRTPPort = 9999
+
 	bufSize = 10240 // Streaming buffer size
 	nDoers  = 2     // Mutex to wait on these number of Go tasks
 )
@@ -67,4 +70,5 @@ var (
 	_ = Cyan
 	_ = Gray
 	_ = White
+
 )
