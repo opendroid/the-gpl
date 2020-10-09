@@ -26,26 +26,27 @@ const (
 	BoilingPointF Fahrenheit = 212
 )
 
-// ToC converts a Fahrenheit to ℃
+// ToC converts a Fahrenheit to °C
 func (f Fahrenheit) ToC() Celsius {
 	return Celsius((f - 32) * 5 / 9)
 }
 
-// ToF converts a Celsius to ℉
+// ToF converts a Celsius to °F
 func (c Celsius) ToF() Fahrenheit {
 	return Fahrenheit(c*9/5 + 32)
 }
 
-// String prints in format 100℉ value
+// String prints in format 100°F value
+//  Can use to print value in %s fmt.Printf format
 func (f Fahrenheit) String() string {
 	return fmt.Sprintf("%.2f°F", f)
 }
 
-// String prints in format 100℃ value
+// String prints in format 100°C value
+//  Can use in %s fmt.Printf format
 func (c Celsius) String() string {
 	return fmt.Sprintf("%.2f°C", c)
 }
-
 
 // Cmd allows to refer call send this module the CLI argument
 var Cmd *flag.FlagSet
@@ -64,6 +65,6 @@ func ExecTempConvCmd(args []string) {
 		fmt.Printf("ExecCmd: TempConv Parse Error %s\n", err.Error())
 		return
 	}
-	fmt.Printf("\t%0.2f°C is %0.2f°F\n", *c, Celsius(*c).ToF())
-	fmt.Printf("\t%0.2f°F is %0.2f°C\n", *f, Fahrenheit(*f).ToC())
+	fmt.Printf("\t%s is %s\n", Celsius(*c), Celsius(*c).ToF())
+	fmt.Printf("\t%s is %s\n", Fahrenheit(*f), Fahrenheit(*f).ToC())
 }
