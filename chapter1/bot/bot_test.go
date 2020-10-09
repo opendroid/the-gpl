@@ -20,7 +20,7 @@ func TestNewBot(t *testing.T) {
 // TestConverse tests a conversation session
 // go test -run TestConverse -v
 func TestConverse(t *testing.T) {
-	//t.Skip("Skipping TestConverse in GCP.")
+	t.Skip("Skipping TestConverse in GCP.")
 	l := log.New(os.Stdout, "BOT ", log.LstdFlags)
 	b, err := New(l, gcpProjectID)
 	assert.Nil(t, err)
