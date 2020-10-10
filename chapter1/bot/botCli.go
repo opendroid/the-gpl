@@ -1,11 +1,13 @@
 package bot
 
 import (
+	"bufio"
 	"flag"
 	"fmt"
 	"github.com/opendroid/the-gpl/gplCLI"
 	"log"
 	"os"
+	"strings"
 )
 
 // ---------------------------------------------------------------------
@@ -19,11 +21,13 @@ type CLI struct {
 
 var cmd CLI
 var gcpProjectName *string // flag for
+var chat *bool
 
 // InitCli for the "bot" command
 func InitCli() {
 	cmd.set = flag.NewFlagSet("bot", flag.ContinueOnError)
 	gcpProjectName = cmd.set.String("project", gcpProjectID, "GCP Project Name")
+	chat = cmd.set.Bool("chat", false, "true if you want to chat via command line")
 	gplCLI.Add("bot", cmd)
 }
 
@@ -42,8 +46,15 @@ func (b CLI) ExecCmd(args []string) {
 		return
 	}
 	s := NewSession(dfStaging, *gcpProjectName)
-	convo := []string{"hello", "i like to cancel", "taking too long"}
-	for _, q := range convo {
+	// Read from std input or use existing text
+	var scan *bufio.Scanner
+	if *chat {
+		scan = bufio.NewScanner(os.Stdin) // Read from std input
+	} else {
+		scan = bufio.NewScanner(strings.NewReader(sampleConvo))
+	}
+	for scan.Scan() { // Scan line by line.
+		q := scan.Text()
 		r, err := bot.Converse(s, q)
 		if err != nil {
 			l.Printf("ExecBotCmd: Conversation Error %s\n", err.Error())

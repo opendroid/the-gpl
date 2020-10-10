@@ -29,6 +29,8 @@ const (
 	defaultTimeZone = "PST"
 	// defaultTimeout
 	defaultTimeout = 10 * time.Second
+	// sampleConvo
+	sampleConvo = "hello\ni like to cancel\ntaking too long"
 )
 
 // Client encapsulates Dialog Interface
