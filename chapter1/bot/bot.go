@@ -4,50 +4,10 @@ import (
 	dialogflow "cloud.google.com/go/dialogflow/apiv2"
 	"context"
 	"errors"
-	"flag"
-	"fmt"
 	"google.golang.org/api/option"
 	dfProto "google.golang.org/genproto/googleapis/cloud/dialogflow/v2"
 	"log"
-	"os"
 )
-
-// Cmd allows to refer call send this module the CLI argument
-var Cmd *flag.FlagSet
-var gcpProjectName *string // flag for
-func init() {
-	Cmd = flag.NewFlagSet("bot", flag.ContinueOnError)
-	gcpProjectName = Cmd.String("project", gcpProjectID, "GCP Project Name")
-}
-
-// ExecCmd run bot command initiated from CLI
-func ExecCmd(args []string) {
-	err := Cmd.Parse(args)
-	if err != nil {
-		fmt.Printf("ExecBotCmd: Parse Error %s\n", err.Error())
-		return
-	}
-	l := log.New(os.Stdout, "BOT ", log.LstdFlags)
-	l.Printf("ExecBotCmd: bot %s\n", *gcpProjectName)
-	b, err := New(l, *gcpProjectName)
-	if err != nil {
-		l.Printf("ExecBotCmd: Error Creating DF session %s\n", err.Error())
-		return
-	}
-	s := NewSession(dfStaging, *gcpProjectName)
-	convo := []string{"hello", "i like to cancel", "taking too long"}
-	for _, q := range convo {
-		r, err := b.Converse(s, q)
-		if err != nil {
-			l.Printf("ExecBotCmd: Conversation Error %s\n", err.Error())
-			return
-		}
-		l.Printf("Asked: %s\n", q)
-		for _, m := range r {
-			l.Printf("Response: %s\n", m)
-		}
-	}
-}
 
 // New create a df bot
 func New(logger *log.Logger, gcpProject string) (*Client, error) {

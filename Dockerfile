@@ -27,8 +27,8 @@ RUN apk add --no-cache ca-certificates
 # Copy the binary to the production image from the builder stage.
 COPY --from=builder /app/the-gpl /the-gpl
 
-# Expose port 8080 to the outside world
-EXPOSE 8080
+# Expose port 8888 to the outside world
+EXPOSE 8888
 
 # Command to run the executable
-CMD ["/the-gpl", "--func=server"]
+CMD ["/the-gpl", "server", "-port:8888"]

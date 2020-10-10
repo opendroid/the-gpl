@@ -33,12 +33,12 @@ func (ath Thakur) ValueDescribe() {
 	fmt.Printf("Value describe Thakur: %s: %d\n", ath.Name, ath.Age)
 }
 
-// GotMarrried adds a Mrs in beginning
-func (ath *Thakur) GotMarrried() {
+// GotMarried adds a Mrs in beginning
+func (ath *Thakur) GotMarried() {
 	ath.Name = "Mrs. " + ath.Name
 }
 
-// ThoughtIGotMarrried is just the same
-func (ath Thakur) ThoughtIGotMarrried() {
+// ThoughtIGotMarried is just the same
+func (ath Thakur) ThoughtIGotMarried() {
 	ath.Name = "Mrs. " + ath.Name
 }

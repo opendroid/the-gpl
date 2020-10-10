@@ -1,4 +1,4 @@
-package chapter2
+package bitsCount
 
 import (
 	"github.com/stretchr/testify/assert"

@@ -1,11 +1,14 @@
-package audio
+// Package livecaption implements Google speech-to-text API.
+//  It inputs audio from RTP stream and associates a connection with GCP and displays
+//  the output on terminal. Red color text is not final and Green color
+//  text is final output of speech recognizer.
+package livecaption
 
 import (
 	"bufio"
 	speech "cloud.google.com/go/speech/apiv1"
 	"context"
 	"encoding/json"
-	"flag"
 	"fmt"
 	speechpb "google.golang.org/genproto/googleapis/cloud/speech/v1"
 	"io"
@@ -15,41 +18,14 @@ import (
 	"time"
 )
 
-// Cmd allows to refer call send this module the CLI argument
-var Cmd *flag.FlagSet
-var port *int // flag for
-func init() {
-	Cmd = flag.NewFlagSet("audio", flag.ContinueOnError)
-	port = Cmd.Int("port", defaultRTPPort, "RTP Port")
-}
-
-// ExecCmd run audio command initiated from CLI
-func ExecCmd(args []string) {
-	err := Cmd.Parse(args)
-	if err != nil {
-		fmt.Printf("ExecCmd: Audio Parse Error %s\n", err.Error())
-		return
-	}
-	p := fmt.Sprintf(":%d", *port)
-	StreamRTPPort(p, os.Stdout)
-}
-
-// closeFile helper to close
-func closeFile(f *os.File) {
-	_ = f.Close()
-}
-func closeConnection(c net.Conn) {
-	_ = c.Close()
-}
-
-// StreamAudioFile streams a audio file to Google Speech to text enginer
+// StreamAudioFile streams a livecaption file to Google Speech to text recognizer
 func StreamAudioFile(fName string, w io.Writer) {
 	f, err := os.Open(fName) // Prep a file to be streamed
 	if err != nil {
-		_, _ = fmt.Fprintf(w, "Error reading audio file: %s\n", err)
+		_, _ = fmt.Fprintf(w, "Error reading livecaption file: %s\n", err)
 		return
 	}
-	defer closeFile(f)
+	defer func() {_ = f.Close()}() // Ignore error
 	var wg sync.WaitGroup // run sending and receiving stream in parallel
 	wg.Add(nDoers)
 	StreamSpeechToText(w, bufio.NewReader(f), &wg)
@@ -67,7 +43,7 @@ func StreamRTPPort(address string, w io.Writer) {
 		_, _ = fmt.Fprintf(w, "Error DialUDP: %v\n", err)
 		return
 	}
-	defer closeConnection(conn)
+	defer func() {_ = conn.Close()}()
 	_, _ = fmt.Fprintf(w, "listening on %v\n", conn.LocalAddr().String())
 	var wg sync.WaitGroup // run sending and receiving stream in parallel
 	wg.Add(nDoers)
@@ -75,7 +51,7 @@ func StreamRTPPort(address string, w io.Writer) {
 	wg.Wait() // Wait for it to finish.
 }
 
-// StreamSpeechToText streams a test audio file 'currentTestFile' to Google speech
+// StreamSpeechToText streams a test livecaption file 'currentTestFile' to Google speech
 // to text engine. It prints the output on io.Writer passed to it.
 func StreamSpeechToText(w io.Writer, r io.Reader, wg *sync.WaitGroup) {
 	stream, err := prepSpeechClient() // create a stream to GCP ML
@@ -101,7 +77,7 @@ func prepSpeechClient() (speechpb.Speech_StreamingRecognizeClient, error) {
 	}
 
 	// Send config data on recognize stream.
-	// TODO: you need to update config depending on type of audio file.
+	// TODO: you need to update config depending on type of livecaption file.
 	speechContext := &speechpb.SpeechContext{Phrases: trainingPhrases}
 	config := &speechpb.StreamingRecognizeRequest{
 		StreamingRequest: &speechpb.StreamingRecognizeRequest_StreamingConfig{
@@ -148,7 +124,7 @@ func sendStreamToGCP(w io.Writer, r io.Reader, s speechpb.Speech_StreamingRecogn
 			return
 		}
 		if err != nil {
-			_, _ = fmt.Fprintf(w, "Error could not read audio: %s\n", err)
+			_, _ = fmt.Fprintf(w, "Error could not read livecaption: %s\n", err)
 			return
 		}
 		if n > 0 {
@@ -159,7 +135,7 @@ func sendStreamToGCP(w io.Writer, r io.Reader, s speechpb.Speech_StreamingRecogn
 			}
 			err = s.Send(req) // send the request
 			if err != nil {
-				_, _ = fmt.Fprintf(w, "Error could not send audio: %s\n", err)
+				_, _ = fmt.Fprintf(w, "Error could not send livecaption: %s\n", err)
 				return
 			}
 		}
@@ -176,7 +152,7 @@ func recvStreamFromGCP(w io.Writer, s speechpb.Speech_StreamingRecognizeClient,
 			break
 		}
 		if err != nil {
-			_, _ = fmt.Fprintf(w, "Error could not receive audio: %s\n", err)
+			_, _ = fmt.Fprintf(w, "Error could not receive livecaption: %s\n", err)
 			return
 		}
 		if err := resp.Error; err != nil {

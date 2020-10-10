@@ -1,4 +1,4 @@
-package wwwexamples
+package webserver
 
 import (
 	"net/http"
@@ -26,7 +26,7 @@ func Test_rootHandler(t *testing.T) {
 	}
 
 	// Check the response body is what we expect.
-	expected := "Hello ASERV\n"
+	expected := "Hello from server\n"
 	if rr.Body.String() != expected {
 		t.Errorf("rootHandler: received body: %v expected: %v",
 			rr.Body.String(), expected)

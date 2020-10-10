@@ -10,7 +10,7 @@ in repo [gopl.io](https://github.com/adonovan/gopl.io/).
 You can access the deployed artifacts as:
  1. GPC Cloud Run `the-gpl-book` service.
    - [Post data](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/post?q="hello"&l="TheGOGPL"&a="Pike+Donovan")
-   - [See Lissajous Graph](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/graph)
+   - [See Lissajous Graph](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/lis)
    - [Sinc Surface](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/sinc)
    - [Eggs Surface](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/egg)
    - [Valley Surface](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/valley)
@@ -22,11 +22,14 @@ You can access the deployed artifacts as:
 Assuming, the program is installed locally as `the-gpl` you can access several methods using a CLI. Some examples are:
 
 ```shell script
-$ the-gpl func -name=fetch # Will fetch sites from URLs and measyre times. Output is dumpled
+$ the-gpl # Prints the help of all modules
 $ the-gpl bot -project=gcp-project-id # Will do a short conversation with a bot. 
-$ the-gpl audio -port=9999 # Will listen to RTP stream on port 9999 for 2 minutes and transcribe in real time
+$ the-gpl stt -port=9999 # Will listen to RTP stream on port 9999 for 2 minutes and transcribe in real time
 $ the-gpl temp -c=23.3 -f=100.02 # Will convert °C to °F and visa-versa
 $ the-gpl bits -n=0xBAD0FACE # will count 1 bits in n
+# Output a Lissajous graph to -file of size 1024 pixels 20 frames and 10 cycles
+$ the-gpl lissajous -file ~/Downloads/lis.gif -size=1024 -frames=20 -cycles=10
+$ the-gpl server -port=8081 # start a web server at port 8081.
 ```
 
 ## Command go
@@ -146,9 +149,11 @@ docker image ls  # See docker images
 Other handy docker commands are:
 ```shell script
 # Sample cloud run examples, remove container after run
-docker run --rm the-gpl:v1 ./the-gpl --func=callMas
-docker run --rm the-gpl:v1 ./the-gpl --func=fetchSites
-docker run -d -p 8080:8080 the-gpl:v1 ./the-gpl --func=server
+docker run --rm the-gpl:v1 ./the-gpl mas -fn=array
+docker run --rm the-gpl:v1 ./the-gpl mas -fn=slice
+docker run --rm the-gpl:v1 ./the-gpl mas -fn=comp -n1=123 -n2=-1234
+docker run --rm the-gpl:v1 ./the-gpl fetch -site=http://www.google.com -site=http=//www.facebook.com
+docker run -d -p 8888:8888 the-gpl:v1 ./the-gpl server -port=8888
 
 docker container ls  # See all your containers
 docker container ps -a # Your docker process

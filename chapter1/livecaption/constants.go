@@ -1,6 +1,6 @@
-package audio
+package livecaption
 
-// Test audio file samples
+// Test livecaption file samples
 const (
 	testAudioFile    = "./samples/paleBlueDot.wav"
 	testAudioFile4   = "./samples/testConvo.wav"
@@ -23,7 +23,7 @@ const (
 	speakerLanguage     = speakerLanguageEnUS
 	speakerShowIntermediate = true
 
-	// defaultRTPPort where RTP audio is being streamed
+	// defaultRTPPort where RTP livecaption is being streamed
 	defaultRTPPort = 9999
 
 	bufSize = 10240 // Streaming buffer size
@@ -70,5 +70,4 @@ var (
 	_ = Cyan
 	_ = Gray
 	_ = White
-
 )

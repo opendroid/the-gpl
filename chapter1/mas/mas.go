@@ -18,14 +18,14 @@ func CompareNumbers(i1, i2 int) (bool, int) {
 	if i1 > i2 {
 		return false, i1 - i2
 	} else if i2 > i1 {
-		return false, i2 - 11
+		return false, i2 - i1
 	}
 	return true, 0
 }
 
 // AddToSlices Adds elements to a array slice
 func AddToSlices() {
-	aSlice := []int{} // Empty slice
+	var aSlice []int // Empty slice
 	aSlice = append(aSlice, 1, 2, 3, 4, 5)
 	fmt.Printf("mas.AddToSlices:Slice[0..4]: %+v\n", aSlice)
 

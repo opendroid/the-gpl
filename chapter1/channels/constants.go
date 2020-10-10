@@ -1,5 +1,15 @@
 package channels
 
+// TestSites list of default test sites
+var TestSites = []string{
+	"https://google.com",
+	"https://youtube.com",
+	"https://facebook.com",
+	"https://qq.com",
+	"https://amazon.com",
+	"https://usense.io",
+}
+
 // GithubUserInfoURL Github user info URL.
 const GithubUserInfoURL string = "https://api.github.com/users/"
 

@@ -1,4 +1,4 @@
-package graphs
+package lissajous
 
 import (
 	"image"
@@ -9,8 +9,8 @@ import (
 	"math/rand"
 )
 
-// LissajousConfig configuration object for Lissajous curve
-type LissajousConfig struct {
+// Config configuration object for Lissajous curve
+type Config struct {
 	// Cycles : Number of oscillations
 	Cycles int
 	// Resolution Angular resolution
@@ -25,16 +25,16 @@ type LissajousConfig struct {
 
 var palette = []color.Color{
 	color.White,
-	color.RGBA{0xff, 0x00, 0x00, 0xFF}, // rgb(255, 0, 0) Red
-	color.RGBA{0x00, 0xff, 00, 0xFF},   // rgb(0, 255, 0) Green
-	color.RGBA{0x00, 0x00, 0xff, 0xFF}, // rgb(0, 0, 255) Blue
-	color.RGBA{0xff, 0xff, 0x00, 0xFF}, // rgb(255, 255, 0) Yellow
+	color.RGBA{R: 0xff, A: 0xFF},          // rgb(255, 0, 0) Red
+	color.RGBA{G: 0xff, A: 0xFF},          // rgb(0, 255, 0) Green
+	color.RGBA{B: 0xff, A: 0xFF},          // rgb(0, 0, 255) Blue
+	color.RGBA{R: 0xff, G: 0xff, A: 0xFF}, // rgb(255, 255, 0) Yellow
 	color.Black,
 }
 
 // Lissajous curve: x = A sin(at+d), y = B sin(bt),
 //     https://en.wikipedia.org/wiki/Lissajous_curve
-func Lissajous(config LissajousConfig, out io.Writer) {
+func Lissajous(config Config, out io.Writer) {
 	frequency := rand.Float64() * 3.0 // Freq of y oscillator
 	phase := 0.0
 	animation := gif.GIF{LoopCount: config.NFrames}
@@ -64,8 +64,8 @@ func Lissajous(config LissajousConfig, out io.Writer) {
 	_ = gif.EncodeAll(out, &animation) // Ignore error
 }
 
-// Lissajous creates a graphs with a config
-func (config LissajousConfig) Lissajous(out io.Writer) {
+// Lissajous creates a lissajous with a config
+func (config Config) Lissajous(out io.Writer) {
 	frequency := rand.Float64() * 3.0 // Freq of y oscillator
 	phase := 0.0
 	animation := gif.GIF{LoopCount: config.NFrames}
@@ -95,10 +95,10 @@ func (config LissajousConfig) Lissajous(out io.Writer) {
 	_ = gif.EncodeAll(out, &animation) // Ignore error
 }
 
-// DefaultLissajous calls a Lissajous figure with default data
+// Default calls a Lissajous figure with default data
 //    2 cycles with 512x512 size, 12 frames and 10 ms delay
-func DefaultLissajous(out io.Writer) {
-	config := LissajousConfig{
+func Default(out io.Writer) {
+	config := Config{
 		Cycles:     2,
 		Resolution: 0.000001,
 		Size:       512,

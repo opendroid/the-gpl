@@ -15,13 +15,13 @@ func TestGetAThakur(t *testing.T) {
 	ChangeThakur(bThakur)
 	bThakur.Describe()
 	bThakur.ValueDescribe() // Operate on copy of bThakur
-	bThakur.GotMarrried()
+	bThakur.GotMarried()
 	bThakur.Describe()
 
 	cThakur := NewThakur("Angela", 20)
-	cThakur.ThoughtIGotMarrried()
+	cThakur.ThoughtIGotMarried()
 	cThakur.Describe()
-	cThakur.GotMarrried()
+	cThakur.GotMarried()
 	cThakur.Describe()
 }
 

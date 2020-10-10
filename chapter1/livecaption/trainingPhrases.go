@@ -1,4 +1,4 @@
-package audio
+package livecaption
 
 var (
 	// Tokens: https://cloud.google.com/speech-to-text/docs/class-tokens

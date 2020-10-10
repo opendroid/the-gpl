@@ -55,11 +55,11 @@ You can use `ffmpeg` Mac command line program to record a .wav file or stream PC
 UDP port. Some examples are:
  
 ```shell script
-# List audio devices, Mac
+# List livecaption devices, Mac
 ffmpeg -f avfoundation -list_devices true -i ""
-# Record 20 seconds of audio from the built in microphone and save it in playBlueDot.mp3
+# Record 20 seconds of livecaption from the built in microphone and save it in playBlueDot.mp3
 ffmpeg -f avfoundation -i ":1" -t 20 ../../public/playBlueDot.wav
-# Stream s16le to a UDP port 9999, and send that audio to GCP
+# Stream s16le to a UDP port 9999, and send that livecaption to GCP
 ffmpeg -f avfoundation -i ":1" -acodec pcm_s16le -ar 48000 -f s16le udp://localhost:9999
 ffmpeg -formats | grep PCM  # see pcl formats
 nc -u -l localhost 9999 # Starts a UDP server, and listen to the port
@@ -74,7 +74,7 @@ ffmpeg -i inputFilename.m4a OutputFilename.wav
 
 The same command can be used to recording Video files:
 ```shell script
-# Record from video device 0 and audio device 0:
+# Record from video device 0 and livecaption device 0:
 ffmpeg -r 30 -f avfoundation -i "0:1" ../../public/paleBlueDot.mp4
 ffmpeg -f avfoundation -framerate 30 -video_size 640x480 -i "0:1" ../../public/paleBlueDot.mp4
 ```
@@ -93,7 +93,7 @@ ffmpeg flags:
 ## Material:
 You may find following links handy if you like to check more audio related stuff in Golang.
 
- - [FFMPEG ](https://ffmpeg.org/), a complete, cross-platform solution to record, convert and stream audio and video.
+ - [FFMPEG ](https://ffmpeg.org/) a complete, cross-platform solution to record, convert and stream audio and video.
  - [Creating Multiple Outputs](https://trac.ffmpeg.org/wiki/Creating%20multiple%20outputs)
  - [How to stream audio using FFMPEG?](https://apple.stackexchange.com/questions/326419/how-to-stream-audio-using-ffmpeg)
  - [PortAudioAPI Overview](http://portaudio.com/docs/v19-doxydocs/api_overview.html)

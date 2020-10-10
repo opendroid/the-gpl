@@ -1,4 +1,4 @@
-package graphs
+package lissajous
 
 import (
 	"github.com/stretchr/testify/assert"
@@ -8,7 +8,7 @@ import (
 	"testing"
 )
 
-var config = LissajousConfig{
+var config = Config{
 	Cycles:     2,
 	Resolution: 0.000001,
 	Size:       512,
@@ -16,7 +16,7 @@ var config = LissajousConfig{
 	DelayMS:    10,
 }
 
-// cd graphs
+// cd lissajous
 // go test -run TestLissajous -v
 func TestLissajous(t *testing.T) {
 	gifImageName := "../../content/media/lis.gif"

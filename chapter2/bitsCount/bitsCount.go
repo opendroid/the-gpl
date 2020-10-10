@@ -1,9 +1,4 @@
-package chapter2
-
-import (
-	"flag"
-	"fmt"
-)
+package bitsCount
 
 // nBitsInNumbers array contains pre-calculated number of bits in numbers
 // from 0..255 saves in [i]
@@ -49,23 +44,4 @@ func BitCountEachOne(x uint64) int {
 		x >>= 1
 	}
 	return nBits
-}
-
-// Command line help func
-// BitCountCmd allows to refer call send this module the CLI argument
-var BitCountCmd *flag.FlagSet
-var bits *uint64 // flag for Celsius
-func init() {
-	BitCountCmd = flag.NewFlagSet("bits", flag.ContinueOnError)
-	bits = BitCountCmd.Uint64("n", 0xBAD0FACEC0FFEE, "A 64-bit int")
-}
-
-// ExecBitsCountCmd run bit count from CLI
-func ExecBitsCountCmd(args []string) {
-	err := BitCountCmd.Parse(args)
-	if err != nil {
-		fmt.Printf("ExecBitsCountCmd: Bit count Parse Error %s\n", err.Error())
-		return
-	}
-	fmt.Printf("\tThere are %d bits in 0x%0X\n", BitCountEachOne(*bits), *bits)
 }

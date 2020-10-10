@@ -10,17 +10,15 @@ func TestMain(m *testing.M) {
 	os.Exit(exitCode)
 }
 
-// Test commands: run these in dir "goLessons"
+// Test commands: run these in dir "the-gpl"
 //  go test -v ./...
 //  go test ./chapter1/channels/channels.go ./chapter1/channels/channels_test.go -v
-//  go test ./chapter1/graphs/lissajous.go ./chapter1/graphs/lissajous_test.go -v
+//  go test ./chapter1/lissajous/lissajous.go ./chapter1/lissajous/lissajous_test.go -v
 //  go test ./chapter1/structs/structs.go ./chapter1/structs/structs_test.go -v
 //
-// Individual tests run in specific diretory:
+// Individual tests run in specific directory:
 //  cd ./channels
 //  go test -run TestFetch -v
-//  cd ./graphs
+//  cd ./lissajous
 //  go test -run TestLissajous -v
 
-func TestGithubUsersInfo(t *testing.T) {
-}
