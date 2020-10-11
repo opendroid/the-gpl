@@ -10,11 +10,11 @@ import (
 )
 
 // New create a df bot
-func New(logger *log.Logger, gcpProject string) (*Client, error) {
+func New(logger *log.Logger, gcpProject string, lang string) (*Client, error) {
 	bc := Client{
 		gcpProjectID: gcpProject,
 		authFilePath: gcpAuthFile,
-		language:     defaultLanguage,
+		language:     lang,
 		timeZone:     defaultTimeZone,
 		log:          logger,
 	}

@@ -12,7 +12,7 @@ import (
 func TestNewBot(t *testing.T) {
 	t.Skip("Skipping TestNewBot in GCP.")
 	l := log.New(os.Stdout, "BOT ", log.LstdFlags)
-	b, err := New(l, gcpProjectID)
+	b, err := New(l, gcpProjectID, defaultLanguage)
 	assert.Nil(t, err)
 	assert.NotNil(t, b)
 }
@@ -22,7 +22,7 @@ func TestNewBot(t *testing.T) {
 func TestConverse(t *testing.T) {
 	t.Skip("Skipping TestConverse in GCP.")
 	l := log.New(os.Stdout, "BOT ", log.LstdFlags)
-	b, err := New(l, gcpProjectID)
+	b, err := New(l, gcpProjectID, defaultLanguage)
 	assert.Nil(t, err)
 	assert.NotNil(t, b)
 

@@ -25,6 +25,8 @@ const (
 	gcpAuthFile = "/Users/ajayt/Experiments/Keys/ajayt-gcp-experiments.json"
 	// defaultLanguage of the bot
 	defaultLanguage = "en"
+	// enUSLanguage US English
+	enUSLanguage = "en-US"
 	// defaultTimeZone where user is in
 	defaultTimeZone = "PST"
 	// defaultTimeout
@@ -56,3 +58,8 @@ type SessionClient struct {
 	uID  uuid.UUID
 	path string
 }
+
+// Avoid warnings
+var (
+	_ = enUSLanguage
+)

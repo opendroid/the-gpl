@@ -20,13 +20,15 @@ type CLI struct {
 }
 
 var cmd CLI
-var gcpProjectName *string // flag for
+var gcpProjectName *string // flag for GCP Project
+var lang *string // language code
 var chat *bool
 
 // InitCli for the "bot" command
 func InitCli() {
 	cmd.set = flag.NewFlagSet("bot", flag.ContinueOnError)
 	gcpProjectName = cmd.set.String("project", gcpProjectID, "GCP Project Name")
+	lang = cmd.set.String("lang", defaultLanguage, "Bot language en or en-US")
 	chat = cmd.set.Bool("chat", false, "true if you want to chat via command line")
 	gplCLI.Add("bot", cmd)
 }
@@ -39,10 +41,10 @@ func (b CLI) ExecCmd(args []string) {
 		return
 	}
 	l := log.New(os.Stdout, "BOT ", log.LstdFlags)
-	l.Printf("ExecBotCmd: bot %s\n", *gcpProjectName)
-	bot, err := New(l, *gcpProjectName)
+	l.Printf("ExecCmd: bot %s. Say:\n", *gcpProjectName)
+	bot, err := New(l, *gcpProjectName, *lang)
 	if err != nil {
-		l.Printf("ExecBotCmd: Error Creating DF session %s\n", err.Error())
+		l.Printf("ExecCmd: Bot Error Creating DF session %s\n", err.Error())
 		return
 	}
 	s := NewSession(dfStaging, *gcpProjectName)
@@ -57,7 +59,7 @@ func (b CLI) ExecCmd(args []string) {
 		q := scan.Text()
 		r, err := bot.Converse(s, q)
 		if err != nil {
-			l.Printf("ExecBotCmd: Conversation Error %s\n", err.Error())
+			l.Printf("ExecCmd: Conversation Error %s\n", err.Error())
 			return
 		}
 		l.Printf("Asked: %s\n", q)

@@ -25,6 +25,7 @@ Assuming, the program is installed locally as `the-gpl` you can access several m
 $ the-gpl # Prints the help of all modules
 $ the-gpl bot -project=gcp-project-id # Will do a short conversation with a bot. 
 $ the-gpl bot -project=gcp-project-id -chat=true # Can send messages from stdin
+$ the-gpl bot -chat=true -project=gcp-project-id -lang=en-US # Chat with a bot in en-US
 $ the-gpl stt -port=9999 # Will listen to RTP stream on port 9999 for 2 minutes and transcribe in real time
 $ the-gpl temp -c=23.3 -f=100.02 # Will convert °C to °F and visa-versa
 $ the-gpl bits -n=0xBAD0FACE # will count 1 bits in n
