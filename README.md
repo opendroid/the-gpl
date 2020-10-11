@@ -32,6 +32,9 @@ $ the-gpl bits -n=0xBAD0FACE # will count 1 bits in n
 # Output a Lissajous graph to -file of size 1024 pixels 20 frames and 10 cycles
 $ the-gpl lissajous -file ~/Downloads/lis.gif -size=1024 -frames=20 -cycles=10
 $ the-gpl server -port=8081 # start a web server at port 8081.
+$ the-gpl parse -type=outline -site=https://www.airbnb.com # Creates a summary outline of a page
+$ the-gpl parse -type=links -site=https://images.google.com #  Prints all links on a webpage
+$ the-gpl parse -type=images -site=https://www.yahoo.com # Fetches image URLs in a site
 ```
 
 ## Command go

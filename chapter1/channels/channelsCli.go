@@ -18,6 +18,7 @@ var cmd CLI
 
 type siteFlag []string // Flag that stores value for -sites="site1" -sites="site2"
 var sites siteFlag
+var body *bool // Fetch complete HTML body of the site
 
 // String satisfy the flag.Value interface
 func (s *siteFlag) String() string {
@@ -39,6 +40,7 @@ func (s *siteFlag) Set(value string) error {
 func InitCli() {
 	cmd.set = flag.NewFlagSet("fetch", flag.ContinueOnError)
 	cmd.set.Var(&sites, "site", "-site=http://www.google.com -site=http://www.facebook.com")
+	body = cmd.set.Bool("body", false, "-body=true for downloading complete page")
 	gplCLI.Add("fetch", cmd)
 }
 
@@ -47,13 +49,23 @@ func (m CLI) ExecCmd(args []string) {
 	err := m.set.Parse(args)
 	if err != nil {
 		fmt.Printf("ExecCmd: Fetch Parse Error %s\n", err.Error())
+		m.DisplayHelp()
 		return
 	}
 
+	// Prepare list of sites to be fetched
+	var urls []string
+	urls = make([]string, 0, len(sites))
 	if len(sites) > 0 {
-		fetchSites(sites)
+		urls = append(urls, sites...)
 	} else {
-		fetchSites(TestSites)
+		urls = append(urls, TestSites...)
+	}
+
+	if *body { // By default only display the timing info
+		fetchSites(urls)
+	} else {
+		fetchSitesTimes(urls) // Fetch time summary page
 	}
 }
 
@@ -63,14 +75,26 @@ func (m CLI) DisplayHelp() {
 	m.set.PrintDefaults()
 }
 
-// fetchSites fetch the sites in array testSites
-func fetchSites(testSites []string) {
+// fetchSitesTimes fetch the sites in array testSites
+func fetchSitesTimes(testSites []string) {
 	sitesChan := make(chan string) // Make 1 channel only
 	for _, site := range testSites {
-		go Fetch(site, sitesChan)
+		go FetchTimeInfo(site, sitesChan)
 	}
 	// Expect len(testSites) responses in channel
 	for range testSites {
 		fmt.Printf("%s\n", <-sitesChan)
+	}
+}
+
+// fetchSites fetch the sites in array testSites
+func fetchSites(testSites []string) {
+	for _, site := range testSites {
+		 page, err := Fetch(site)
+		 if err != nil {
+		 	fmt.Printf("ExecCmd: Fetch error: %v\n", err)
+		 	continue
+		 }
+		 fmt.Printf("%s", page)
 	}
 }

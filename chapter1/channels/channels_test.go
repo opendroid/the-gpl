@@ -2,7 +2,6 @@ package channels
 
 import (
 	"encoding/json"
-	"fmt"
 	"testing"
 )
 
@@ -18,7 +17,7 @@ const JWFF = "https://brazil-partner-onboarding-dev.uc.r.appspot.com/ping"
 func TestFetch(t *testing.T) {
 	sitesChan := make(chan string) // Make 1 channel only
 	for _, site := range testSites {
-		go Fetch(site, sitesChan)
+		go FetchTimeInfo(site, sitesChan)
 	}
 	// Expect 5 responses in channel
 	for range testSites {
@@ -37,7 +36,7 @@ func TestFetch_jw(t *testing.T) {
 	}
 
 	for _, site := range testJW {
-		go Fetch(site, sitesChan)
+		go FetchTimeInfo(site, sitesChan)
 	}
 	// Expect 5 responses in channel
 	for i := range testJW {
@@ -54,5 +53,18 @@ func TestGithubReposOfUser(t *testing.T) {
 
 	// Print the JSON form the struct, unmarshal it and be done
 	uInfo, _ := json.MarshalIndent(<-apiOutput, "", "  ")
-	fmt.Printf("UserInfo:\n%s\n", uInfo)
+	t.Logf("UserInfo:\n%s\n", uInfo)
+}
+
+// TestFetchSite fetches github repos of a user
+//  cd ./channels
+//  go test -run TestFetchSite -v
+func TestFetchSite(t *testing.T) {
+	site := "https://www.github.com"
+	data, err := FetchSite(site)
+	if err != nil {
+		t.Errorf("FetchSite %s: %v", site, err)
+		t.Fail()
+	}
+	t.Logf("%s", data)
 }

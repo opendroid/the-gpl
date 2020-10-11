@@ -10,6 +10,7 @@ import (
 	"github.com/opendroid/the-gpl/chapter1/webserver"
 	"github.com/opendroid/the-gpl/chapter2/bitsCount"
 	"github.com/opendroid/the-gpl/chapter2/tempConv"
+	"github.com/opendroid/the-gpl/chapter5"
 	"github.com/opendroid/the-gpl/gplCLI"
 	"os"
 )
@@ -21,6 +22,7 @@ func main() {
 	bitsCount.InitCli()
 	bot.InitCli()
 	channels.InitCli()
+	chapter5.InitCli()
 	lissajous.InitCli()
 	livecaption.InitCli()
 	mas.InitCli()
