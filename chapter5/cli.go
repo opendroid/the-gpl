@@ -16,7 +16,9 @@ var cmd CLI
 var parse *string // Flag that stores value for -type="parse"
 var site *string
 
-// InitCli for command: the-gpl mas -fn=array
+// InitCli for command: the-gpl parse -site=http://...
+//   eg: the-gpl parse -type=css     -site=https://www.yahoo.com
+//		   the-gpl parse -type=scripts -site=https://www.yahoo.com
 func InitCli() {
 	cmd.set = flag.NewFlagSet("parse", flag.ContinueOnError)
 	parse = cmd.set.String("type", "outline", "[outline images links scripts]")
@@ -51,7 +53,20 @@ func (m CLI) ExecCmd(args []string) {
 			fmt.Printf("ExecCmd: HTML Images error: %v", err)
 		}
 		printSlice(images, "Images in "+*site)
+	case "scripts":
+		images, err := ParseScripts(*site)
+		if err != nil {
+			fmt.Printf("ExecCmd: HTML Scripts error: %v", err)
+		}
+		printSlice(images, "Scripts in "+*site)
+	case "css":
+		images, err := ParseCss(*site)
+		if err != nil {
+			fmt.Printf("ExecCmd: HTML CSS error: %v", err)
+		}
+		printSlice(images, "CSS in "+*site)
 	}
+
 }
 
 // DisplayHelp prints help on command line for bits module

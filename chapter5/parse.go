@@ -49,7 +49,7 @@ func nodeLinks(t NodeType, href []string, n *html.Node) []string {
 	}
 	// find every sibling
 	for c := n.FirstChild; c != nil; c = c.NextSibling {
-		href = links(href, c)
+		href = nodeLinks(t, href, c)
 	}
 	return href
 }
@@ -89,6 +89,16 @@ func links(href []string, n *html.Node) []string {
 // images returns list of all image src links in a HTML node n.
 func images(href []string, n *html.Node) []string {
 	return nodeLinks(Img, href, n)
+}
+
+// scripts returns list of all image src links in a HTML node n.
+func scripts(href []string, n *html.Node) []string {
+	return nodeLinks(Script, href, n)
+}
+
+// css returns list of all image src links in a HTML node n.
+func css(href []string, n *html.Node) []string {
+	return nodeLinks(Link, href, n)
 }
 
 // resolveFullPath resolve list of links to full path based on url.
@@ -193,6 +203,48 @@ func ParseImages(url string) ([]string, error) {
 		return nil, err
 	}
 	srcs := images(nil, doc)               // Fetch image links
+	srcs, err = resolveFullPath(srcs, url) // Make all links full path
+	if err != nil {
+		return nil, err
+	}
+	srcs = removeDuplicates(srcs) // De-dup links
+	sort.Strings(srcs) // Sort links alphabetically
+	return srcs, nil
+}
+
+// ParseScripts returns all full scripts unique href links of a website pointed to by url.
+func ParseScripts(url string) ([]string, error) {
+	page, err := channels.FetchSite(url) // Fetch site
+	if err != nil {
+		return nil, err
+	}
+	r := strings.NewReader(page)
+	doc, err := html.Parse(r) // Parse HTML
+	if err != nil {
+		return nil, err
+	}
+	srcs := scripts(nil, doc)               // Fetch image links
+	srcs, err = resolveFullPath(srcs, url) // Make all links full path
+	if err != nil {
+		return nil, err
+	}
+	srcs = removeDuplicates(srcs) // De-dup links
+	sort.Strings(srcs) // Sort links alphabetically
+	return srcs, nil
+}
+
+// ParseCss returns all full CSS unique href links of a website pointed to by url.
+func ParseCss(url string) ([]string, error) {
+	page, err := channels.FetchSite(url) // Fetch site
+	if err != nil {
+		return nil, err
+	}
+	r := strings.NewReader(page)
+	doc, err := html.Parse(r) // Parse HTML
+	if err != nil {
+		return nil, err
+	}
+	srcs := css(nil, doc)               // Fetch image links
 	srcs, err = resolveFullPath(srcs, url) // Make all links full path
 	if err != nil {
 		return nil, err

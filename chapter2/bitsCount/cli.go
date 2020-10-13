@@ -31,11 +31,11 @@ func (b CLI) ExecCmd(args []string) {
 		fmt.Printf("ExecBitsCountCmd: Bit count Parse Error %s\n", err.Error())
 		return
 	}
-	fmt.Printf("\tThere are %d bits in 0X%016X\n", BitCountEachOne(*bits), *bits)
+	fmt.Printf("\tThere are %d one bits in 0X%016X\n", BitCountEachOne(*bits), *bits)
 }
 
 // DisplayHelp prints help on command line for bits module
 func (b CLI) DisplayHelp() {
-	fmt.Println("\nUsage: the-gpl bits. Number of one bits in n")
+	fmt.Println("\nUsage: the-gpl bits. Number of 1 bits in n")
 	b.set.PrintDefaults()
 }
