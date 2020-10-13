@@ -63,6 +63,9 @@ func Fetch(url string) (string, error){
 	if err != nil {
 		return "", fmt.Errorf("parse err: %v", err)
 	}
+	if resp.StatusCode != http.StatusOK {
+		return "", fmt.Errorf("invalid status: %v", resp.Status)
+	}
 	return string(data), nil
 }
 

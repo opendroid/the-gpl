@@ -3,7 +3,7 @@ package webserver
 import (
 	"flag"
 	"fmt"
-	"github.com/opendroid/the-gpl/gplCLI"
+	"github.com/opendroid/the-gpl/serve"
 )
 
 type CLI struct {
@@ -17,7 +17,7 @@ var port *int
 func InitCli() {
 	cmd.set = flag.NewFlagSet("lissajous", flag.ExitOnError)
 	port = cmd.set.Int("port", 8888, "Port number eg: 8888")
-	gplCLI.Add("server", cmd)
+	serve.Add("server", cmd)
 }
 
 // ExecCmd run server from CLI

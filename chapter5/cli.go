@@ -3,7 +3,7 @@ package chapter5
 import (
 	"flag"
 	"fmt"
-	"github.com/opendroid/the-gpl/gplCLI"
+	"github.com/opendroid/the-gpl/serve"
 )
 
 // CLI wrapper for *flag.FlagSet
@@ -21,7 +21,7 @@ func InitCli() {
 	cmd.set = flag.NewFlagSet("parse", flag.ContinueOnError)
 	parse = cmd.set.String("type", "outline", "[outline images links scripts]")
 	site = cmd.set.String("site", "https://www.yahoo.com/", "-site=https://site.to.parse.com/")
-	gplCLI.Add("parse", cmd)
+	serve.Add("parse", cmd)
 }
 
 // ExecCmd run bit count from CLI

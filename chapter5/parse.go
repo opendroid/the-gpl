@@ -4,8 +4,55 @@ import (
 	"github.com/opendroid/the-gpl/chapter1/channels"
 	"golang.org/x/net/html"
 	"net/url"
+	"sort"
 	"strings"
 )
+
+// NodeType defined node of type "a" "img" "script" and css "link"
+type NodeType string
+const (
+	// A link reference node type is <a
+	A NodeType = "a"
+	// Img <img src=''/> element
+	Img = "img"
+	// Script tag <script src='filename.js' />
+	Script = "script"
+	// Link stylesheet <link rel=stylesheet" href="styles.css">
+	Link = "link"
+)
+
+// NodeValue values of link property
+type NodeValue string
+const (
+	// Href link reference node type is <a
+	Href NodeValue = "href"
+	// Src <img src=''/> element
+	Src = "src"
+)
+
+// Map of nodes
+var htmlNodes = map[NodeType]NodeValue{A: Href, Img: Src, Script: Src, Link: Href}
+
+// nodeLinks Exercise 5.4 returns list of all href links for type t in a HTML node n.
+func nodeLinks(t NodeType, href []string, n *html.Node) []string {
+	nt, ok := htmlNodes[t]
+	if !ok {
+		return href
+	}
+
+	if n.Type == html.ElementNode && n.Data == string(t) {
+		for _, a := range n.Attr {
+			if a.Key == string(nt) {
+				href = append(href, a.Val)
+			}
+		}
+	}
+	// find every sibling
+	for c := n.FirstChild; c != nil; c = c.NextSibling {
+		href = links(href, c)
+	}
+	return href
+}
 
 // outline packs the outline of a HTML document onto a 'superStack' and returns
 //	it the caller. The outline is joined by . characters.
@@ -24,48 +71,34 @@ func outline(stack []string, n *html.Node) []string {
 	return superStack
 }
 
+// outlineCount returns a count of nodes in a html.Node tree, maps are passed by reference
+func outlineCount(count map[string]int, n *html.Node) {
+	if n.Type == html.ElementNode {
+		count[n.Data]++
+	}
+	for c := n.FirstChild; c != nil; c = c.NextSibling {
+		outlineCount(count, c)
+	}
+}
+
 // links returns list of all href links in a HTML node n.
 func links(href []string, n *html.Node) []string {
-	if n.Type == html.ElementNode && n.Data == "a" {
-		for _, a := range n.Attr {
-			if a.Key == "href" {
-				if strings.Contains(a.Val, "javascript:void") {
-					continue
-				}
-				href = append(href, a.Val)
-			}
-		}
-	}
-	// find every sibling
-	for c := n.FirstChild; c != nil; c = c.NextSibling {
-		href = links(href, c)
-	}
-	return href
+	return nodeLinks(A, href, n)
 }
 
 // images returns list of all image src links in a HTML node n.
 func images(href []string, n *html.Node) []string {
-	if n.Type == html.ElementNode && n.Data == "img" {
-		for _, a := range n.Attr {
-			if a.Key == "src" {
-				if strings.Contains(a.Val, "javascript:void") {
-					continue
-				}
-				href = append(href, a.Val)
-			}
-		}
-	}
-	// find every sibling
-	for c := n.FirstChild; c != nil; c = c.NextSibling {
-		href = images(href, c)
-	}
-	return href
+	return nodeLinks(Img, href, n)
 }
 
 // resolveFullPath resolve list of links to full path based on url.
 func resolveFullPath(hrefs []string, base string) ([]string, error) {
 	var links []string
 	for _, href := range hrefs {
+		// Remove the "javascript:" links
+		if strings.Contains(href, "javascript:") {
+			continue
+		}
 		h, err := url.Parse(href)
 		if err != nil {
 			return nil, err
@@ -109,6 +142,24 @@ func ParseOutline(url string) ([]string, error) {
 	return outline, nil
 }
 
+// ParseOutlineCount returns count of tags website pointed to by url.
+//  The outline is array of strings
+func ParseOutlineCount(url string) (map[string]int, error) {
+	page, err := channels.FetchSite(url)
+	if err != nil {
+		return nil, err
+	}
+	r := strings.NewReader(page)
+	doc, err := html.Parse(r)
+	if err != nil {
+		return nil, err
+	}
+	summary := make(map[string]int)
+
+	outlineCount(summary, doc)
+	return summary, nil
+}
+
 // ParseLinks returns all full path unique href links of a website pointed to by url.
 func ParseLinks(url string) ([]string, error) {
 	page, err := channels.FetchSite(url) // Fetch site
@@ -126,6 +177,7 @@ func ParseLinks(url string) ([]string, error) {
 		return nil, err
 	}
 	hrefs = removeDuplicates(hrefs) // De-dup links
+	sort.Sort(Hyperlinks(hrefs)) // Sort links alphabetically
 	return hrefs, nil
 }
 
@@ -146,5 +198,6 @@ func ParseImages(url string) ([]string, error) {
 		return nil, err
 	}
 	srcs = removeDuplicates(srcs) // De-dup links
+	sort.Strings(srcs) // Sort links alphabetically
 	return srcs, nil
 }

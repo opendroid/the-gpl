@@ -3,7 +3,7 @@ package bitsCount
 import (
 	"flag"
 	"fmt"
-	"github.com/opendroid/the-gpl/gplCLI"
+	"github.com/opendroid/the-gpl/serve"
 )
 
 // Command line help func
@@ -21,7 +21,7 @@ var bits *uint64 // flag for -n=#bits count
 func InitCli() {
 	bitCountCmd.set = flag.NewFlagSet("bits", flag.ContinueOnError)
 	bits = bitCountCmd.set.Uint64("n", 0xBAD0FACEC0FFEE, "A 64-bit int")
-	gplCLI.Add("bits", bitCountCmd)
+	serve.Add("bits", bitCountCmd)
 }
 
 // ExecCmd run bit count from CLI

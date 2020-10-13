@@ -3,7 +3,7 @@ package mas
 import (
 	"flag"
 	"fmt"
-	"github.com/opendroid/the-gpl/gplCLI"
+	"github.com/opendroid/the-gpl/serve"
 )
 
 // Command line help func
@@ -25,7 +25,7 @@ func InitCli() {
 	callMethod = cmd.set.String("fn", "array", "[array comp slice]")
 	n1 = cmd.set.Int("n1", 123, "first number")
 	n2 = cmd.set.Int("n2", -46, "second number")
-	gplCLI.Add("mas", cmd)
+	serve.Add("mas", cmd)
 }
 
 // ExecCmd run bit count from CLI

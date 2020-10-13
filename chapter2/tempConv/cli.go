@@ -3,7 +3,7 @@ package tempConv
 import (
 	"flag"
 	"fmt"
-	"github.com/opendroid/the-gpl/gplCLI"
+	"github.com/opendroid/the-gpl/serve"
 )
 
 // Section to setup CLI
@@ -23,7 +23,7 @@ func InitCli() {
 	cmd.set = flag.NewFlagSet("temp", flag.ContinueOnError)
 	c = cmd.set.Float64("c", float64(FreezingPointC), "°Celsius")
 	f = cmd.set.Float64("f", float64(FreezingPointC), "°Fahrenheit")
-	gplCLI.Add("temp", cmd)
+	serve.Add("temp", cmd)
 }
 
 // ExecCmd run temp conversion command initiated from CLI

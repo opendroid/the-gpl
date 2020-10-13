@@ -3,7 +3,7 @@ package channels
 import (
 	"flag"
 	"fmt"
-	"github.com/opendroid/the-gpl/gplCLI"
+	"github.com/opendroid/the-gpl/serve"
 )
 
 // Command line help func
@@ -41,7 +41,7 @@ func InitCli() {
 	cmd.set = flag.NewFlagSet("fetch", flag.ContinueOnError)
 	cmd.set.Var(&sites, "site", "-site=http://www.google.com -site=http://www.facebook.com")
 	body = cmd.set.Bool("body", false, "-body=true for downloading complete page")
-	gplCLI.Add("fetch", cmd)
+	serve.Add("fetch", cmd)
 }
 
 // ExecCmd run fetch from CLI

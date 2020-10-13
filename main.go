@@ -11,7 +11,7 @@ import (
 	"github.com/opendroid/the-gpl/chapter2/bitsCount"
 	"github.com/opendroid/the-gpl/chapter2/tempConv"
 	"github.com/opendroid/the-gpl/chapter5"
-	"github.com/opendroid/the-gpl/gplCLI"
+	"github.com/opendroid/the-gpl/serve"
 	"os"
 )
 
@@ -30,7 +30,7 @@ func main() {
 	webserver.InitCli()
 
 	// Execute commands
-	gplCLI.ExecCLICmd(os.Args[:])
+	serve.ExecCLICmd(os.Args[:])
 }
 
 
