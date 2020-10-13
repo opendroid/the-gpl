@@ -46,6 +46,22 @@ func TestParseOutlineCount(t *testing.T) {
 	})
 }
 
+// TestParseText tests the  Exercise 5.3, TestParseText
+//  go test -run TestParseText -v
+func TestParseText(t *testing.T) {
+	t.Run("Tag count in www.google.com", func(t *testing.T) {
+		texts, err := ParseText("https://www.google.com")
+		if err != nil {
+			t.Errorf("Error TestParseText: %v", err)
+			t.Fail()
+		}
+		// Print count
+		for i, text := range texts {
+			t.Logf("[%d] = %s", i+1, text)
+		}
+	})
+}
+
 // --------- Helper methods for testing
 // fetchLinkAndApply returns all full path unique href links of a website pointed to by url.
 func fetchLinkAndApply(url string, apply func([]string, *html.Node) []string) ([]string, error) {

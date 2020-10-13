@@ -19,6 +19,8 @@ const (
 	Script = "script"
 	// Link stylesheet <link rel=stylesheet" href="styles.css">
 	Link = "link"
+	// Style denotes a HTML <style type="text/css"> node
+	Style = "style"
 )
 
 // NodeValue values of link property
@@ -52,6 +54,23 @@ func nodeLinks(t NodeType, href []string, n *html.Node) []string {
 		href = nodeLinks(t, href, c)
 	}
 	return href
+}
+
+// nodeText Exercise 5.3 print text of all text nodes (ignore script and style)
+func nodeText(text []string, n *html.Node) []string {
+	// Ignore script and style nodes
+	if n.Type == html.ElementNode && (n.Data == Script || n.Data == Style) {
+		return text
+	}
+	// get text for TextNodes
+	if n.Type == html.TextNode {
+		text = append(text, n.Data)
+	}
+
+	for c := n.FirstChild; c != nil; c = c.NextSibling {
+		text = nodeText(text, c)
+	}
+	return text
 }
 
 // outline packs the outline of a HTML document onto a 'superStack' and returns
@@ -187,7 +206,7 @@ func ParseLinks(url string) ([]string, error) {
 		return nil, err
 	}
 	hrefs = removeDuplicates(hrefs) // De-dup links
-	sort.Sort(Hyperlinks(hrefs)) // Sort links alphabetically
+	sort.Sort(Hyperlinks(hrefs))    // Sort links alphabetically
 	return hrefs, nil
 }
 
@@ -208,7 +227,7 @@ func ParseImages(url string) ([]string, error) {
 		return nil, err
 	}
 	srcs = removeDuplicates(srcs) // De-dup links
-	sort.Strings(srcs) // Sort links alphabetically
+	sort.Strings(srcs)            // Sort links alphabetically
 	return srcs, nil
 }
 
@@ -223,13 +242,13 @@ func ParseScripts(url string) ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	srcs := scripts(nil, doc)               // Fetch image links
+	srcs := scripts(nil, doc)              // Fetch Script links
 	srcs, err = resolveFullPath(srcs, url) // Make all links full path
 	if err != nil {
 		return nil, err
 	}
 	srcs = removeDuplicates(srcs) // De-dup links
-	sort.Strings(srcs) // Sort links alphabetically
+	sort.Strings(srcs)            // Sort links alphabetically
 	return srcs, nil
 }
 
@@ -244,12 +263,27 @@ func ParseCss(url string) ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	srcs := css(nil, doc)               // Fetch image links
+	srcs := css(nil, doc)                  // Fetch CSS links
 	srcs, err = resolveFullPath(srcs, url) // Make all links full path
 	if err != nil {
 		return nil, err
 	}
 	srcs = removeDuplicates(srcs) // De-dup links
-	sort.Strings(srcs) // Sort links alphabetically
+	sort.Strings(srcs)            // Sort links alphabetically
 	return srcs, nil
+}
+
+// ParseText returns text nodes data except script and style elements
+func ParseText(url string) ([]string, error) {
+	page, err := channels.FetchSite(url) // Fetch site
+	if err != nil {
+		return nil, err
+	}
+	r := strings.NewReader(page)
+	doc, err := html.Parse(r) // Parse HTML
+	if err != nil {
+		return nil, err
+	}
+	text := nodeText(nil, doc) // Fetch text
+	return text, nil
 }

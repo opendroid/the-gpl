@@ -36,7 +36,9 @@ func (s *siteFlag) Set(value string) error {
 	return nil
 }
 
-// InitCli for command: the-gpl fetch -sites=https://google.com,https://youtube.com
+// InitCli for command: the-gpl fetch -site=https://google.com
+//   eg: the-gpl fetch -site=https://google.com  -site=http://www.facebook.com # Fetch multiple sites
+
 func InitCli() {
 	cmd.set = flag.NewFlagSet("fetch", flag.ContinueOnError)
 	cmd.set.Var(&sites, "site", "-site=http://www.google.com -site=http://www.facebook.com")

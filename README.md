@@ -29,12 +29,26 @@ $ the-gpl bot -chat=true -project=gcp-project-id -lang=en-US # Chat with a bot i
 $ the-gpl stt -port=9999 # Will listen to RTP stream on port 9999 for 2 minutes and transcribe in real time
 $ the-gpl temp -c=23.3 -f=100.02 # Will convert °C to °F and visa-versa
 $ the-gpl bits -n=0xBAD0FACE # will count 1 bits in n
+
 # Output a Lissajous graph to -file of size 1024 pixels 20 frames and 10 cycles
 $ the-gpl lissajous -file ~/Downloads/lis.gif -size=1024 -frames=20 -cycles=10
-$ the-gpl server -port=8081 # start a web server at port 8081.
+
 $ the-gpl parse -type=outline -site=https://www.airbnb.com # Creates a summary outline of a page
 $ the-gpl parse -type=links -site=https://images.google.com #  Prints all links on a webpage
 $ the-gpl parse -type=images -site=https://www.yahoo.com # Fetches image URLs in a site
+$ the-gpl fetch -site=https://google.com  -site=http://www.facebook.com
+
+# Tests array
+$ the-gpl mas -fn=array
+$ the-gpl mas -fn=comp -n1=123 -n2=345
+```
+
+## Running from Web
+You can access various example outputs using Google cloud run.
+
+```shell script
+$ the-gpl server -port=8081 # start a web server at port 8081.
+
 ```
 
 ## Command go

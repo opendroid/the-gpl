@@ -24,7 +24,10 @@ var gcpProjectName *string // flag for GCP Project
 var lang *string // language code
 var chat *bool
 
-// InitCli for the "bot" command
+// InitCli for command: the-gpl bot -project=gcp-project -lang=en-US -chat=true
+//   eg: the-gpl bot -project=gcp-project # does a predefined conversation with DF agent
+//		   the-gpl bot -project=gcp-project -lang=en-US # chats predefined conversation with DF agent in en-US
+// 			 the-gpl bot -project=gcp-project -lang=en-US -chat=true # Chats with bot from stdin
 func InitCli() {
 	cmd.set = flag.NewFlagSet("bot", flag.ContinueOnError)
 	gcpProjectName = cmd.set.String("project", gcpProjectID, "GCP Project Name")

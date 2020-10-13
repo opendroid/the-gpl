@@ -18,7 +18,8 @@ type CLI struct {
 var cmd CLI
 var port *int // flag for stt RTP port
 
-// InitCli for the "the-gpl stt" command
+// InitCli for command: the-gpl stt # Convert Speech on port 9999 to text
+//   eg: the-gpl stt -port=9999
 func InitCli() {
 	cmd.set = flag.NewFlagSet("stt", flag.ContinueOnError)
 	port = cmd.set.Int("port", defaultRTPPort, "RTP Port")

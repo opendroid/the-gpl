@@ -16,7 +16,9 @@ type CLI struct {
 var cmd CLI
 var cycles, size, frames *int
 var outFileName *string
-// InitCli for the "bits" command
+
+// InitCli for command: the-gpl lissajous # implements lissajous command
+//   eg: the-gpl lissajous -cycles=2 -size=1025 -frames=10 -sile=~/Downloads.gif
 func InitCli() {
 	cmd.set = flag.NewFlagSet("lissajous", flag.ExitOnError)
 	cycles = cmd.set.Int("cycles", 2, "number of cycles")

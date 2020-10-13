@@ -17,8 +17,13 @@ var parse *string // Flag that stores value for -type="parse"
 var site *string
 
 // InitCli for command: the-gpl parse -site=http://...
-//   eg: the-gpl parse -type=css     -site=https://www.yahoo.com
+//   eg: the-gpl parse -type=links     -site=https://www.yahoo.com
+//		   the-gpl parse -type=outline -site=https://www.yahoo.com
+//		   the-gpl parse -type=images -site=https://www.yahoo.com
 //		   the-gpl parse -type=scripts -site=https://www.yahoo.com
+//		   the-gpl parse -type=scripts -site=https://www.yahoo.com
+//		   the-gpl parse -type=css -site=https://www.yahoo.com
+
 func InitCli() {
 	cmd.set = flag.NewFlagSet("parse", flag.ContinueOnError)
 	parse = cmd.set.String("type", "outline", "[outline images links scripts]")

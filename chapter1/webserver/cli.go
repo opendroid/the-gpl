@@ -13,7 +13,9 @@ type CLI struct {
 // bitCountCmd allows to refer call send this module the CLI argument
 var cmd CLI
 var port *int
-// InitCli for the "bits" command
+
+// InitCli for command: the-gpl server
+//   eg: the-gpl server -port=8888 # Starts http on port
 func InitCli() {
 	cmd.set = flag.NewFlagSet("lissajous", flag.ExitOnError)
 	port = cmd.set.Int("port", 8888, "Port number eg: 8888")
