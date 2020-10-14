@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/opendroid/the-gpl/chapter1/channels"
 	"golang.org/x/net/html"
-	"sort"
 	"strings"
 	"testing"
 )
@@ -21,43 +20,6 @@ func TestE51Findlinks(t *testing.T) {
 		t.Logf("Size: %d", len(aRefs))
 		for i, link := range aRefs {
 			t.Logf("%d, %s", i+1, link)
-		}
-	})
-}
-
-// TestParseOutlineCount tests the  Exercise 5.2, ParseOutlineCount
-//  go test -run TestParseOutlineCount -v
-func TestParseOutlineCount(t *testing.T) {
-	t.Run("Tag count in www.google.com", func(t *testing.T) {
-		summary, err := ParseOutlineCount("https://www.google.com")
-		if err != nil {
-			t.Errorf("Error TestParseOutlineCount: %v", err)
-			t.Fail()
-		}
-		// Print count
-		elements := make([]string, 0)
-		for k := range summary {
-			elements = append(elements, k)
-		}
-		sort.Strings(elements)
-		for _, e := range elements {
-			t.Logf("[%s] = %d", e, summary[e])
-		}
-	})
-}
-
-// TestParseText tests the  Exercise 5.3, TestParseText
-//  go test -run TestParseText -v
-func TestParseText(t *testing.T) {
-	t.Run("Tag count in www.google.com", func(t *testing.T) {
-		texts, err := ParseText("https://www.google.com")
-		if err != nil {
-			t.Errorf("Error TestParseText: %v", err)
-			t.Fail()
-		}
-		// Print count
-		for i, text := range texts {
-			t.Logf("[%d] = %s", i+1, text)
 		}
 	})
 }

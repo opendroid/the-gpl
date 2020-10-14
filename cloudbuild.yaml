@@ -1,8 +1,8 @@
 # Build the module.
 steps:
   - id: lint
-    name: "golangci/golangci-lint"
-    args: ["golangci-lint","run"]
+    name: "gcr.io/cloud-builders/go"
+    args: ["vet","./..."]
   - id: test
     name: "gcr.io/cloud-builders/go"
     args: ["test","./..."]
