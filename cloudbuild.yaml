@@ -3,6 +3,7 @@ steps:
   - id: lint
     name: "gcr.io/cloud-builders/go"
     args: ["vet","./..."]
+    env: ["PROJECT_ROOT=the-gpl"]
   - id: test
     name: "gcr.io/cloud-builders/go"
     args: ["test","./..."]
