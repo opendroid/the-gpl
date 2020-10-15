@@ -10,6 +10,7 @@ import (
 
 // NodeType defined node of type "a" "img" "script" and css "link"
 type NodeType string
+
 const (
 	// A link reference node type is <a
 	A NodeType = "a"
@@ -25,6 +26,7 @@ const (
 
 // NodeValue values of link property
 type NodeValue string
+
 const (
 	// Href link reference node type is <a
 	Href NodeValue = "href"
@@ -153,6 +155,21 @@ func removeDuplicates(items []string) []string {
 	}
 	return deduped
 }
+
+// forEachNode runs pre and post functions and each html.Node
+func forEachNode(n *html.Node, pre, post func(n *html.Node)) {
+	if pre != nil {
+		pre(n)
+	}
+	for c := n.FirstChild; c != nil; c = c.NextSibling {
+		forEachNode(c, pre, post)
+	}
+	if post != nil {
+		post(n)
+	}
+}
+
+// ---------------------------- Section exported func  ---------------------------
 
 // ParseOutline returns outline of a website pointed to by url.
 //  The outline is array of strings
@@ -286,4 +303,21 @@ func ParseText(url string) ([]string, error) {
 	}
 	text := nodeText(nil, doc) // Fetch text
 	return text, nil
+}
+
+// PrettyHTML prints HTML of a url in pretty fashion
+func PrettyHTML(url string) ([]string, error) {
+	page, err := channels.FetchSite(url) // Fetch site
+	if err != nil {
+		return nil, err
+	}
+	r := strings.NewReader(page)
+	doc, err := html.Parse(r) // Parse HTML
+	if err != nil {
+		return nil, err
+	}
+	forEachNode(doc, startElement, endElement)
+
+	// Fetch text
+	return nil, nil
 }

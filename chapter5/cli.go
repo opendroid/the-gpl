@@ -23,7 +23,7 @@ var site *string
 //		   the-gpl parse -type=scripts -site=https://www.yahoo.com
 //		   the-gpl parse -type=scripts -site=https://www.yahoo.com
 //		   the-gpl parse -type=css -site=https://www.yahoo.com
-
+//		   the-gpl parse -type=pretty -site=https://www.yahoo.com
 func InitCli() {
 	cmd.set = flag.NewFlagSet("parse", flag.ContinueOnError)
 	parse = cmd.set.String("type", "outline", "[outline images links scripts]")
@@ -70,13 +70,19 @@ func (m CLI) ExecCmd(args []string) {
 			fmt.Printf("ExecCmd: HTML CSS error: %v", err)
 		}
 		printSlice(images, "CSS in "+*site)
+	case "pretty":
+		text, err := PrettyHTML(*site)
+		if err != nil {
+			fmt.Printf("ExecCmd: HTML Pretty error: %v", err)
+		}
+		printSlice(text, "")
 	}
 
 }
 
 // DisplayHelp prints help on command line for bits module
 func (m CLI) DisplayHelp() {
-	fmt.Println("\nUsage: the-gpl parse a site for links, outline, images etc")
+	fmt.Println("\nUsage: the-gpl parse a site for links, outline, images, pretty etc")
 	m.set.PrintDefaults()
 }
 

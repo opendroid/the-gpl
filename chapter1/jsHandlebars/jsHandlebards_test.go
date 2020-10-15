@@ -1,7 +1,6 @@
 package jsHandlebars
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -23,5 +22,5 @@ func TestContent(t *testing.T) {
 		},
 	}
 	content := Content(restaurants, tmpl)
-	fmt.Printf("%s", content)
+	t.Logf("%s", content)
 }

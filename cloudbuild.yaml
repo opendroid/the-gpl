@@ -4,10 +4,6 @@ steps:
     name: "gcr.io/cloud-builders/go"
     args: ["vet","./..."]
     env: ["PROJECT_ROOT=the-gpl"]
-  - id: test
-    name: "gcr.io/cloud-builders/go"
-    args: ["test","./..."]
-    env: ["PROJECT_ROOT=the-gpl"]
   - id: build
     name: "gcr.io/cloud-builders/docker"
     args: ['build', '--tag=gcr.io/the-gpl/book', '.']

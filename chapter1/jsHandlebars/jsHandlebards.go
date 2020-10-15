@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"github.com/aymerick/raymond"
 )
+
+// Content parse content using handlebars
 func Content(context interface{}, source string) string  {
 	// parse template
 	tpl, err := raymond.Parse(source)
