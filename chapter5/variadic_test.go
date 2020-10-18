@@ -104,7 +104,7 @@ var joinTest = []struct{
 	sep string
 	expected string
 }{
-	{words: []string{"Hello"}, sep: "🎶", expected: "Hello🎶"},
+	{words: []string{"Hello"}, sep: "🎶", expected: "Hello"},
 	{words: []string{"Hello", "World"}, sep: "🌍", expected: "Hello🌍World"},
 	{words: []string{"Hello", "From", "Mars"}, sep: "¯_(ツ)_/¯", expected: "Hello¯_(ツ)_/¯From¯_(ツ)_/¯Mars"},
 	{words: []string{"Black", "Lives", "Matter"}, sep: "♥‿♥", expected: "Black♥‿♥Lives♥‿♥Matter"},
@@ -120,7 +120,7 @@ func TestJoin(t *testing.T) {
 		t.Run(title, func(t *testing.T) {
 			joined := Join(test.sep, test.words...)
 			joinedByStrings := strings.Join(test.words, test.sep)
-			if joined != joinedByStrings {
+			if joined != joinedByStrings && joined != test.expected{
 				t.Logf("Join failed: %v Expected: %s, s.Join=%s, Join=%s", test.words, test.expected, joinedByStrings, joined)
 				t.Fail()
 			}
