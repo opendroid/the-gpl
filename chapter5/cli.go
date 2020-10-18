@@ -15,6 +15,7 @@ type CLI struct {
 var cmd CLI
 var parse *string // Flag that stores value for -type="parse"
 var site *string
+var dir *string // Destination directory to crawl
 
 // InitCli for command: the-gpl parse -site=http://...
 //   eg: the-gpl parse -type=links     -site=https://www.yahoo.com
@@ -24,10 +25,12 @@ var site *string
 //		   the-gpl parse -type=scripts -site=https://www.yahoo.com
 //		   the-gpl parse -type=css -site=https://www.yahoo.com
 //		   the-gpl parse -type=pretty -site=https://www.yahoo.com
+//		   the-gpl parse -type=crawl -site=https://www.yahoo.com -dir=dest-dir
 func InitCli() {
 	cmd.set = flag.NewFlagSet("parse", flag.ContinueOnError)
-	parse = cmd.set.String("type", "outline", "[outline images links scripts]")
+	parse = cmd.set.String("type", "outline", "one of: [links outline images scripts css pretty crawl]")
 	site = cmd.set.String("site", "https://www.yahoo.com/", "-site=https://site.to.parse.com/")
+	dir = cmd.set.String("dir", "~/Downloads/", "-dir=/Users/guest/Downloads # Download to directory /Users/guest/Downloads/www.yahoo.com")
 	serve.Add("parse", cmd)
 }
 
@@ -76,13 +79,18 @@ func (m CLI) ExecCmd(args []string) {
 			fmt.Printf("ExecCmd: HTML Pretty error: %v", err)
 		}
 		printSlice(text, "")
+	case "crawl":
+		n, err := Crawl(*site, *dir)
+		if err != nil {
+			fmt.Printf("ExecCmd: Crrawl error: %v", err)
+		}
+		fmt.Printf("ExecCmd: Crawl %d pages feteched\n", n)
 	}
-
 }
 
 // DisplayHelp prints help on command line for bits module
 func (m CLI) DisplayHelp() {
-	fmt.Println("\nUsage: the-gpl parse a site for links, outline, images, pretty etc")
+	fmt.Println("\nUsage: the-gpl parse a site for links, outline, images, scripts, css, pretty, crawl etc")
 	m.set.PrintDefaults()
 }
 

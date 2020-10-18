@@ -69,7 +69,7 @@ func Fetch(url string) (string, error){
 	return string(data), nil
 }
 
-// FetchSite gets one contents of a URL and returns them as a string
+// FetchSite gets contents of a URL and returns them as a string, wrapper around Fetch.
 func FetchSite (url string) (string, error) {
 	d, err := Fetch(url)
 	if err != nil {

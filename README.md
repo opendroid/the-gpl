@@ -36,7 +36,8 @@ $ the-gpl lissajous -file ~/Downloads/lis.gif -size=1024 -frames=20 -cycles=10
 $ the-gpl parse -type=outline -site=https://www.airbnb.com # Creates a summary outline of a page
 $ the-gpl parse -type=links -site=https://images.google.com #  Prints all links on a webpage
 $ the-gpl parse -type=images -site=https://www.yahoo.com # Fetches image URLs in a site
-$ the-gpl fetch -site=https://google.com  -site=http://www.facebook.com
+$ the-gpl fetch -type=pretty -site=https://www.google.com
+$ the-gpl fetch -type=crawl -site=crawl://www.google.com  -dir=/Users/guest/Downloads # Crawl pages to /Users/guest/Downloads/www.google.com 
 
 # Tests array
 $ the-gpl mas -fn=array
