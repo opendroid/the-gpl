@@ -18,7 +18,7 @@ var port *int
 //   eg: the-gpl server -port=8888 # Starts http on port
 func InitCli() {
 	cmd.set = flag.NewFlagSet("server", flag.ContinueOnError)
-	port = cmd.set.Int("port", 8888, "Port number eg: 8888")
+	port = cmd.set.Int("port", 8080, "Port number eg: 8080")
 	serve.Add("server", cmd)
 }
 

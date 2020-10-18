@@ -52,12 +52,12 @@ func Start(port int) {
 	_ = http.ListenAndServe(address, nil)
 }
 
-func rootHandler(w http.ResponseWriter, r *http.Request) {
+func rootHandler(w http.ResponseWriter, _ *http.Request) {
 	logger.Println("Root Handler func.")
 	_, _ = io.WriteString(w, "Hello from server\n")
 }
 
-func lissajousHandler(w http.ResponseWriter, r *http.Request) {
+func lissajousHandler(w http.ResponseWriter, _ *http.Request) {
 	logger.Println("lissajousHandler.")
 	lissajous.Default(w)
 }

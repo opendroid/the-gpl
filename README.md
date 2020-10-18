@@ -173,7 +173,7 @@ docker run --rm the-gpl:v1 ./the-gpl mas -fn=array
 docker run --rm the-gpl:v1 ./the-gpl mas -fn=slice
 docker run --rm the-gpl:v1 ./the-gpl mas -fn=comp -n1=123 -n2=-1234
 docker run --rm the-gpl:v1 ./the-gpl fetch -site=http://www.google.com -site=http=//www.facebook.com
-docker run -d -p 8888:8888 the-gpl:v1 ./the-gpl server -port=8888
+docker run -d -p 8080:8080 the-gpl:v1 ./the-gpl server -port=8080
 
 docker container ls  # See all your containers
 docker container ps -a # Your docker process
