@@ -21,13 +21,13 @@ var testData = []struct {
 
 // testDataWithOne of int series and expected results
 var testDataWithOne = []struct {
-	numbers       []int
-	optionalFirst int
-	max, min      int
+	numbers  []int
+	first    int
+	max, min int
 }{
-	{numbers: nil, optionalFirst: number42, max: number42, min: number42},
-	{numbers: []int{number42}, optionalFirst: number42, max: number42, min: number42},
-	{numbers: []int{-3, -2, -1, 0, 1, 2, 3}, optionalFirst: number42, max: number42, min: -3},
+	{numbers: nil, first: number42, max: number42, min: number42},
+	{numbers: []int{number42}, first: number42, max: number42, min: number42},
+	{numbers: []int{-3, -2, -1, 0, 1, 2, 3}, first: number42, max: number42, min: -3},
 }
 
 // TestMaxInt gets maximum of integers.
@@ -71,7 +71,7 @@ func TestMaxIntOf(t *testing.T) {
 	for _, test := range testDataWithOne {
 		title := fmt.Sprintf("Max of %d ints", len(test.numbers))
 		t.Run(title, func(t *testing.T) {
-			max := MaxIntOf(test.optionalFirst, test.numbers...)
+			max := MaxIntOf(test.first, test.numbers...)
 			if max != test.max {
 				t.Logf("Failed, Max expected=%d, returned=%d", test.max, max)
 				t.Fail()
@@ -88,7 +88,7 @@ func TestMinIntOf(t *testing.T) {
 	for _, test := range testDataWithOne {
 		title := fmt.Sprintf("Min of %d ints", len(test.numbers))
 		t.Run(title, func(t *testing.T) {
-			min := MinIntOf(test.optionalFirst, test.numbers...)
+			min := MinIntOf(test.first, test.numbers...)
 			if min != test.min {
 				t.Logf("Failed, Min expected=%d, returned=%d", test.min, min)
 				t.Fail()
@@ -98,10 +98,9 @@ func TestMinIntOf(t *testing.T) {
 	}
 }
 
-
-var joinTest = []struct{
-	words []string
-	sep string
+var joinTest = []struct {
+	words    []string
+	sep      string
 	expected string
 }{
 	{words: []string{"Hello"}, sep: "🎶", expected: "Hello"},
@@ -111,6 +110,7 @@ var joinTest = []struct{
 	{words: []string{"I", "have", "a", "dream"}, sep: "✊🏿", expected: "I✊🏿have✊🏿a✊🏿dream"},
 	{words: []string{"Powerful", "dreams", "inspire", "powerful", "action"}, sep: " ", expected: "Powerful dreams inspire powerful action"},
 }
+
 // TestJoin joins words separated by a separator
 //   cd chapter5
 //	 go test -run TestJoin -v
@@ -120,7 +120,7 @@ func TestJoin(t *testing.T) {
 		t.Run(title, func(t *testing.T) {
 			joined := Join(test.sep, test.words...)
 			joinedByStrings := strings.Join(test.words, test.sep)
-			if joined != joinedByStrings && joined != test.expected{
+			if joined != joinedByStrings && joined != test.expected {
 				t.Logf("Join failed: %v Expected: %s, s.Join=%s, Join=%s", test.words, test.expected, joinedByStrings, joined)
 				t.Fail()
 			}
