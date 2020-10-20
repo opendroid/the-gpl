@@ -7,22 +7,22 @@ import (
 var testInts = struct {
 	a []uint
 	b []uint
-}{a: []uint{1, 2, 5, 62, 63, 64, 127, 128, 129, 254, 255, 256, 1022, 1023, 1024},
-	b: []uint{3, 7, 65, 130, 257, 300, 2047},
+}{a: []uint{1, 127, 2, 1022, 5, 62, 63, 128, 129, 254, 255, 256, 1023, 1024, 64},
+	b: []uint{2047, 3, 7, 254, 1024, 65, 130, 640, 257, 300, 512},
 }
 
 // TestIntSet_Has tests if a uint is in set
 //  cd chapter 6
 //  go test -run TestIntSet_Has -v
 func TestIntSet_Has(t *testing.T) {
-	var setA IntSet
+	setA := New()
 	for _, v := range testInts.a {
 		setA.Add(v)
 	}
-	t.Logf("Set A: %v", &setA) // String is on pointer receiver
+	t.Logf("Set A: %v", setA) // String is on pointer receiver
 	for _, v := range testInts.a {
 		if !setA.Has(v) {
-			t.Logf("%d is not in set: %v", v, &setA)
+			t.Logf("%d is not in set: %v", v, setA)
 			t.Fail()
 		}
 	}
@@ -32,11 +32,11 @@ func TestIntSet_Has(t *testing.T) {
 //  cd chapter 6
 //  go test -run TestIntSet_Add -v
 func TestIntSet_Add(t *testing.T) {
-	var setA IntSet
+	setA := New()
 	for _, v := range testInts.a {
 		setA.Add(v)
 	}
-	t.Logf("Set A: %v", &setA) // String is on pointer receiver
+	t.Logf("Set A: %v", setA) // String is on pointer receiver
 }
 
 // TestIntSet_RemoveInts tests remove uint to the set
@@ -77,8 +77,8 @@ func TestIntSet_UnionWith(t *testing.T) {
 	setA.UnionWith(setB)
 	t.Logf("Set A U B: %v", setA) // A U B
 	t.Logf("Len of Set A U B: %d", setA.Len()) // A U B
-	if setA.Len() != 22 {
-		t.Logf("Set A U B is not valid: %v", setA) // A U B
+	if setA.Len() != 24 {
+		t.Logf("Set A U B invalid: %v", setA) // A U B
 		t.Fail()
 	}
 }
