@@ -1,14 +1,15 @@
 package chapter6
 
 import (
+	"sort"
 	"testing"
 )
 
 var testInts = struct {
 	a []uint
 	b []uint
-}{a: []uint{0, 1, 127, 2, 1022, 5, 62, 63, 128, 129, 254, 255, 256, 1023, 1024, 64},
-	b: []uint{2047, 3, 7, 254, 1024, 65, 130, 640, 257, 300, 512},
+}{a: []uint{0, 1, 127, 2, 1022, 5, 62, 63, 128, 129, 254, 255, 256, 1023, 1024, 64, 2147483647},
+	b: []uint{2047, 3, 7, 254, 1024, 65, 130, 640, 257, 300, 512, 4294967295},
 }
 
 // TestIntSet_Has tests if a uint is in set
@@ -57,7 +58,7 @@ func TestIntSet_RemoveInts(t *testing.T) {
 		t.Logf("Item not removed. Still in setA")
 		t.Fail()
 	}
-	if setA.Len() != 10 {
+	if setA.Len() != 11 {
 		t.Logf("Item not removed from SetA: %v", setA) // A U B
 		t.Fail()
 	}
@@ -77,7 +78,7 @@ func TestIntSet_UnionWith(t *testing.T) {
 	setA.UnionWith(setB)
 	t.Logf("Set A U B: %v", setA) // A U B
 	t.Logf("Len of Set A U B: %d", setA.Len()) // A U B
-	if setA.Len() != 25 {
+	if setA.Len() != 27 {
 		t.Logf("Set A U B invalid: %v", setA) // A U B
 		t.Fail()
 	}
@@ -111,4 +112,60 @@ func TestIntSet_Clear(t *testing.T) {
 	}
 	t.Logf("Set A after clearning: %v", setA)
 	t.Logf("Set A length after clearning: %d", setA.Len())
+}
+
+// TestIntSet_Elements gets a slice of elements
+//  cd chapter 6
+//  go test -run TestIntSet_Elements -v
+func TestIntSet_Elements(t *testing.T) {
+	setA := NewWithInts(testInts.a...)
+	expected := make([]uint, len(testInts.a))
+	copy(expected, testInts.a)
+	sort.Slice(expected, func(i, j int) bool {
+		return expected[i] < expected[j]
+	})
+	for i, v := range setA.Elements() {
+		if v != expected[i] {
+			t.Logf("Elements failed: Expected: %d, Got: %d", testInts.a[i], v)
+			t.Fail()
+		}
+	}
+	t.Logf("Set A: %v", setA)
+	t.Logf("Elements A: %v", setA.Elements())
+}
+
+// TestIntSet_Elements gets intersection of two sets
+//  cd chapter 6
+//  go test -run TestIntSet_IntersectWith -v
+func TestIntSet_IntersectWith(t *testing.T) {
+	setA := NewWithInts(testInts.a...)
+	setB := NewWithInts(testInts.b...)
+	intersectAB := setA.IntersectWith(setB)
+	t.Logf("Set A: %v", setA)
+	t.Logf("Set B: %v", setB)
+	t.Logf("Set intersectAB: %v", intersectAB)
+}
+
+// TestIntSet_DifferenceWith gets difference of two sets
+//  cd chapter 6
+//  go test -run TestIntSet_DifferenceWith -v
+func TestIntSet_DifferenceWith(t *testing.T) {
+	setA := NewWithInts(testInts.a...)
+	setB := NewWithInts(testInts.b...)
+	diffAB := setA.DifferenceWith(setB)
+	t.Logf("Set A: %v", setA)
+	t.Logf("Set B: %v", setB)
+	t.Logf("Set intersectAB: %v", diffAB)
+}
+
+// TestIntSet_SymmetricDifference gets symmetric difference of two sets
+//  cd chapter 6
+//  go test -run TestIntSet_SymmetricDifference -v
+func TestIntSet_SymmetricDifference(t *testing.T) {
+	setA := NewWithInts(testInts.a...)
+	setB := NewWithInts(testInts.b...)
+	symDiffAB := setA.SymmetricDifference(setB)
+	t.Logf("Set A: %v", setA)
+	t.Logf("Set B: %v", setB)
+	t.Logf("Set symDiffAB: %v", symDiffAB)
 }
