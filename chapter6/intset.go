@@ -129,11 +129,13 @@ func (s *IntSet) Remove(x uint) {
 		word := el.Value.(IntSetItem) // Get current word
 		word.Word &^= xItem.Word      // clear bit
 		s.count--
-		next := s.getNextListElement(x)
-		if next == nil {
+		next := s.getNextListElement(x) // IF last item in set dont add a zero
+		if next == nil && word.Word != 0 {
 			_ = s.list.PushBack(word)
-		} else {
+		} else if word.Word != 0 {
 			_ = s.list.InsertBefore(word, next)
+		}
+		if word.Word == 0 {
 		}
 		s.list.Remove(el)
 	}
@@ -162,7 +164,7 @@ func (s *IntSet) UnionWith(t *IntSet) {
 			next := sElement.Next()
 			if tItem.Base == sItem.Base { // Found base, update it
 				sItem.Word |= tItem.Word
-				if next == nil {
+				if next == nil && sItem.Word != 0{
 					_ = s.list.PushBack(sItem)
 				} else {
 					_ = s.list.InsertBefore(sItem, next)
@@ -171,7 +173,7 @@ func (s *IntSet) UnionWith(t *IntSet) {
 				break // inner loop
 			}
 			if sItem.Base > tItem.Base { // Found next higher word already.
-				if next == nil {
+				if next == nil && tItem.Word != 0 {
 					_ = s.list.PushBack(tItem)
 				} else {
 					_ = s.list.InsertBefore(tItem, next)

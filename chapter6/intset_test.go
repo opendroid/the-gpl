@@ -7,7 +7,7 @@ import (
 var testInts = struct {
 	a []uint
 	b []uint
-}{a: []uint{1, 127, 2, 1022, 5, 62, 63, 128, 129, 254, 255, 256, 1023, 1024, 64},
+}{a: []uint{0, 1, 127, 2, 1022, 5, 62, 63, 128, 129, 254, 255, 256, 1023, 1024, 64},
 	b: []uint{2047, 3, 7, 254, 1024, 65, 130, 640, 257, 300, 512},
 }
 
@@ -49,15 +49,15 @@ func TestIntSet_RemoveInts(t *testing.T) {
 	}
 	t.Logf("Set A: %v", setA) // String is on pointer receiver
 	t.Logf("Len of Set A before removing: %d", setA.Len())
-	setA.RemoveInts(2, 62, 64, 127)
+	setA.RemoveInts(2, 62, 64, 127, 128, 129)
 	t.Logf("Set A: %v", setA) // String is on pointer receiver
 	t.Logf("Len of Set A after removing: %d", setA.Len())
 
-	if setA.Has(2) || setA.Has(62) || setA.Has(64) || setA.Has(127) {
+	if setA.Has(2) || setA.Has(62) || setA.Has(64) || setA.Has(127) || setA.Has(128) || setA.Has(129){
 		t.Logf("Item not removed. Still in setA")
 		t.Fail()
 	}
-	if setA.Len() != 11 {
+	if setA.Len() != 10 {
 		t.Logf("Item not removed from SetA: %v", setA) // A U B
 		t.Fail()
 	}
@@ -77,7 +77,7 @@ func TestIntSet_UnionWith(t *testing.T) {
 	setA.UnionWith(setB)
 	t.Logf("Set A U B: %v", setA) // A U B
 	t.Logf("Len of Set A U B: %d", setA.Len()) // A U B
-	if setA.Len() != 24 {
+	if setA.Len() != 25 {
 		t.Logf("Set A U B invalid: %v", setA) // A U B
 		t.Fail()
 	}
