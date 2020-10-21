@@ -16,17 +16,28 @@ var testInts = struct {
 //  cd chapter 6
 //  go test -run TestIntSet_Has -v
 func TestIntSet_Has(t *testing.T) {
-	setA := New()
-	for _, v := range testInts.a {
-		setA.Add(v)
-	}
-	t.Logf("Set A: %v", setA) // String is on pointer receiver
-	for _, v := range testInts.a {
-		if !setA.Has(v) {
-			t.Logf("%d is not in set: %v", v, setA)
-			t.Fail()
+	t.Run("Null Set", func(t *testing.T) {
+		var setA *IntSet
+		for _, v := range testInts.a {
+			setA.Add(v)
 		}
-	}
+		setA.Has(5)
+	})
+
+	t.Run("Add numbers to set", func(t *testing.T) {
+		setA := New()
+		for _, v := range testInts.a {
+			setA.Add(v)
+		}
+		t.Logf("Set A: %v", setA) // String is on pointer receiver
+		for _, v := range testInts.a {
+			if !setA.Has(v) {
+				t.Logf("%d is not in set: %v", v, setA)
+				t.Fail()
+			}
+		}
+	})
+
 }
 
 // TestIntSet_Add tests adding uint to the set

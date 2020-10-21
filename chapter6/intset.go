@@ -44,6 +44,9 @@ func NewWithInts(x ...uint) *IntSet {
 
 // getBaseItem gets an element that equals the base (n/64) of the value
 func (s *IntSet) getBaseItem(n uint) *list.Element {
+	if s == nil {
+		return nil
+	}
 	base := int(n / bitsPerWord)
 	var item intSetItem
 	for element := s.list.Front(); element != nil; element = element.Next() {
@@ -57,6 +60,10 @@ func (s *IntSet) getBaseItem(n uint) *list.Element {
 
 // getNextBaseItem gets an element that equals the base (n/64) + 1 of the value
 func (s *IntSet) getNextBaseItem(n uint) *list.Element {
+	if s == nil {
+		return nil
+	}
+
 	base := int(n / bitsPerWord)
 	var item intSetItem
 	for element := s.list.Front(); element != nil; element = element.Next() {
@@ -70,6 +77,9 @@ func (s *IntSet) getNextBaseItem(n uint) *list.Element {
 
 // Has returns true if a positive int x belongs to a set, otherwise false
 func (s *IntSet) Has(x uint) bool {
+	if s == nil {
+		return false
+	}
 	el := s.getBaseItem(x)
 	if el == nil {
 		return false
@@ -81,6 +91,9 @@ func (s *IntSet) Has(x uint) bool {
 
 // Add a positive integer x to the set
 func (s *IntSet) Add(x uint) {
+	if s == nil {
+		return
+	}
 	xItem := intSetItem{
 		base: int(x / bitsPerWord),
 		word: 1 << (x % bitsPerWord),
@@ -114,6 +127,9 @@ func (s *IntSet) AddInts(x ...uint) {
 
 // Remove a positive integer x from the set
 func (s *IntSet) Remove(x uint) {
+	if s == nil {
+		return
+	}
 	if s.Has(x) {
 		el := s.getBaseItem(x)
 		if el == nil {
@@ -222,6 +238,9 @@ func (s *IntSet) Len() int {
 
 // Copy returns copy of set Exercise 6.1
 func (s *IntSet) Copy() *IntSet {
+	if s == nil {
+		return nil
+	}
 	c := New()
 	c.count = s.count
 	c.list.PushFrontList(s.list)
@@ -232,6 +251,9 @@ func (s *IntSet) Copy() *IntSet {
 //   Exercise 6.4: Add a method Elements that returns a slice containing the
 func (s *IntSet) Elements() []uint {
 	var set []uint
+	if s == nil {
+		return set
+	}
 	for element := s.list.Front(); element != nil; element = element.Next() { // Next item in list
 		item := element.Value.(intSetItem)
 		i := item.base
