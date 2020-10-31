@@ -3,7 +3,7 @@ package tempConv
 import (
 	"flag"
 	"fmt"
-	"github.com/opendroid/the-gpl/serve"
+	"github.com/opendroid/the-gpl/serve/shell"
 )
 
 // Section to setup CLI
@@ -17,6 +17,7 @@ type CLI struct {
 var cmd CLI
 var c *float64 // flag for Celsius
 var f *float64 // flag for Fahrenheit
+var k *float64 // flag for Kelvin
 
 // InitCli for the "temp" command
 //   eg: the-gpl temp -c=12 # Converts 12°C to °F
@@ -24,7 +25,8 @@ func InitCli() {
 	cmd.set = flag.NewFlagSet("temp", flag.ContinueOnError)
 	c = cmd.set.Float64("c", float64(FreezingPointC), "°Celsius")
 	f = cmd.set.Float64("f", float64(FreezingPointC), "°Fahrenheit")
-	serve.Add("temp", cmd)
+	k = cmd.set.Float64("k", float64(FreezingPointC), "°Kelvin")
+	shell.Add("temp", cmd)
 }
 
 // ExecCmd run temp conversion command initiated from CLI
@@ -34,8 +36,9 @@ func (t CLI) ExecCmd(args []string) {
 		fmt.Printf("ExecCmd: TempConv Parse Error %s\n", err.Error())
 		return
 	}
-	fmt.Printf("\t%s is %s\n", Celsius(*c), Celsius(*c).ToF())
-	fmt.Printf("\t%s is %s\n", Fahrenheit(*f), Fahrenheit(*f).ToC())
+	fmt.Printf("\t%s is %s = %s\n", Celsius(*c), Celsius(*c).ToF(), Celsius(*c).ToK())
+	fmt.Printf("\t%s is %s = %s\n", Fahrenheit(*f), Fahrenheit(*f).ToC(), Fahrenheit(*f).ToK())
+	fmt.Printf("\t%s is %s = %s\n", Kelvin(*k), Kelvin(*k).ToC(), Kelvin(*k).ToF())
 }
 
 // DisplayHelp prints help on command line for temperature module

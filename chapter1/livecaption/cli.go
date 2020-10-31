@@ -3,7 +3,7 @@ package livecaption
 import (
 	"flag"
 	"fmt"
-	"github.com/opendroid/the-gpl/serve"
+	"github.com/opendroid/the-gpl/serve/shell"
 	"os"
 )
 
@@ -23,7 +23,7 @@ var port *int // flag for stt RTP port
 func InitCli() {
 	cmd.set = flag.NewFlagSet("stt", flag.ContinueOnError)
 	port = cmd.set.Int("port", defaultRTPPort, "RTP Port")
-	serve.Add("stt", cmd) // Register with serve module
+	shell.Add("stt", cmd) // Register with serve module
 }
 
 // ExecCmd run stt command dispatched from CLI

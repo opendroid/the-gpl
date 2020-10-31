@@ -3,7 +3,7 @@ package lissajous
 import (
 	"flag"
 	"fmt"
-	"github.com/opendroid/the-gpl/serve"
+	"github.com/opendroid/the-gpl/serve/shell"
 	"io"
 	"os"
 )
@@ -25,7 +25,7 @@ func InitCli() {
 	size = cmd.set.Int("size", 512, "size of square image")
 	frames = cmd.set.Int("frames", 10, "number of frames")
 	outFileName = cmd.set.String("file", "lis.gif", "name of output file")
-	serve.Add("lissajous", cmd)
+	shell.Add("lissajous", cmd)
 }
 
 // ExecCmd run lissajous count from CLI

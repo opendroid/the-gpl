@@ -2,7 +2,7 @@
 //  command line. A module wishing to participate in CLI need to conform
 //	to CmdHandlers interface and its ExecCmd method will be called when command
 //	matches.
-package serve
+package shell
 
 import (
 	"fmt"

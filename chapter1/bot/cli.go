@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
-	"github.com/opendroid/the-gpl/serve"
+	"github.com/opendroid/the-gpl/serve/shell"
 	"log"
 	"os"
 	"strings"
@@ -33,7 +33,7 @@ func InitCli() {
 	gcpProjectName = cmd.set.String("project", gcpProjectID, "GCP Project Name")
 	lang = cmd.set.String("lang", defaultLanguage, "Bot language en or en-US")
 	chat = cmd.set.Bool("chat", false, "true if you want to chat via command line")
-	serve.Add("bot", cmd)
+	shell.Add("bot", cmd)
 }
 
 // ExecCmd run bot command initiated from CLI

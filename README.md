@@ -15,6 +15,9 @@ You can access the deployed artifacts as:
    - [Eggs Surface](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/egg)
    - [Valley Surface](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/valley)
    - [Sq Surface](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/sq)
+   - [Mandel](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/mandel)
+   - [Mandel BW](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/mandelbw) 
+   - [Echo World](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/echo?q="Hello 🌎🌎🌎")
 
  2. As [docker container image](https://hub.docker.com/repository/docker/uopendocker/the-gpl).
  
@@ -27,21 +30,25 @@ $ the-gpl bot -project=gcp-project-id # Will do a short conversation with a bot.
 $ the-gpl bot -project=gcp-project-id -chat=true # Can send messages from stdin
 $ the-gpl bot -chat=true -project=gcp-project-id -lang=en-US # Chat with a bot in en-US
 $ the-gpl stt -port=9999 # Will listen to RTP stream on port 9999 for 2 minutes and transcribe in real time
-$ the-gpl temp -c=23.3 -f=100.02 # Will convert °C to °F and visa-versa
 $ the-gpl bits -n=0xBAD0FACE # will count 1 bits in n
 
 # Output a Lissajous graph to -file of size 1024 pixels 20 frames and 10 cycles
 $ the-gpl lissajous -file ~/Downloads/lis.gif -size=1024 -frames=20 -cycles=10
 
+# Parse various HTML content of sites URL
 $ the-gpl parse -type=outline -site=https://www.airbnb.com # Creates a summary outline of a page
 $ the-gpl parse -type=links -site=https://images.google.com #  Prints all links on a webpage
 $ the-gpl parse -type=images -site=https://www.yahoo.com # Fetches image URLs in a site
-$ the-gpl fetch -type=pretty -site=https://www.google.com
-$ the-gpl fetch -type=crawl -site=crawl://www.google.com  -dir=/Users/guest/Downloads # Crawl pages to /Users/guest/Downloads/www.google.com 
+$ the-gpl parse -type=pretty -site=https://www.google.com
+$ the-gpl parse -type=crawl -site=https://www.google.com  -dir=/Users/guest/Downloads # Crawl pages to /Users/guest/Downloads/www.google.com 
 
 # Tests array
 $ the-gpl mas -fn=array
 $ the-gpl mas -fn=comp -n1=123 -n2=345
+
+# Temperature utilities
+$ the-gpl temp -c=12 -f=12 -k=12 # Converts 12°C to °C/°F/°K
+$ the-gpl degrees -c=12°F -f=12°K -k=12°C # Converts 12°C to °C/°F/°K
 ```
 
 ## Running from Web

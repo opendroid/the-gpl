@@ -3,7 +3,7 @@ package chapter5
 import (
 	"flag"
 	"fmt"
-	"github.com/opendroid/the-gpl/serve"
+	"github.com/opendroid/the-gpl/serve/shell"
 )
 
 // CLI wrapper for *flag.FlagSet
@@ -31,7 +31,7 @@ func InitCli() {
 	parse = cmd.set.String("type", "outline", "one of: [links outline images scripts css pretty crawl]")
 	site = cmd.set.String("site", "https://www.yahoo.com/", "-site=https://site.to.parse.com/")
 	dir = cmd.set.String("dir", "~/Downloads/", "-dir=/Users/guest/Downloads # Download to directory /Users/guest/Downloads/www.yahoo.com")
-	serve.Add("parse", cmd)
+	shell.Add("parse", cmd)
 }
 
 // ExecCmd run bit count from CLI

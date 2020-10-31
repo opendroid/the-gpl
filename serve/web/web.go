@@ -1,9 +1,9 @@
-// Package webserver serves a sample web server that hosts URLS to
+// Package web serves a sample web server that hosts URLS to
 //	serve various programs in The-GPL book. It is also invokes from the
 //	docker command line to be served on Google Cloud.
 // 	logger prints log messages to standard output, where as fmt.Printf outputs to
 //	http.ResponseWriter
-package webserver
+package web
 
 import (
 	"fmt"
@@ -38,12 +38,12 @@ func Start(port int) {
 
 	http.Handle("/", http.HandlerFunc(rootHandler))
 	http.Handle("/lis", http.HandlerFunc(lissajousHandler))
-	http.Handle("/incr", http.HandlerFunc(incrHandler))
+	http.Handle("/counter", counter)  // Show counter
+	http.Handle("/incr", http.HandlerFunc(incrHandler)) // increment counter
 	http.Handle("/egg", http.HandlerFunc(chapter3.EggHandler))
 	http.Handle("/sinc", http.HandlerFunc(chapter3.SincHandler))
 	http.Handle("/valley", http.HandlerFunc(chapter3.ValleyHandler))
 	http.Handle("/sq", http.HandlerFunc(chapter3.SquaresHandler))
-	http.Handle("/counter", counter)
 	http.Handle("/post", http.HandlerFunc(httpPostInfo))
 	http.Handle("/echo", http.HandlerFunc(echoHandler))
 	http.Handle("/mandel", http.HandlerFunc(chapter3.MBGraphHandler))
