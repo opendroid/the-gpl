@@ -11,6 +11,7 @@ import (
 	"github.com/opendroid/the-gpl/chapter2/tempConv"
 	"github.com/opendroid/the-gpl/chapter5"
 	"github.com/opendroid/the-gpl/chapter7"
+	"github.com/opendroid/the-gpl/chapter8"
 	"github.com/opendroid/the-gpl/serve/shell"
 	"github.com/opendroid/the-gpl/serve/web"
 	"os"
@@ -30,7 +31,7 @@ func main() {
 	mas.InitCli()
 	tempConv.InitCli()
 	web.InitCli()
-
+	chapter8.InitCli()
 
 	// Execute commands
 	shell.ExecCLICmd(os.Args[:])

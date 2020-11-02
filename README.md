@@ -17,7 +17,7 @@ You can access the deployed artifacts as:
    - [Sq Surface](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/sq)
    - [Mandel](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/mandel)
    - [Mandel BW](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/mandelbw) 
-   - [Echo World](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/echo?q="Hello 🌎🌎🌎")
+   - [Echo](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/echo?q=Hello%20%F0%9F%8C%8E%F0%9F%8C%8E%F0%9F%8C%8E)
 
  2. As [docker container image](https://hub.docker.com/repository/docker/uopendocker/the-gpl).
  
@@ -49,6 +49,10 @@ $ the-gpl mas -fn=comp -n1=123 -n2=345
 # Temperature utilities
 $ the-gpl temp -c=12 -f=12 -k=12 # Converts 12°C to °C/°F/°K
 $ the-gpl degrees -c=12°F -f=12°K -k=12°C # Converts 12°C to °C/°F/°K
+
+# Server-client 
+$ the-gpl service -sp="clock:9999" # -sp servicePort start a service for service clock on port 9999
+$ the-gpl client -cp="clock:9999"  # -cp clientPort start a client for service clock on port 9999
 ```
 
 ## Running from Web
