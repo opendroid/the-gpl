@@ -2,7 +2,6 @@ package chapter8
 
 import (
 	"fmt"
-	"io"
 	"net"
 	"os"
 )
@@ -16,13 +15,8 @@ func ClockClient(port int) {
 		return
 	}
 	// Listen on conn
-	tryCopy(os.Stdout, conn)
-}
-
-// tryCopy copies from src reader to dst writer
-func tryCopy(dst io.Writer, src io.Reader) {
-	if _, err := io.Copy(dst, src); err != nil {
-		fmt.Printf("err copy: %v", err)
-		return
-	}
+	defer func() {_ = conn.Close() }()
+	done := make(chan struct{})
+	tryCopy(os.Stdout, conn, done)
+	<- done // Wait for write to finish
 }

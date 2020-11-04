@@ -8,34 +8,46 @@ import (
 	"io"
 	"math/cmplx"
 	"net/http"
+	"sync"
 )
 
 var maxAmp float64
 var scaleX, scaleY func(float64) float64
-func init()  {
+
+func init() {
 	maxAmp = cmplx.Abs(complex(MBXMax, MBYMax))
 	scaleX = scale(MBXMin, MBXMax, MBWidth)
 	scaleY = scale(MBYMin, MBYMax, MBHeight)
 }
+
 // Scale transforms a value to a corresponding value in range
-func scale(min, max, r float64) func (float64) float64 {
+func scale(min, max, r float64) func(float64) float64 {
 	return func(x float64) float64 {
-		return x / r * (max - min) + min
+		return x/r*(max-min) + min
 	}
 }
 
 // mandelbrotImage write a image MBWidth x MBHeight to writer
-func mandelbrotImage(w io.Writer, b MandelbrotImage)  {
+//	Exercise 8.5:
+func mandelbrotImage(w io.Writer, b MandelbrotImage) {
 	img := image.NewRGBA(image.Rect(0, 0, MBWidth, MBHeight))
+	var wg sync.WaitGroup
+	tokens := make(chan struct{}, MaxCPUs) // Limit parallelism
 	for py := 0; py < MBHeight; py++ {
 		y := scaleY(float64(py))
-		for px := 0; px < MBWidth;px++ {
-			x := scaleX(float64(px))
-			z := complex(x, y)
-			img.Set(px, py, mandelbrot(z, b))
-		}
+		wg.Add(1)
+		go func(y float64, py int) {
+			tokens <- struct{}{} // Wait to acquire a token
+			for px := 0; px < MBWidth; px++ {
+				x := scaleX(float64(px))
+				z := complex(x, y)
+				img.Set(px, py, mandelbrot(z, b))
+			}
+			<-tokens  // release a token
+			wg.Done() // Mark done
+		}(y, py) //
 	}
-
+	wg.Wait() // Wait for all  to finish
 	err := png.Encode(w, img)
 	if err != nil {
 		_, _ = fmt.Fprintf(w, "Sorry could not draw Mandelbrot %v\n", err)
@@ -45,14 +57,14 @@ func mandelbrotImage(w io.Writer, b MandelbrotImage)  {
 // mandelbrot returns a color for a z
 func mandelbrot(z complex128, b MandelbrotImage) color.Color {
 	const n = 255 // Iterations
-	const a = 2 // Amplitude
+	const a = 2   // Amplitude
 	var v complex128
 	for i := uint8(0); i < n; i++ {
-		v = v * v + z
+		v = v*v + z
 		if cmplx.Abs(v) > a {
 			switch b {
 			case MBBlackAndWhite:
-				return color.Gray{Y: 255 - MBContrast * i}
+				return color.Gray{Y: 255 - MBContrast*i}
 			case MBColor:
 				return mbColor(z, i)
 			}
@@ -81,9 +93,9 @@ func (cp *colorComponents) SetColor(z complex128, iteration float64) {
 
 // complexAtPixel get complex number at x,y pixels away from z in
 // (MBWidth x MBHeight) space.
-func complexAtPixel(z complex128)  func (float64, float64) complex128{
+func complexAtPixel(z complex128) func(float64, float64) complex128 {
 	return func(r float64, i float64) complex128 {
-		zi := complex( (MBXMax - MBXMin) * r / MBWidth, (MBYMax-MBXMin) * i / MBHeight)
+		zi := complex((MBXMax-MBXMin)*r/MBWidth, (MBYMax-MBXMin)*i/MBHeight)
 		zp := z + zi
 		return zp
 	}

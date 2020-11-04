@@ -29,16 +29,16 @@ var clientPort *string // Flag that stores value for -type="clock:port"
 // InitCli initialize the services APIs
 func InitCli() {
 	cmdServer.set = flag.NewFlagSet("service", flag.ContinueOnError)
-	serverPort = cmdServer.set.String("sp", "clock:9999", "server-type:port eg \"clock:9999\"")
+	serverPort = cmdServer.set.String("sp", "clock:9999", "server-type:port eg: \"clock:9999\" or \"reverb:9998\" or \"ftp:9997\"")
 	shell.Add("service", cmdServer)
 
 	cmdClient.set = flag.NewFlagSet("client", flag.ContinueOnError)
-	clientPort = cmdClient.set.String("cp", "clock:9999", "client-type:port eg \"clock:9999\"")
+	clientPort = cmdClient.set.String("cp", "clock:9999", "client-type:port eg \"clock:9999\" or \"reverb:9998\"")
 	shell.Add("client", cmdClient)
 }
 
 // Implement CLI for server side
-// ExecCmd executes a specific command
+// ExecCmd executes a specific service command
 func (m CliServer) ExecCmd(args []string) {
 	err := m.set.Parse(args)
 	if err != nil {
@@ -54,13 +54,20 @@ func (m CliServer) ExecCmd(args []string) {
 	port, _ := strconv.Atoi(params[1])
 	switch service {
 	case "clock":
-		fmt.Printf("Started %q service on %d\n", service, port)
+		fmt.Printf("Started %q service on port %d\n", service, port)
 		ClockServer(port)
+	case "reverb":
+		fmt.Printf("Started %q service on port %d\n", service, port)
+		ReverbServer(port)
+	case "ftp":
+		fmt.Printf("Started %q service on port %d\n", service, port)
+		FTPServer(port)
 	default:
 		fmt.Printf("service %s not implemented\n", service)
 	}
 }
 
+// DisplayHelp for the services
 func (m CliServer) DisplayHelp() {
 	fmt.Println("\nUsage: the-gpl service -sp=\"clock:9999\" # Starts a clock service on port 9999.")
 	m.set.PrintDefaults()
@@ -86,12 +93,17 @@ func (m CliClient) ExecCmd(args []string) {
 	case "clock":
 		fmt.Printf("Started %q client on %d\n", client, port)
 		ClockClient(port)
+	case "reverb":
+		fmt.Printf("Started %q client on %d\n", client, port)
+		ReverbClient(port)
 	default:
 		fmt.Printf("client %s not implemented\n", client)
 	}
 }
 
+// DisplayHelp for the service modules
 func (m CliClient) DisplayHelp() {
 	fmt.Println("\nUsage: the-gpl service -cp=\"clock:9999\" # Listens to a clock service on port 9999.")
+
 	m.set.PrintDefaults()
 }

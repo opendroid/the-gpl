@@ -51,8 +51,11 @@ $ the-gpl temp -c=12 -f=12 -k=12 # Converts 12°C to °C/°F/°K
 $ the-gpl degrees -c=12°F -f=12°K -k=12°C # Converts 12°C to °C/°F/°K
 
 # Server-client 
-$ the-gpl service -sp="clock:9999" # -sp servicePort start a service for service clock on port 9999
-$ the-gpl client -cp="clock:9999"  # -cp clientPort start a client for service clock on port 9999
+$ the-gpl service -sp="clock:9999"  # -sp servicePort start clock  service on port 9999
+$ the-gpl client  -cp="clock:9999"  # -cp clientPort  start clock  client  on port 9999
+$ nc localhost 9999                 # use Mac netcat 'nc' client on port 9999
+$ the-gpl service -sp="reverb:9998" # -sp servicePort start reverb service on port 9998
+$ the-gpl client  -cp="reverb:9998" # -cp clientPort  start reverb client  on port 9998
 ```
 
 ## Running from Web
@@ -60,7 +63,6 @@ You can access various example outputs using Google cloud run.
 
 ```shell script
 $ the-gpl server -port=8081 # start a web server at port 8081.
-
 ```
 
 ## Command go

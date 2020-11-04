@@ -8,13 +8,20 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"sync"
 	"time"
+)
+
+var (
+	// MaxCPUs for concurrency
+	MaxCPUs int = 4
 )
 
 // Crawl a webpage and downloads pages in that domain and saves results in destination dir.
 //   Exercise 5.13: Modify crawl to make local copies of the pages it finds, creating directories as necessary.
 //   Don’t make copies of pages that come from a different domain. For example, if the original page comes
 //   from golang.org, save all files from there, but exclude ones from vimeo.com.
+//	 Added concurrency as part of chapter 8
 func Crawl(site, dir string) (int, error) {
 	if site == "" {
 		return 0, fmt.Errorf("no site to crawl")
@@ -36,21 +43,33 @@ func Crawl(site, dir string) (int, error) {
 
 	// etch pages on each page
 	var nPages int
+	var wg sync.WaitGroup
+	var m sync.Mutex
+	tokens := make(chan struct{}, MaxCPUs) // Limit parallelism
 	for i, link := range linksOnPage {
-		data, err := channels.FetchSite(link)
-		if err != nil {
-			fmt.Printf("Crawl Crawling %v\n", err)
-			continue
-		}
-		fName := getPathFileName(dir, link)
-		err = ioutil.WriteFile(fName, []byte(data), os.ModePerm)
-		if err != nil {
-			fmt.Printf("Crawl error writing: %v\n", err)
-			continue
-		}
-		fmt.Printf("Crawl: [%d]: %s, Saved in %s\n", i + 1, site, fName)
-		nPages++
+		wg.Add(1)
+		go func(i int, link string) {
+			defer func() { wg.Done(); <-tokens }()
+			tokens <- struct{}{}
+			data, err := channels.FetchSite(link)
+			if err != nil {
+				fmt.Printf("Crawl Crawling %v\n", err)
+				return
+			}
+			fName := getPathFileName(dir, link)
+			err = ioutil.WriteFile(fName, []byte(data), os.ModePerm)
+			if err != nil {
+				fmt.Printf("Crawl error writing: %v\n", err)
+				return
+			}
+			fmt.Printf("Crawl: [%d]: %s, Saved in %s\n", i+1, site, fName)
+
+			m.Lock()
+			nPages++ // Shared variable
+			m.Unlock()
+		}(i, link) // Avoid local variable address capture trap
 	}
+	wg.Wait() // Wait for all links to be fetched.
 	return nPages, nil
 }
 
@@ -65,7 +84,7 @@ func getPathFileName(dir, link string) string {
 
 	// Remove ending "/"
 	if strings.HasSuffix(basePath, "/") {
-		basePath = basePath[0:len(basePath)-1]
+		basePath = basePath[0 : len(basePath)-1]
 	}
 
 	// If no link provided use temp

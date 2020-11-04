@@ -11,7 +11,7 @@ func ClockServer(port int) {
 	address := fmt.Sprintf("localhost:%d", port)
 	listener, err := net.Listen("tcp", address)
 	if err != nil {
-		fmt.Printf("err in port %v", err)
+		fmt.Printf("err in clock port %v", err)
 		return
 	}
 
@@ -22,20 +22,23 @@ func ClockServer(port int) {
 			fmt.Printf("connection aborted: %v", err)
 			continue
 		}
-		go seconds(conn)
+		go clockHandler(conn)
 	}
 }
 
-// seconds print time every second to a connection
-func seconds(c net.Conn) {
-	defer func() {_ = c.Close()}() // Close connection when done
-	fmt.Println("Starting connection.")
+// clockHandler print time every second to a connection
+func clockHandler(c net.Conn) {
+	defer func() {
+		_ = c.Close()
+		fmt.Printf("\nClosing close connection %s\n", c.LocalAddr())
+	}() // Close connection when done
+	fmt.Println("Starting clock service connection.")
 	for {
 		_, err := fmt.Fprintf(c, "%s", time.Now().Format("15:04:05\n"))
 		if err != nil {
 			fmt.Printf("closing %v", err)
 			return
 		}
-		time.Sleep(1 * time.Second)
+		time.Sleep(ClockDelay * time.Second)
 	}
 }
