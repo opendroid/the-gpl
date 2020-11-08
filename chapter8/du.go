@@ -68,9 +68,9 @@ func DU(dir string, verbose bool) int64 {
 		close(sizes)
 	}()
 	// go-routine 3 (this): wait and read sizes from channel
-	var tick <-chan time.Time
+	var ticker *time.Ticker
 	if verbose {
-		tick = time.Tick(1 * time.Second)
+		ticker = time.NewTicker(1 * time.Second)
 	}
 	var du, nFiles int64
 waitLoop:
@@ -82,12 +82,13 @@ waitLoop:
 			}
 			du += sz
 			nFiles++
-		case <-tick:
+		case <-ticker.C:
 			printDU(nFiles, du)
 		}
 	}
 	// go-routine 2:
 	printDU(nFiles, du)
+	ticker.Stop()
 	return du
 }
 
