@@ -56,8 +56,8 @@ $ the-gpl client  -cp="clock:9999"  # -cp clientPort  start clock  client  on po
 $ nc localhost 9999                 # use Mac netcat 'nc' client on port 9999
 $ the-gpl service -sp="reverb:9998" # -sp servicePort start reverb service on port 9998
 $ the-gpl client  -cp="reverb:9998" # -cp clientPort  start reverb client  on port 9998
-$ the-gpl % the-gpl service  -sp="chat:9997" # starts a chat service. Join using:
-$ nc localhost 9997
+$ the-gpl service -sp="chat:9997"   # starts a chat service. Join using:
+$ nc localhost 9997                 # Joins chat session as a client
 
 # du: Disk Usage calculates size of all files in a directory recursively, using go-routines
 $ the-gpl du -dir=$HOME/gocode

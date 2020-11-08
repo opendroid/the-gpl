@@ -64,7 +64,7 @@ func chatHandler(c net.Conn) {
 	client := make(chan string) // Outgoing channel, to send messages to user
 	go clientMessage(c, client)
 	who := c.RemoteAddr().String()
-	client <- "Welcome " + who
+	client <- "Welcome " + who + "."
 	messages <- who + " entered chat."
 	entering <- client // client has entered, send broadcast messages to this on this channel
 
