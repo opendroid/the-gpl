@@ -40,11 +40,11 @@ var verbose *bool // Flag that stores value for -dir="./"
 // InitCli initialize the services APIs
 func InitCli() {
 	cmdServer.set = flag.NewFlagSet("service", flag.ContinueOnError)
-	serverPort = cmdServer.set.String("sp", "clock:9999", "service-type:port eg: \"clock:9999\" or \"reverb:9998\" or \"ftp:9997\"")
+	serverPort = cmdServer.set.String("sp", "clock:9999", "service-type:port eg: \"clock:9999\" or \"reverb:9998\" or \"ftp:9997\"  or \"chat:9998\"")
 	shell.Add("service", cmdServer)
 
 	cmdClient.set = flag.NewFlagSet("client", flag.ContinueOnError)
-	clientPort = cmdClient.set.String("cp", "clock:9999", "client-type:port eg \"clock:9999\" or \"reverb:9998\"")
+	clientPort = cmdClient.set.String("cp", "clock:9999", "client-type:port eg \"clock:9999\" or \"reverb:9998\" or \"chat:9998\"")
 	shell.Add("client", cmdClient)
 
 	cmdDu.set = flag.NewFlagSet("du", flag.ContinueOnError)
@@ -78,6 +78,9 @@ func (m CliService) ExecCmd(args []string) {
 	case "ftp":
 		fmt.Printf("Started %q service on port %d\n", service, port)
 		FTPServer(port)
+	case "chat":
+		fmt.Printf("Started %q service on port %d\n", service, port)
+		ChatService(port)
 	default:
 		fmt.Printf("service %s not implemented\n", service)
 	}
