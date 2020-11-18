@@ -3,6 +3,7 @@ package web
 import (
 	"flag"
 	"fmt"
+	"github.com/opendroid/the-gpl/logger"
 	"github.com/opendroid/the-gpl/serve/shell"
 )
 
@@ -41,16 +42,17 @@ func (s CLI) DisplayHelp() {
 // startServer starts the server on port
 func startServer(port int) {
 	prefix := fmt.Sprintf("http://localhost:%d/", port)
-	logger.Println("Starting server, sample URLs:")
-	logger.Println(prefix)
-	logger.Printf("%sgraph\n", prefix)
-	logger.Printf("%segg\n", prefix)
-	logger.Printf("%ssinc\n", prefix)
-	logger.Printf("%smandel\n", prefix)
-	logger.Printf("%smandelbw\n", prefix)
-	logger.Printf("%sincr\n", prefix)
-	logger.Printf("%scounter\n", prefix)
-	logger.Println(prefix+`/echo?q="You can echo this back"`)
-	logger.Println(prefix+`post?q="Go"&r="Vote"&year="2020"`)
+	logger.Log.Println("Starting server, sample URLs:")
+	logger.Log.Println(prefix)
+	logger.Log.Printf("%sgraph\n", prefix)
+	logger.Log.Printf("%segg\n", prefix)
+	logger.Log.Printf("%ssinc\n", prefix)
+	logger.Log.Printf("%ssearch?q=%q&imeout=3s\n", prefix, "The Go Programming Language")
+	logger.Log.Printf("%smandel\n", prefix)
+	logger.Log.Printf("%smandelbw\n", prefix)
+	logger.Log.Printf("%sincr\n", prefix)
+	logger.Log.Printf("%scounter\n", prefix)
+	logger.Log.Println(prefix+`/echo?q="You can echo this back"`)
+	logger.Log.Println(prefix+`post?q="Go"&r="Vote"&year="2020"`)
 	Start(port)
 }

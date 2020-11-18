@@ -29,8 +29,8 @@ const (
 	MBContrast = 100
 	// MBSubPixels number of pixels to take average for super aliasing
 	MBSubPixels = 4
-	// MaxCPUs for concurrency
-	MaxCPUs = 4
+	// MaxGoRoutines for concurrency
+	MaxGoRoutines = 32
 )
 
 type MandelbrotImage int

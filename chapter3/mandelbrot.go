@@ -32,7 +32,7 @@ func scale(min, max, r float64) func(float64) float64 {
 func mandelbrotImage(w io.Writer, b MandelbrotImage) {
 	img := image.NewRGBA(image.Rect(0, 0, MBWidth, MBHeight))
 	var wg sync.WaitGroup
-	tokens := make(chan struct{}, MaxCPUs) // Limit parallelism
+	tokens := make(chan struct{}, MaxGoRoutines) // Limit parallelism
 	for py := 0; py < MBHeight; py++ {
 		y := scaleY(float64(py))
 		wg.Add(1)

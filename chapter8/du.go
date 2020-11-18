@@ -13,7 +13,7 @@ import (
 // Prints, size of files in B, KB, MB and GB:
 // 723464 files: 17730797665.0 B, 17730797.7 KB, 17730.8 MB, 17.7 GB
 // It uses, three types of go-routines in a cooperatively to calculate  this:
-//   walkDir go-routine: spawns MaxCPUs parallel, and each spawn pipe file-sizes to 'sizes' channel.
+//   walkDir go-routine: spawns MaxGoRoutines parallel, and each spawn pipe file-sizes to 'sizes' channel.
 //   anon go-routine-1: closes the 'sizes' channel when walkDir routines are done
 //	 anon go-routine-2:
 //				adds all sizes by reading each filesize from channel 'sizes'
@@ -23,12 +23,13 @@ import (
 //    Solution 2: Implement cancel mechanism using separate  cancel or done channel.
 //			The sender go-routines monitor it and stop further processing if 'done' is closed.
 
-// MaxCPUs number of parallel go-routines
-const MaxCPUs int = 8
-var sema = make(chan struct{}, MaxCPUs) // sema counting semaphore to  run
-var wg sync.WaitGroup                   // Wait for all walkDir go calls to  finish
+// MaxGoRoutines number of parallel go-routines
+const MaxOpenFiles = 1024 // Reduce number of open system files
+const MaxGoRoutines = MaxOpenFiles/2
+var sema = make(chan struct{}, MaxGoRoutines) // sema counting semaphore to  run
+var wg sync.WaitGroup                         // Wait for all walkDir go calls to  finish
 
-// walkDir traverses dir tree and  puts size of each file in channel 'sizes'
+// walkDir traverses dir tree and  puts size of each fil	e in channel 'sizes'
 func walkDir(dir string, sizes chan<- int64) {
 	defer wg.Done()
 	for _, entry := range dirEntry(dir) {
@@ -42,7 +43,7 @@ func walkDir(dir string, sizes chan<- int64) {
 }
 
 // dirEntry reads files in a directory and returns entries for  all.
-//	Runs a max  of MaxCPUs of these goroutines  in parallel
+//	Runs a max  of MaxGoRoutines of these goroutines  in parallel
 func dirEntry(dir string) []os.FileInfo {
 	defer func() { <-sema }() // Release  semaphore,  when done
 	sema <- struct{}{}        // Acquire semaphore
@@ -69,8 +70,9 @@ func DU(dir string, verbose bool) int64 {
 	}()
 	// go-routine 3 (this): wait and read sizes from channel
 	var ticker *time.Ticker
-	if verbose {
-		ticker = time.NewTicker(1 * time.Second)
+	ticker = time.NewTicker(1 * time.Second)
+	if !verbose {
+		ticker.Stop()
 	}
 	var du, nFiles int64
 waitLoop:
@@ -88,7 +90,9 @@ waitLoop:
 	}
 	// go-routine 2:
 	printDU(nFiles, du)
-	ticker.Stop()
+	if verbose {
+		ticker.Stop()
+	}
 	return du
 }
 

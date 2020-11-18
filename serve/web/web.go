@@ -9,10 +9,11 @@ import (
 	"fmt"
 	"github.com/opendroid/the-gpl/chapter1/lissajous"
 	"github.com/opendroid/the-gpl/chapter3"
+	"github.com/opendroid/the-gpl/chapter8/search"
+	"github.com/opendroid/the-gpl/logger"
 	"io"
 	"log"
 	"net/http"
-	"os"
 	"sync"
 )
 
@@ -20,8 +21,6 @@ import (
 // mutex provides safe read and write for counter variable
 var mutex sync.Mutex
 var counter int
-// logger serves logged messages with a known prefix
-var logger = log.New(os.Stdout, "[GPL-SERVER] ", log.LstdFlags)
 
 // Start a server that hosts pages:
 // 	/ - root page
@@ -42,6 +41,7 @@ func Start(port int) {
 	http.Handle("/incr", http.HandlerFunc(incrHandler)) // increment counter
 	http.Handle("/egg", http.HandlerFunc(chapter3.EggHandler))
 	http.Handle("/sinc", http.HandlerFunc(chapter3.SincHandler))
+	http.Handle("/search", http.HandlerFunc(search.Query))
 	http.Handle("/valley", http.HandlerFunc(chapter3.ValleyHandler))
 	http.Handle("/sq", http.HandlerFunc(chapter3.SquaresHandler))
 	http.Handle("/post", http.HandlerFunc(httpPostInfo))
@@ -53,17 +53,17 @@ func Start(port int) {
 }
 
 func rootHandler(w http.ResponseWriter, _ *http.Request) {
-	logger.Println("Root Handler func.")
+	logger.Log.Println("Root Handler func.")
 	_, _ = io.WriteString(w, "Hello from server\n")
 }
 
 func lissajousHandler(w http.ResponseWriter, _ *http.Request) {
-	logger.Println("lissajousHandler.")
+	logger.Log.Println("lissajousHandler.")
 	lissajous.Default(w)
 }
 
 func echoHandler(w http.ResponseWriter, r *http.Request) {
-	logger.Println("echoHandler.")
+	logger.Log.Println("echoHandler.")
 	// Parse query params first
 	qs, ok := r.URL.Query()["q"]
 	if !ok || len(qs[0]) < 1 {
@@ -76,7 +76,7 @@ func echoHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func incrHandler(w http.ResponseWriter, r *http.Request) {
-	logger.Println("incrHandler.")
+	logger.Log.Println("incrHandler.")
 	mutex.Lock()
 	counter++
 	mutex.Unlock()
@@ -103,7 +103,7 @@ func httpPostInfo(w http.ResponseWriter, r *http.Request) {
 
 	// Parse form first, reduces scope of 'err'
 	if err := r.ParseForm(); err != nil {
-		logger.Print(err)
+		logger.Log.Print(err)
 	}
 	for k, v := range r.Form {
 		_, _ = fmt.Fprintf(w, "Form[%s]: %s\n", k, v)
