@@ -1,3 +1,4 @@
+// Package channels provides basic examples of channels for functions that can be called as goroutine.
 package channels
 
 import (
@@ -53,7 +54,7 @@ func FetchTimeInfo(url string, ch chan<- string) {
 }
 
 // Fetch returns an HTML page of the websites and return data in a channel
-func Fetch(url string) (string, error){
+func Fetch(url string) (string, error) {
 	resp, err := http.Get(url)
 	if err != nil {
 		return "", fmt.Errorf("err: %v", err)
@@ -70,7 +71,7 @@ func Fetch(url string) (string, error){
 }
 
 // FetchSite gets contents of a URL and returns them as a string, wrapper around Fetch.
-func FetchSite (url string) (string, error) {
+func FetchSite(url string) (string, error) {
 	d, err := Fetch(url)
 	if err != nil {
 		return "", err

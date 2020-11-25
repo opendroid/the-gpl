@@ -93,8 +93,10 @@ func createPath(nSeps int) []byte {
 //   cd chapter3
 //   go test -bench=BenchmarkComma -benchmem
 func benchmarkComma(b *testing.B, sz int) {
+	b.StopTimer()
 	p := createALargeSeqOfBytes(sz)
 	s := fmt.Sprintf("%x", p)
+	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		_ = Comma(s)
 	}
@@ -105,8 +107,10 @@ func BenchmarkComma10K(b *testing.B)      { benchmarkComma(b, t10K) }
 func BenchmarkCommaMaxInt16(b *testing.B) { benchmarkComma(b, math.MaxInt16) }
 
 func benchmarkCommaWithBuf(b *testing.B, sz int) {
+	b.StopTimer()
 	p := createALargeSeqOfBytes(sz)
 	s := fmt.Sprintf("%x", p)
+	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		_ = CommaWithBuf(s)
 	}

@@ -1,3 +1,4 @@
+// Package structs provide example of a struct and its receiver or pointer receiver methods.
 package structs
 
 import "fmt"

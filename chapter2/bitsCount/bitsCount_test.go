@@ -1,6 +1,7 @@
 package bitsCount
 
 import (
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"math"
 	"testing"
@@ -79,3 +80,21 @@ func BenchmarkBitCount(b *testing.B) {
 *   BitCountEachOne took 39 ns per operation averaged over      30,810,038 runs
 *   BenchmarkBitCount-12   <1 nc per operation averaged over 1,000,000,000 runs
 */
+
+// ExampleBitCountByTableLookup example counts bits in a 64 bit int using byte lookup table.
+func ExampleBitCountByTableLookup() {
+	const a64bUInt uint64 = 0xC0FFEEBAACE0BABE
+	a64IntBits := BitCountByTableLookup(a64bUInt)
+	fmt.Printf("There are %d one bits in 0x%X\n", a64IntBits, a64bUInt)
+	// Output:
+	// There are 39 one bits in 0xC0FFEEBAACE0BABE
+}
+
+// ExampleBitCountEachOne example counts bits in a 64 bit int one bit at a time
+func ExampleBitCountEachOne() {
+	const a64bUInt uint64 = 0xC0FFEEBAACE0BABE
+	a64IntBits := BitCountEachOne(a64bUInt)
+	fmt.Printf("There are %d one bits in 0x%X\n", a64IntBits, a64bUInt)
+	// Output:
+	// There are 39 one bits in 0xC0FFEEBAACE0BABE
+}

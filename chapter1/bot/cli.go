@@ -21,8 +21,9 @@ type CLI struct {
 
 var cmd CLI
 var gcpProjectName *string // flag for GCP Project
-var lang *string // language code
+var lang *string           // language code
 var chat *bool
+var env *string
 
 // InitCli for command: the-gpl bot -project=gcp-project -lang=en-US -chat=true
 //   eg: the-gpl bot -project=gcp-project # does a predefined conversation with DF agent
@@ -33,6 +34,7 @@ func InitCli() {
 	gcpProjectName = cmd.set.String("project", gcpProjectID, "GCP Project Name")
 	lang = cmd.set.String("lang", defaultLanguage, "Bot language en or en-US")
 	chat = cmd.set.Bool("chat", false, "true if you want to chat via command line")
+	env = cmd.set.String("env", string(dfDraft), "name of environment to connect with")
 	shell.Add("bot", cmd)
 }
 
@@ -50,7 +52,7 @@ func (b CLI) ExecCmd(args []string) {
 		l.Printf("ExecCmd: Bot Error Creating DF session %s\n", err.Error())
 		return
 	}
-	s := NewSession(dfStaging, *gcpProjectName)
+	s := NewSession(dfEnv(*env), *gcpProjectName)
 	// Read from std input or use existing text
 	var scan *bufio.Scanner
 	if *chat {

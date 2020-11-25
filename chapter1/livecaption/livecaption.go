@@ -1,7 +1,6 @@
 // Package livecaption implements Google speech-to-text API.
-//  It inputs audio from RTP stream and associates a connection with GCP and displays
-//  the output on terminal. Red color text is not final and Green color
-//  text is final output of speech recognizer.
+// It inputs audio from RTP stream and associates a connection with GCP and displays the output on terminal.
+// Red color text is not final and Green color text is final output of speech recognizer.
 package livecaption
 
 import (
@@ -25,8 +24,8 @@ func StreamAudioFile(fName string, w io.Writer) {
 		_, _ = fmt.Fprintf(w, "Error reading livecaption file: %s\n", err)
 		return
 	}
-	defer func() {_ = f.Close()}() // Ignore error
-	var wg sync.WaitGroup // run sending and receiving stream in parallel
+	defer func() { _ = f.Close() }() // Ignore error
+	var wg sync.WaitGroup            // run sending and receiving stream in parallel
 	wg.Add(nDoers)
 	StreamSpeechToText(w, bufio.NewReader(f), &wg)
 	wg.Wait() // Wait for it to finish.
@@ -43,7 +42,7 @@ func StreamRTPPort(address string, w io.Writer) {
 		_, _ = fmt.Fprintf(w, "Error DialUDP: %v\n", err)
 		return
 	}
-	defer func() {_ = conn.Close()}()
+	defer func() { _ = conn.Close() }()
 	_, _ = fmt.Fprintf(w, "listening on %v\n", conn.LocalAddr().String())
 	var wg sync.WaitGroup // run sending and receiving stream in parallel
 	wg.Add(nDoers)
@@ -166,7 +165,7 @@ func recvStreamFromGCP(w io.Writer, s speechpb.Speech_StreamingRecognizeClient,
 }
 
 // Shows transcript on a Mac Terminal
-func showTranscript(result *speechpb.StreamingRecognitionResult, w io.Writer)  {
+func showTranscript(result *speechpb.StreamingRecognitionResult, w io.Writer) {
 	if speakerShowIntermediate {
 		col := Red
 		nl := ""

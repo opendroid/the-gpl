@@ -1,4 +1,4 @@
-// userip package is similar to golang.org/x/blog/content/context/userip
+// Package userip is similar to golang.org/x/blog/content/context/userip
 package userip
 
 import (
@@ -12,15 +12,15 @@ import (
 type key int
 
 // userIPKey where userIP is stored
-const userIPKey key  = 0
+const userIPKey key = 0
 
 // FromRequest gets the userIP from a request
-func FromRequest(req * http.Request) (net.IP, error) {
+func FromRequest(req *http.Request) (net.IP, error) {
 	ip, _, err := net.SplitHostPort(req.RemoteAddr)
 	if err != nil {
 		return nil, fmt.Errorf("userip: %q is not a IP:port", req.RemoteAddr)
 	}
-	userIP  := net.ParseIP(ip)
+	userIP := net.ParseIP(ip)
 	if userIP == nil {
 		return nil, fmt.Errorf("userip: %q is not a IP:port", req.RemoteAddr)
 	}

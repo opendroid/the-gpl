@@ -25,7 +25,8 @@ import (
 
 // MaxGoRoutines number of parallel go-routines
 const MaxOpenFiles = 1024 // Reduce number of open system files
-const MaxGoRoutines = MaxOpenFiles/2
+const MaxGoRoutines = MaxOpenFiles / 2
+
 var sema = make(chan struct{}, MaxGoRoutines) // sema counting semaphore to  run
 var wg sync.WaitGroup                         // Wait for all walkDir go calls to  finish
 
@@ -69,8 +70,7 @@ func DU(dir string, verbose bool) int64 {
 		close(sizes)
 	}()
 	// go-routine 3 (this): wait and read sizes from channel
-	var ticker *time.Ticker
-	ticker = time.NewTicker(1 * time.Second)
+	ticker := time.NewTicker(1 * time.Second)
 	if !verbose {
 		ticker.Stop()
 	}
@@ -79,7 +79,7 @@ waitLoop:
 	for {
 		select { // No  mutex needed, select does only one of the channel operations
 		case sz, open := <-sizes:
-			if !open {  //  channel is closed
+			if !open { //  channel is closed
 				break waitLoop
 			}
 			du += sz

@@ -1,3 +1,4 @@
+// Package jsHandlebars is an example program of raymond handlebar library.
 package jsHandlebars
 
 import (
@@ -6,7 +7,7 @@ import (
 )
 
 // Content parse content using handlebars
-func Content(context interface{}, source string) string  {
+func Content(context interface{}, source string) string {
 	// parse template
 	tpl, err := raymond.Parse(source)
 	if err != nil {

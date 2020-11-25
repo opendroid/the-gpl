@@ -1,3 +1,4 @@
+// Package search composes a search request with user IP and user query.
 package search
 
 import (
@@ -18,7 +19,7 @@ import (
 func Query(w http.ResponseWriter, req *http.Request) {
 	// Create  context and cancel
 	var (
-		ctx context.Context // Context of this handler propagated to sub callers.
+		ctx    context.Context    // Context of this handler propagated to sub callers.
 		cancel context.CancelFunc // Calling cancel close ctx.Done() channel, providing cancellation signal
 	)
 	timeout, err := time.ParseDuration(req.FormValue("timeout"))
@@ -30,7 +31,7 @@ func Query(w http.ResponseWriter, req *http.Request) {
 	defer cancel() // Cancel context when done
 
 	// Check search query
-	q  := req.FormValue("q")
+	q := req.FormValue("q")
 	if q == "" {
 		http.Error(w, "no query", http.StatusBadRequest)
 		return
@@ -54,7 +55,7 @@ func Query(w http.ResponseWriter, req *http.Request) {
 	}
 	elapsed := time.Since(start)
 	if err := resultsTemplate.Execute(w, struct {
-		Results google.Results
+		Results          google.Results
 		Timeout, Elapsed time.Duration
 	}{
 		Results: results,

@@ -5,6 +5,7 @@ import (
 	"testing"
 )
 
+// TestDuplicateLines dummy tests always passed
 // cd dup
 // go test -run TestDuplicateLines -v
 func TestDuplicateLines(t *testing.T) {

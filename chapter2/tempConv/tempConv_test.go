@@ -1,6 +1,7 @@
 package tempConv
 
 import (
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -29,4 +30,18 @@ func Test_ToC(t *testing.T) {
 	assert.Equal(t, "0.00°C", freezingC)
 	assert.Equal(t, "-273.15°C", absoluteZeroC)
 	t.Logf("BP = %s, FP = %s, Abs = %s", boilingPointC, freezingC, absoluteZeroC)
+}
+
+// ExampleFahrenheit_ToC
+func ExampleFahrenheit_ToC() {
+	boilingPointC := BoilingPointF.ToC().String()
+	absoluteZeroC := AbsoluteZeroF.ToC().String()
+	freezingC := FreezingPointF.ToC().String()
+	fmt.Println(boilingPointC)
+	fmt.Println(absoluteZeroC)
+	fmt.Println(freezingC)
+	// Output:
+	// 100.00°C
+	// -273.15°C
+	// 0.00°C
 }

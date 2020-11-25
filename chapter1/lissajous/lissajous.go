@@ -1,3 +1,4 @@
+// Package lissajous outputs a .png image to a writer.
 package lissajous
 
 import (

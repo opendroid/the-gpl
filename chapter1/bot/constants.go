@@ -13,7 +13,7 @@ type dfEnv string
 
 // Dialog flow environmental names
 const (
-	_               = "DRAFT" // DRAFT environment
+	dfDraft         = "DRAFT" // DRAFT environment
 	dfStaging dfEnv = "STAGING"
 	dfProd    dfEnv = "PROD"
 )
@@ -62,4 +62,5 @@ type SessionClient struct {
 // Avoid warnings
 var (
 	_ = enUSLanguage
+	_ = dfProd
 )

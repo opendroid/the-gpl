@@ -1,3 +1,4 @@
+// Package bitsCount counts bits in a integer
 package bitsCount
 
 // nBitsInNumbers array contains pre-calculated number of bits in numbers

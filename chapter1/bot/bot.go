@@ -1,3 +1,5 @@
+// Package bot establishes a client session with a Dialog Flow agent or bot associated with GCP project.
+// The bot will respond to user questions as they type the questions.
 package bot
 
 import (
@@ -9,7 +11,7 @@ import (
 	"log"
 )
 
-// New create a df bot
+// New create a Dialog Flow agent or bot.
 func New(logger *log.Logger, gcpProject string, lang string) (*Client, error) {
 	bc := Client{
 		gcpProjectID: gcpProject,
@@ -30,7 +32,8 @@ func New(logger *log.Logger, gcpProject string, lang string) (*Client, error) {
 	return &bc, nil
 }
 
-// Converse send message to Dialog Flow bot. Returns messages from bot
+// Converse send message to Dialog Flow bot. Returns responses from the agent.
+// It returns if bot does not respond in a defaultTimeout period.
 func (b Client) Converse(s *SessionClient, q string) ([]string, error) {
 	if q == "" {
 		return nil, errors.New("nothing to say")
@@ -62,7 +65,7 @@ func (b Client) Converse(s *SessionClient, q string) ([]string, error) {
 }
 
 // getMessages extracts messages from the response object from DF
-func getMessages(r* dfProto.QueryResult)  []string {
+func getMessages(r *dfProto.QueryResult) []string {
 	if r.FulfillmentMessages == nil {
 		return []string{"Nothing to say"}
 	}

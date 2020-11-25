@@ -23,7 +23,7 @@ func TestConverse(t *testing.T) {
 	t.Skip("Skipping TestConverse in GCP.")
 	l := log.New(os.Stdout, "BOT ", log.LstdFlags)
 	b, err := New(l, gcpProjectID, defaultLanguage)
-	assert.Nil(t, err)
+	assert.Nil(t, err) // No The GPL does not recommend use of asserts i.e. failing when a specific test fails.
 	assert.NotNil(t, b)
 
 	s := NewSession(dfStaging, gcpProjectID)
