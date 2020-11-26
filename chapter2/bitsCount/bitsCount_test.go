@@ -72,14 +72,14 @@ func BenchmarkBitCount(b *testing.B) {
 * pkg: code.uber.internal/go.learn/goLessons/chapter2
 * BenchmarkBitCountBySum-12      67024618   15.0 ns/op  0 B/op  0 allocs/op
 * BenchmarkBitCountByLooping-12  30810038   38.7 ns/op  0 B/op  0 allocs/op
- * BenchmarkBitCount-12          1000000000 0.248 ns/op 0 B/op  0 allocs/op
+* BenchmarkBitCount-12          1000000000 0.248 ns/op 0 B/op  0 allocs/op
 *
 * Means:
 *   -12 is GOMACPROCS
 *   BitCountByTableLookup  15 ns per operation averaged over    67,024,618 runs
 *   BitCountEachOne took 39 ns per operation averaged over      30,810,038 runs
 *   BenchmarkBitCount-12   <1 nc per operation averaged over 1,000,000,000 runs
-*/
+ */
 
 // ExampleBitCountByTableLookup example counts bits in a 64 bit int using byte lookup table.
 func ExampleBitCountByTableLookup() {

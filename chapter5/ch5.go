@@ -1,3 +1,4 @@
+// Package chapter5 is Functions, covers examples and exercises in the chapter.
 package chapter5
 
 import (
@@ -43,7 +44,7 @@ func startElement(n *html.Node) {
 		var attributes string
 		for i, a := range n.Attr {
 			attributes += fmt.Sprintf("%s=%q", a.Key, a.Val)
-			if i != len(n.Attr) - 1 {
+			if i != len(n.Attr)-1 {
 				attributes += " "
 			}
 		}
@@ -80,9 +81,8 @@ func endElement(n *html.Node) {
 	}
 }
 
-
-// expand exercise 5.9 replaces $var with f(var) and returns output
-func Expand(s string, f func(string)string) string {
+// Expand exercise 5.9 replaces $var with f(var) and returns output
+func Expand(s string, f func(string) string) string {
 	chars := strings.Split(s, " ")
 	for i, word := range chars {
 		if strings.HasPrefix(word, "$") {

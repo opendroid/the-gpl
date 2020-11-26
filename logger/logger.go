@@ -1,3 +1,4 @@
+// Package logger defines a uniform logger for http handler functions.
 package logger
 
 import (

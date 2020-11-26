@@ -1,3 +1,4 @@
+// Package tempConv provides conversion among Celsius, Kelvin and Fahrenheit using methods.
 package tempConv
 
 import (
@@ -34,6 +35,12 @@ const (
 	BoilingPointK Kelvin = 373.15
 )
 
+// Suppress unused warning errors
+var (
+	_ = AbsoluteZeroK
+	_ = BoilingPointK
+)
+
 // ToC converts a Fahrenheit to °C
 func (f Fahrenheit) ToC() Celsius {
 	return Celsius((f - 32) * 5 / 9)
@@ -51,7 +58,7 @@ func (c Celsius) ToF() Fahrenheit {
 
 // ToK converts a Celsius to °K
 func (c Celsius) ToK() Kelvin {
-	return Kelvin(c)+FreezingPointK
+	return Kelvin(c) + FreezingPointK
 }
 
 // ToF converts a Kelvin to °F
@@ -61,7 +68,7 @@ func (k Kelvin) ToF() Fahrenheit {
 
 // ToC converts a Kelvin to °C
 func (k Kelvin) ToC() Celsius {
-	return Celsius(k-FreezingPointK)
+	return Celsius(k - FreezingPointK)
 }
 
 // String prints in format 100°F value

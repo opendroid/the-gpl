@@ -1,3 +1,4 @@
+// Package chapter3 provides utilities for mandelbrot and surface plots.
 package chapter3
 
 import (
@@ -14,13 +15,14 @@ import (
 var maxAmp float64
 var scaleX, scaleY func(float64) float64
 
+// init variables in this file.
 func init() {
 	maxAmp = cmplx.Abs(complex(MBXMax, MBYMax))
 	scaleX = scale(MBXMin, MBXMax, MBWidth)
 	scaleY = scale(MBYMin, MBYMax, MBHeight)
 }
 
-// Scale transforms a value to a corresponding value in range
+// scale transforms a value to a corresponding value in range
 func scale(min, max, r float64) func(float64) float64 {
 	return func(x float64) float64 {
 		return x/r*(max-min) + min
@@ -74,14 +76,10 @@ func mandelbrot(z complex128, b MandelbrotImage) color.Color {
 }
 
 // MBGraphHandler
-func MBGraphHandler(w http.ResponseWriter, _ *http.Request) {
-	mandelbrotImage(w, MBColor)
-}
+func MBGraphHandler(w http.ResponseWriter, _ *http.Request) { mandelbrotImage(w, MBColor) }
 
 // MBGraphBWHandler in black
-func MBGraphBWHandler(w http.ResponseWriter, _ *http.Request) {
-	mandelbrotImage(w, MBBlackAndWhite)
-}
+func MBGraphBWHandler(w http.ResponseWriter, _ *http.Request) { mandelbrotImage(w, MBBlackAndWhite) }
 
 // SetColor total at subsequent z for ith iteration
 func (cp *colorComponents) SetColor(z complex128, iteration float64) {

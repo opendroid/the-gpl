@@ -1,3 +1,4 @@
+// Package chapter7, Interfaces, defines bytes, words and line counter writer interfaces that can be used as part of fmt methods.
 package chapter7
 
 import (
@@ -13,8 +14,10 @@ import (
 
 // ByteCounter writer interface counts number of bytes written to it
 type ByteCounter int
+
 // WordCounter writer interface counts number of words written to it
 type WordCounter int
+
 // LineCounter writer interface counts number of lines written to it
 type LineCounter int
 
@@ -50,7 +53,7 @@ func (c *LineCounter) Write(p []byte) (int, error) {
 // CountWriter intercepts a io.Writer and counts numbers of characters written to it
 type CountWriter struct {
 	count int64
-	w io.Writer
+	w     io.Writer
 }
 
 // Write define the counting Write interface interface
@@ -60,7 +63,7 @@ func (c *CountWriter) Write(p []byte) (int, error) {
 }
 
 // CountingWriter intercept a writer and count bytes written to it
-func CountingWriter (w io.Writer) (io.Writer, *int64) {
+func CountingWriter(w io.Writer) (io.Writer, *int64) {
 	cw := CountWriter{count: 0, w: w}
 	return &cw, &cw.count
 }
@@ -88,8 +91,8 @@ func (c *BroadcastWriters) Write(p []byte) (int, error) {
 }
 
 // NewBroadcastWriters creates a broadcast list of Writers
-func NewBroadcastWriters (writers ...io.Writer) *BroadcastWriters {
-	cw :=  &BroadcastWriters{writers: list.New()}
+func NewBroadcastWriters(writers ...io.Writer) *BroadcastWriters {
+	cw := &BroadcastWriters{writers: list.New()}
 	for _, w := range writers {
 		cw.writers.PushBack(w)
 	}

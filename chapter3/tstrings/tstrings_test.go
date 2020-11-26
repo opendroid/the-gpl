@@ -38,6 +38,7 @@ func TestBasename(t *testing.T) {
 //   cd chapter3
 //   go test -bench=BenchmarkBasename -benchmem, or
 
+// benchmarkBasename common method for benchmarkind
 func benchmarkBasename(b *testing.B, size int) {
 	// Create large strings
 	p := createPath(size)
@@ -48,21 +49,10 @@ func benchmarkBasename(b *testing.B, size int) {
 	}
 }
 
-func BenchmarkBasename100B(b *testing.B) {
-	benchmarkBasename(b, t100B)
-}
-
-func BenchmarkBasename1K(b *testing.B) {
-	benchmarkBasename(b, t1K)
-}
-
-func BenchmarkBasename10K(b *testing.B) {
-	benchmarkBasename(b, t10K)
-}
-
-func BenchmarkBasenameMaxInt16(b *testing.B) {
-	benchmarkBasename(b, math.MaxInt16)
-}
+func BenchmarkBasename100B(b *testing.B)     { benchmarkBasename(b, t100B) }
+func BenchmarkBasename1K(b *testing.B)       { benchmarkBasename(b, t1K) }
+func BenchmarkBasename10K(b *testing.B)      { benchmarkBasename(b, t10K) }
+func BenchmarkBasenameMaxInt16(b *testing.B) { benchmarkBasename(b, math.MaxInt16) }
 
 // createALargeSeqOfBytes creates a random sequence of bytes
 func createALargeSeqOfBytes(len int) []byte {
@@ -89,9 +79,17 @@ func createPath(nSeps int) []byte {
 	return p.Bytes()
 }
 
-// BenchmarkComma Benchmark the table lookup method
+// BenchmarkComma using recursive method
 //   cd chapter3
 //   go test -bench=BenchmarkComma -benchmem
+//   Run a profile test
+//   	go test -run=NONE -bench=BenchmarkComma -benchmem -memprofile=mem.out
+//	  go test -run=NONE -bench=BenchmarkComma  -cpuprofile=cpu.out
+//   View results:
+//   	go tool pprof -http :8000 -nodecount=10 mem.out
+//  Coverage:
+//    go test ./... -coverprofile=c.out
+//    go tool cover -html=c.out
 func benchmarkComma(b *testing.B, sz int) {
 	b.StopTimer()
 	p := createALargeSeqOfBytes(sz)
@@ -101,11 +99,14 @@ func benchmarkComma(b *testing.B, sz int) {
 		_ = Comma(s)
 	}
 }
+
+// BenchmarkCommaN methods
 func BenchmarkComma100B(b *testing.B)     { benchmarkComma(b, t100B) }
 func BenchmarkComma1K(b *testing.B)       { benchmarkComma(b, t1K) }
 func BenchmarkComma10K(b *testing.B)      { benchmarkComma(b, t10K) }
 func BenchmarkCommaMaxInt16(b *testing.B) { benchmarkComma(b, math.MaxInt16) }
 
+// benchmarkCommaWithBuf uses non-recursive bytes.Buffer method
 func benchmarkCommaWithBuf(b *testing.B, sz int) {
 	b.StopTimer()
 	p := createALargeSeqOfBytes(sz)
@@ -116,6 +117,7 @@ func benchmarkCommaWithBuf(b *testing.B, sz int) {
 	}
 }
 
+// BenchmarkCommaWithBufN Methods
 func BenchmarkCommaWithBuf100B(b *testing.B)     { benchmarkCommaWithBuf(b, t100B) }
 func BenchmarkCommaWithBuf1K(b *testing.B)       { benchmarkCommaWithBuf(b, t1K) }
 func BenchmarkCommaWithBuf10K(b *testing.B)      { benchmarkCommaWithBuf(b, t10K) }

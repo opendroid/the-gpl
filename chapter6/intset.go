@@ -1,3 +1,4 @@
+// Package chapter6, Methods, defines a IntSet utility.
 package chapter6
 
 import (
@@ -114,7 +115,7 @@ func (s *IntSet) Add(x uint) {
 	item := el.Value.(intSetItem) // Get current item
 	xItem.word |= item.word
 	_ = s.list.InsertAfter(xItem, el) // Add updated word
-	s.list.Remove(el) // Remove previous one
+	s.list.Remove(el)                 // Remove previous one
 }
 
 // AddInts adds multiple positive integers x to the set

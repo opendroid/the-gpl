@@ -1,3 +1,4 @@
+// Package chapter8, Goroutines and Channels, provides examples of sharing by communicating.
 package chapter8
 
 import (
@@ -33,9 +34,8 @@ var clientPort *string // Flag that stores value for -cp="clock:port"
 
 // cmdDu allows to refer call send this module the CliDu argument
 var cmdDu CliDu
-var dir *string // Flag that stores value for -dir="./"
+var dir *string   // Flag that stores value for -dir="./"
 var verbose *bool // Flag that stores value for -dir="./"
-
 
 // InitCli initialize the services APIs
 func InitCli() {
@@ -66,7 +66,7 @@ func (m CliService) ExecCmd(args []string) {
 		fmt.Printf("Invalid input: %q. Expect -sp=\"clock:9999\"", *serverPort)
 		return
 	}
- 	service := params[0]
+	service := params[0]
 	port, _ := strconv.Atoi(params[1])
 	switch service {
 	case "clock":
@@ -136,7 +136,7 @@ func (m CliDu) ExecCmd(args []string) {
 		fmt.Printf("ExecCmd: du Error %s\n", err.Error())
 		return
 	}
-	_ = DU(*dir,  *verbose)
+	_ = DU(*dir, *verbose)
 }
 
 // DisplayHelp for the service modules
