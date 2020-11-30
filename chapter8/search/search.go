@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"github.com/opendroid/the-gpl/chapter8/search/google"
 	"github.com/opendroid/the-gpl/chapter8/search/userip"
+	"github.com/opendroid/the-gpl/logger"
 	"html/template"
-	"log"
 	"net/http"
 	"time"
 )
@@ -49,7 +49,7 @@ func Query(w http.ResponseWriter, req *http.Request) {
 	start := time.Now()
 	results, err := google.Search(ctx, q)
 	if err != nil {
-		errMessage := fmt.Errorf("query google.Search returned: %v", err)
+		errMessage := fmt.Errorf("google search API is deprecated: %v", err)
 		http.Error(w, errMessage.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -62,7 +62,7 @@ func Query(w http.ResponseWriter, req *http.Request) {
 		Timeout: timeout,
 		Elapsed: elapsed,
 	}); err != nil {
-		log.Printf("Query: %q: %v", q, err)
+		logger.Log.Printf("Query: %q: %v", q, err)
 	}
 }
 

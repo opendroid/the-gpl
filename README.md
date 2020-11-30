@@ -18,6 +18,7 @@ You can access the deployed artifacts as:
    - [Mandel](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/mandel)
    - [Mandel BW](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/mandelbw) 
    - [Echo](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/echo?q=Hello%20%F0%9F%8C%8E%F0%9F%8C%8E%F0%9F%8C%8E)
+   - [who - application/json](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/who) 
 
  2. As [docker container image](https://hub.docker.com/repository/docker/uopendocker/the-gpl).
  
@@ -67,7 +68,7 @@ $ the-gpl du -dir=$HOME/gocode
 You can access various example outputs using Google cloud run.
 
 ```shell script
-$ the-gpl server -port=8081 # start a web server at port 8081.
+$ the-gpl server -port=8080 # start a web server at port 8080.
 ```
 
 ## Command go

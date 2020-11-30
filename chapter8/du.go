@@ -38,8 +38,9 @@ func walkDir(dir string, sizes chan<- int64) {
 			wg.Add(1)
 			subDir := filepath.Join(dir, entry.Name())
 			go walkDir(subDir, sizes)
+		} else {
+			sizes <- entry.Size()
 		}
-		sizes <- entry.Size()
 	}
 }
 

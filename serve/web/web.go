@@ -6,6 +6,7 @@
 package web
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/opendroid/the-gpl/chapter1/lissajous"
 	"github.com/opendroid/the-gpl/chapter3"
@@ -13,6 +14,8 @@ import (
 	"github.com/opendroid/the-gpl/logger"
 	"io"
 	"net/http"
+	"net/url"
+	"strings"
 	"sync"
 )
 
@@ -35,6 +38,7 @@ func Start(port int) {
 	})
 
 	http.HandleFunc("/", rootHandler)
+	http.HandleFunc("/favicon.ico", favIconHandler) // For chrome.
 	http.HandleFunc("/lis", lissajousHandler)
 	http.HandleFunc("/counter", counter)
 	http.HandleFunc("/incr", incrHandler)
@@ -45,6 +49,7 @@ func Start(port int) {
 	http.HandleFunc("/sq", chapter3.SquaresHandler)
 	http.HandleFunc("/post", httpPostInfo)
 	http.HandleFunc("/echo", echoHandler)
+	http.HandleFunc("/who", gitInfoHandler)
 	http.HandleFunc("/mandel", chapter3.MBGraphHandler)
 	http.HandleFunc("/mandelbw", chapter3.MBGraphBWHandler)
 
@@ -95,17 +100,49 @@ func incrHandler(w http.ResponseWriter, r *http.Request) {
 // 		Form[r]: ["Opendroid"]
 // 		Form[s]: [Gpl]
 func httpPostInfo(w http.ResponseWriter, r *http.Request) {
-	_, _ = fmt.Fprintf(w, "%s %s %s\n", r.Method, r.URL, r.Proto)
-	for k, v := range r.Header {
-		_, _ = fmt.Fprintf(w, "Header[%s]: %s \n", k, v)
+	logger.Log.Println("httpPostInfo.")
+	if path, err := url.PathUnescape(r.URL.String()); err != nil { // unescape path
+		_, _ = fmt.Fprintf(w, "%s %s %s: %v\n", r.Method, r.URL, r.Proto, err)
+	} else {
+		_, _ = fmt.Fprintf(w, "%s %s %s\n", r.Method, path, r.Proto)
+	}
+	for k, values := range r.Header {
+		v := strings.Join(values, ",")
+		_, _ = fmt.Fprintf(w, "Header[%s]: %v\n", k, v)
 	}
 	_, _ = fmt.Fprintf(w, "HOST: %s, Remote: %s\n", r.Host, r.RemoteAddr)
 
 	// Parse form first, reduces scope of 'err'
 	if err := r.ParseForm(); err != nil {
-		logger.Log.Print(err)
+		logger.Log.Printf("httpPostInfo: form parse error: %v", err)
+		return
 	}
-	for k, v := range r.Form {
-		_, _ = fmt.Fprintf(w, "Form[%s]: %s\n", k, v)
+	for k, values := range r.Form {
+		v := strings.Join(values, ",")
+		_, _ = fmt.Fprintf(w, "Form[%s]: %v\n", k, v)
 	}
+}
+
+// gitInfoHandler write a JSON response to client
+func gitInfoHandler(w http.ResponseWriter, _ *http.Request) {
+	logger.Log.Println("gitInfoHandler.")
+	data := struct{ Username, Profile, Repo, LinkedIn string }{
+		Username: "opendroid",
+		Profile:  "https://github.com/opendroid",
+		Repo:     "https://github.com/opendroid/the-gpl.git",
+		LinkedIn: "https://www.linkedin.com/in/ajaythakur/",
+	}
+	w.Header().Set("Content-Type", "application/json")
+	err := json.NewEncoder(w).Encode(data)
+	if err != nil {
+		logger.Log.Printf("gitInfoHandler: err: %v\n", err)
+	}
+}
+
+// favIconHandler sends CVG as fav icon
+// See https://css-tricks.com/emojis-as-favicons/
+func favIconHandler(w http.ResponseWriter, _ *http.Request) {
+	icon := `<svg xmlns="http://www.w3.org/2000/svg"><text y="32" font-size="32">🚀</text></svg>`
+	logger.Log.Println("favIconHandler.")
+	_, _ = fmt.Fprintf(w, "%s", icon)
 }

@@ -101,6 +101,7 @@ func Egg(x, y float64) float64 {
 
 // EggHandler draws an egg on a writer
 func EggHandler(w http.ResponseWriter, _ *http.Request) {
+	logger.Log.Println("EggHandler.")
 	_, _ = fmt.Fprintf(w, "%s", HTMLBeginEgg)
 	PlotOn3DSurface(w, Egg)
 	_, _ = fmt.Fprintf(w, "%s", HTMLEnd)
@@ -108,6 +109,7 @@ func EggHandler(w http.ResponseWriter, _ *http.Request) {
 
 // SincHandler draws an sinc on a writer
 func SincHandler(w http.ResponseWriter, _ *http.Request) {
+	logger.Log.Println("SincHandler.")
 	_, _ = fmt.Fprintf(w, "%s", HTMLBeginSinc)
 	PlotOn3DSurface(w, Sinc)
 	_, _ = fmt.Fprintf(w, "%s", HTMLEnd)
@@ -115,6 +117,7 @@ func SincHandler(w http.ResponseWriter, _ *http.Request) {
 
 // ValleyHandler draws an Valley on a writer
 func ValleyHandler(w http.ResponseWriter, _ *http.Request) {
+	logger.Log.Println("ValleyHandler.")
 	_, _ = fmt.Fprintf(w, "%s", HTMLBeginValley)
 	PlotOn3DSurface(w, Valley)
 	_, _ = fmt.Fprintf(w, "%s", HTMLEnd)
@@ -122,6 +125,7 @@ func ValleyHandler(w http.ResponseWriter, _ *http.Request) {
 
 // SquaresHandler draws an sinc on a writer
 func SquaresHandler(w http.ResponseWriter, _ *http.Request) {
+	logger.Log.Println("SquaresHandler.")
 	_, _ = fmt.Fprintf(w, "%s", HTMLBeginSquares)
 	PlotOn3DSurface(w, Squares)
 	_, _ = fmt.Fprintf(w, "%s", HTMLEnd)
