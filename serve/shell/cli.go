@@ -11,7 +11,7 @@ import (
 )
 
 // CmdHandlers interface to invoke command or display help.
-type CmdHandlers interface{
+type CmdHandlers interface {
 	ExecCmd([]string)
 	DisplayHelp()
 }
@@ -51,7 +51,7 @@ func printArgsHelp() {
 		keys = append(keys, k)
 	}
 	sort.Strings(keys) // Sort keys in place
-	addSpace := false // Print keys
+	addSpace := false  // Print keys
 	for _, k := range keys {
 		if addSpace {
 			fmt.Print(" ")

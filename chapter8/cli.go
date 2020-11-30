@@ -4,6 +4,7 @@ package chapter8
 import (
 	"flag"
 	"fmt"
+	"github.com/opendroid/the-gpl/logger"
 	"github.com/opendroid/the-gpl/serve/shell"
 	"strconv"
 	"strings"
@@ -70,19 +71,19 @@ func (m CliService) ExecCmd(args []string) {
 	port, _ := strconv.Atoi(params[1])
 	switch service {
 	case "clock":
-		fmt.Printf("Started %q service on port %d\n", service, port)
+		logger.Log.Printf("Started %q service on port %d\n", service, port)
 		ClockServer(port)
 	case "reverb":
-		fmt.Printf("Started %q service on port %d\n", service, port)
+		logger.Log.Printf("Started %q service on port %d\n", service, port)
 		ReverbServer(port)
 	case "ftp":
-		fmt.Printf("Started %q service on port %d\n", service, port)
+		logger.Log.Printf("Started %q service on port %d\n", service, port)
 		FTPServer(port)
 	case "chat":
-		fmt.Printf("Started %q service on port %d\n", service, port)
+		logger.Log.Printf("Started %q service on port %d\n", service, port)
 		ChatService(port)
 	default:
-		fmt.Printf("service %s not implemented\n", service)
+		logger.Log.Printf("service %s not implemented\n", service)
 	}
 }
 

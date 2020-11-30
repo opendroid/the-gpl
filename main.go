@@ -36,6 +36,3 @@ func main() {
 	// Execute commands
 	shell.ExecCLICmd(os.Args[:])
 }
-
-
-

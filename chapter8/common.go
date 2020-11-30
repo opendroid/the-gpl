@@ -21,4 +21,3 @@ func tryCopy(dst io.Writer, src io.Reader, done chan struct{}) {
 		return
 	}
 }
-

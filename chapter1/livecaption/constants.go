@@ -16,11 +16,11 @@ const (
 	// TODO: Setup your test sample, for MLK it is 22K
 	audioSampleRate = audioSampleRate48K
 
-	speakerLanguageEnUS = "en-US"
-	speakerLanguageEnIN = "en-IN"
-	speakerLanguageHiN  = "hi-IN"
-	speakerLanguageRU   = "ru-RU"
-	speakerLanguage     = speakerLanguageEnUS
+	speakerLanguageEnUS     = "en-US"
+	speakerLanguageEnIN     = "en-IN"
+	speakerLanguageHiN      = "hi-IN"
+	speakerLanguageRU       = "ru-RU"
+	speakerLanguage         = speakerLanguageEnUS
 	speakerShowIntermediate = true
 
 	// defaultRTPPort where RTP livecaption is being streamed
@@ -32,17 +32,18 @@ const (
 
 // Reference: https://twinnation.org/articles/35/how-to-add-colors-to-your-console-terminal-output-in-go
 type LineColor string
+
 const (
-	Reset  LineColor = "\033[0m"
-	Red    LineColor = "\033[31m"
-	Green  LineColor = "\033[32m"
-	Yellow LineColor = "\033[33m"
-	Blue   LineColor = "\033[34m"
-	Purple LineColor = "\033[35m"
-	Cyan   LineColor = "\033[36m"
-	Gray   LineColor = "\033[37m"
-	White  LineColor = "\033[97m"
-	termWidth = 80
+	Reset     LineColor = "\033[0m"
+	Red       LineColor = "\033[31m"
+	Green     LineColor = "\033[32m"
+	Yellow    LineColor = "\033[33m"
+	Blue      LineColor = "\033[34m"
+	Purple    LineColor = "\033[35m"
+	Cyan      LineColor = "\033[36m"
+	Gray      LineColor = "\033[37m"
+	White     LineColor = "\033[97m"
+	termWidth           = 80
 )
 
 // confuse lint

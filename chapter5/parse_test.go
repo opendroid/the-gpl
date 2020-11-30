@@ -5,7 +5,6 @@ import (
 	"testing"
 )
 
-
 // TestParseOutlineCount tests the  Exercise 5.2, ParseOutlineCount
 //  go test -run TestParseOutlineCount -v
 func TestParseOutlineCount(t *testing.T) {
@@ -48,15 +47,15 @@ func TestParseText(t *testing.T) {
 //  go test -run TestParseOutline -v
 func TestParseOutline(t *testing.T) {
 	t.Run("google.com", func(t *testing.T) {
-			outline, err := ParseOutline("https://google.com")
-			if err != nil {
-				t.Errorf("TestParseOutline: Error %s", err)
-				t.Fail()
-				return
-			}
-			for i, d := range outline {
-				t.Logf("%d: %v",i+1, d)
-			}
+		outline, err := ParseOutline("https://google.com")
+		if err != nil {
+			t.Errorf("TestParseOutline: Error %s", err)
+			t.Fail()
+			return
+		}
+		for i, d := range outline {
+			t.Logf("%d: %v", i+1, d)
+		}
 	})
 }
 
@@ -72,7 +71,7 @@ func TestParseLinks(t *testing.T) {
 			return
 		}
 		for i, link := range links {
-			t.Logf("%d: %v",i+1, link)
+			t.Logf("%d: %v", i+1, link)
 		}
 	})
 }
@@ -89,7 +88,7 @@ func TestParseImages(t *testing.T) {
 			return
 		}
 		for i, link := range links {
-			t.Logf("%d: %v",i+1, link)
+			t.Logf("%d: %v", i+1, link)
 		}
 	})
 }

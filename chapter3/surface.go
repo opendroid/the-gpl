@@ -2,6 +2,7 @@ package chapter3
 
 import (
 	"fmt"
+	"github.com/opendroid/the-gpl/logger"
 	"io"
 	"math"
 	"net/http"
@@ -18,7 +19,7 @@ var (
 //   <svg width="100" height="100">
 //     <polygon points="25,0 50,0 75,25 50,50 25,50 0,25" stroke="green" stroke-width="4" fill="yellow" />
 //   </svg>
-func PlotOn3DSurface(w io.Writer, plot func (float64, float64) float64) {
+func PlotOn3DSurface(w io.Writer, plot func(float64, float64) float64) {
 	_, err := fmt.Fprintf(w, SVGPrefixFormat, SurfaceWidth, SurfaceHeight)
 	// close SVG tag in all returns
 	defer (func() { _, _ = fmt.Fprintf(w, "%s\n", SVGSuffixTag) })()
@@ -49,14 +50,14 @@ func PlotOn3DSurface(w io.Writer, plot func (float64, float64) float64) {
 			_, err = fmt.Fprintf(w, "<polygon points='%g,%g %g,%g %g,%g %g,%g'/>\n",
 				ax, ay, bx, by, cx, cy, dx, dy)
 			if err != nil {
-				_ = fmt.Errorf("PlotOn3DSurface: polygon point Error: %s", err)
+				logger.Log.Printf("PlotOn3DSurface: polygon point Error: %s\n", err)
 				return
 			}
 		}
 	}
 }
 
-func corner(i, j int, plot func (float64, float64) float64) (float64, float64, error) {
+func corner(i, j int, plot func(float64, float64) float64) (float64, float64, error) {
 	// Translate from (SurfaceGridCells x SurfaceGridCells) => (SurfaceXYRange x SurfaceXYRange)
 	x := SurfaceXYRange * (float64(i)/SurfaceGridCells - 0.5)
 	y := SurfaceXYRange * (float64(j)/SurfaceGridCells - 0.5)
@@ -77,14 +78,14 @@ func corner(i, j int, plot func (float64, float64) float64) (float64, float64, e
 //   https://mathworld.wolfram.com/SincFunction.html
 func Sinc(x, y float64) float64 {
 	r := math.Hypot(x, y) // Distance of (x,y) from (0,0)
-	k := math.Sin(r) / r // recover from a divide by zero error
+	k := math.Sin(r) / r  // recover from a divide by zero error
 
 	return k
 }
 
 // Squares of sorts
 func Squares(x, y float64) float64 {
-	return math.Pow(math.Sin(x / math.Pi) + math.Cos(y / math.Pi), 2) / SquaresDenominator
+	return math.Pow(math.Sin(x/math.Pi)+math.Cos(y/math.Pi), 2) / SquaresDenominator
 }
 
 // Valley of sorts

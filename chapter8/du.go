@@ -30,7 +30,7 @@ const MaxGoRoutines = MaxOpenFiles / 2
 var sema = make(chan struct{}, MaxGoRoutines) // sema counting semaphore to  run
 var wg sync.WaitGroup                         // Wait for all walkDir go calls to  finish
 
-// walkDir traverses dir tree and  puts size of each fil	e in channel 'sizes'
+// walkDir traverses dir tree and  puts size of each file in channel 'sizes'
 func walkDir(dir string, sizes chan<- int64) {
 	defer wg.Done()
 	for _, entry := range dirEntry(dir) {
@@ -58,12 +58,11 @@ func dirEntry(dir string) []os.FileInfo {
 
 // DU Disk Usage returns size of a directory
 func DU(dir string, verbose bool) int64 {
-	sizes := make(chan int64, 1024) // Create c channel that holds sizes for 100  files max
+	sizes := make(chan int64, MaxOpenFiles) // Create c channel that holds sizes for MaxOpenFiles files max
 	wg.Add(1)
 	// go-routine 1: Walks the directory structure recursively
-	go func() {
-		walkDir(dir, sizes)
-	}()
+	go walkDir(dir, sizes)
+
 	// go-routine 2: Closes the sizes channel when done
 	go func() {
 		wg.Wait()

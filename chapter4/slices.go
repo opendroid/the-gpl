@@ -6,6 +6,7 @@ import (
 
 type BodyIndex int
 type Bodies []string
+
 const (
 	// Sun source of energy
 	Sun BodyIndex = iota // 0
@@ -43,7 +44,7 @@ var bodiesInSolarSystem = [...]string{Sun: "Sun", Mercury: "Mercury", Venus: "Ve
 	MakeMake: "MakeMake", GongGong: "GongGong"}
 
 // InnerPlanets slice of inner planets
-func InnerPlanets () []string {
+func InnerPlanets() []string {
 	return bodiesInSolarSystem[Mercury:Jupiter] // Jupiter not included
 }
 

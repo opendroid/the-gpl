@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/opendroid/the-gpl/chapter2/tempConv"
 )
+
 // tempConv:
 //  Satisfies the flag value interface for custom unit temperature, that
 //  reads a temp value in form of -173.15°T or -173.15°t or -173.15T or -173.15t
@@ -27,7 +28,7 @@ type kelvinFlag struct {
 }
 
 // Set satisfy the flag interface for celsiusFlag. Convert to °C
-func (c *celsiusFlag) Set (s string) error {
+func (c *celsiusFlag) Set(s string) error {
 	var unit string
 	var value float64
 	_, _ = fmt.Sscanf(s, "%f%s", &value, &unit)
@@ -54,7 +55,7 @@ func CelsiusFlag(name string, value tempConv.Celsius, usage string, set *flag.Fl
 }
 
 // Set satisfy the flag interface for fahrenheitFlag, Convert to °F
-func (f *fahrenheitFlag) Set (s string) error {
+func (f *fahrenheitFlag) Set(s string) error {
 	var unit string
 	var value float64
 	_, _ = fmt.Sscanf(s, "%f%s", &value, &unit)
@@ -80,7 +81,7 @@ func FahrenheitFlag(name string, value tempConv.Fahrenheit, usage string, set *f
 }
 
 // Set satisfy the flag interface for kelvinFlag, Convert to °K
-func (k *kelvinFlag) Set (s string) error {
+func (k *kelvinFlag) Set(s string) error {
 	var unit string
 	var value float64
 	_, _ = fmt.Sscanf(s, "%f%s", &value, &unit)

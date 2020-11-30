@@ -65,7 +65,7 @@ func TestIntSet_RemoveInts(t *testing.T) {
 	t.Logf("Set A: %v", setA) // String is on pointer receiver
 	t.Logf("Len of Set A after removing: %d", setA.Len())
 
-	if setA.Has(2) || setA.Has(62) || setA.Has(64) || setA.Has(127) || setA.Has(128) || setA.Has(129){
+	if setA.Has(2) || setA.Has(62) || setA.Has(64) || setA.Has(127) || setA.Has(128) || setA.Has(129) {
 		t.Logf("Item not removed. Still in setA")
 		t.Fail()
 	}
@@ -87,7 +87,7 @@ func TestIntSet_UnionWith(t *testing.T) {
 	t.Logf("Set B: %v", setB) // String is on pointer receiver
 	t.Logf("Len of Set B: %d", setB.Len())
 	setA.UnionWith(setB)
-	t.Logf("Set A U B: %v", setA) // A U B
+	t.Logf("Set A U B: %v", setA)              // A U B
 	t.Logf("Len of Set A U B: %d", setA.Len()) // A U B
 	if setA.Len() != 27 {
 		t.Logf("Set A U B invalid: %v", setA) // A U B

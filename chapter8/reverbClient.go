@@ -15,11 +15,11 @@ func ReverbClient(port int) {
 		return
 	}
 	// Listen on conn
-	defer func() {_ = conn.Close() }()
+	defer func() { _ = conn.Close() }()
 	doneConn := make(chan struct{})
 	doneInput := make(chan struct{})
 	go tryCopy(os.Stdout, conn, doneConn)
 	tryCopy(conn, os.Stdin, doneInput)
-	<- doneInput // Input closed
-	<- doneConn
+	<-doneInput // Input closed
+	<-doneConn
 }

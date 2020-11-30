@@ -69,7 +69,7 @@ func (t CLICounter) ExecCmd(args []string) {
 		return
 	}
 	c, w, l := CountCharsWordsLines(strings.NewReader(*text))
-	fmt.Printf("Text:%s\nCharacters=%d, Words=%d, lines=%d\n", *text, c, w, l);
+	fmt.Printf("Text:%s\nCharacters=%d, Words=%d, lines=%d\n", *text, c, w, l)
 }
 
 func (t CLICounter) DisplayHelp() {

@@ -31,6 +31,7 @@ var preRequisites2 = map[string]map[string]bool{
 	"operating systems":      {"data structures": true, "computer organization": true},
 	"programming  languages": {"data structures": true, "computer organization": true},
 }
+
 // TestToposort sorts a test map of courses
 //  cd chapter5
 //  go test -run TestToposort -v

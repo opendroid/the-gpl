@@ -3,14 +3,16 @@ package chapter3
 import (
 	"math"
 )
+
 // HTML
 const (
-	HTMLBeginEgg = `<!DOCTYPE html><html lang="en"><body><h1>Egg</h1>`
-	HTMLBeginSinc = `<!DOCTYPE html><html lang="en"><body><h1>Sinc</h1>`
-	HTMLBeginValley = `<!DOCTYPE html><html lang="en"><body><h1>Valley</h1>`
+	HTMLBeginEgg     = `<!DOCTYPE html><html lang="en"><body><h1>Egg</h1>`
+	HTMLBeginSinc    = `<!DOCTYPE html><html lang="en"><body><h1>Sinc</h1>`
+	HTMLBeginValley  = `<!DOCTYPE html><html lang="en"><body><h1>Valley</h1>`
 	HTMLBeginSquares = `<!DOCTYPE html><html lang="en"><body><h1>Squares</h1>`
-	HTMLEnd = "</body></html>"
+	HTMLEnd          = "</body></html>"
 )
+
 // Mandelbrot Set Graph constants
 const (
 	// MBXMin is lower bound of x value for MB (Mandelbrot Set)
@@ -69,6 +71,6 @@ const (
 )
 
 const (
-	EggDenominator = 10
+	EggDenominator     = 10
 	SquaresDenominator = 5
 )

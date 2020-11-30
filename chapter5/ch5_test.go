@@ -43,15 +43,15 @@ func TestExpand(t *testing.T) {
 		return "$0.0"
 	}
 	// Test data
-	bag := []struct{
+	bag := []struct {
 		text, expanded string
 	}{
 		{
-			text: "Apples are $apple per lbs; oranges cost $oranges per lbs. Let me know if I can help you",
+			text:     "Apples are $apple per lbs; oranges cost $oranges per lbs. Let me know if I can help you",
 			expanded: "Apples are $5 dollars and 20 cents, per lbs; oranges cost $10 dollars and 50 cents, per lbs. Let me know if I can help you",
 		},
 		{
-			text: "Cost of bananas is $bananas milk costs $milk How can I help",
+			text:     "Cost of bananas is $bananas milk costs $milk How can I help",
 			expanded: "Cost of bananas is $0 dollars and 49 cents, milk costs $5 dollars and 98 cents, How can I help",
 		},
 	}

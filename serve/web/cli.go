@@ -52,7 +52,7 @@ func startServer(port int) {
 	logger.Log.Printf("%smandelbw\n", prefix)
 	logger.Log.Printf("%sincr\n", prefix)
 	logger.Log.Printf("%scounter\n", prefix)
-	logger.Log.Println(prefix+`/echo?q="You can echo this back"`)
-	logger.Log.Println(prefix+`post?q="Go"&r="Vote"&year="2020"`)
+	logger.Log.Println(prefix + `/echo?q="You can echo this back"`)
+	logger.Log.Println(prefix + `post?q="Go"&r="Vote"&year="2020"`)
 	Start(port)
 }

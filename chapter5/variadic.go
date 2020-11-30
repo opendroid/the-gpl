@@ -66,7 +66,7 @@ func Join(sep string, words ...string) string {
 	joined := ""
 	for i, w := range words {
 		joined += w
-		if i != len(words) - 1 {
+		if i != len(words)-1 {
 			joined += sep
 		}
 	}

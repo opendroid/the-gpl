@@ -16,8 +16,8 @@ type CLI struct {
 // cmd allows to refer call send this module the CLI argument
 var cmd CLI
 var callMethod *string // Flag that stores value for -name="callMethod"
-var n1 *int // Flag that stores value for: the-gpl mas -comp  -n1=123 -n2=345
-var n2 *int // Flag that stores value for -n2=234
+var n1 *int            // Flag that stores value for: the-gpl mas -comp  -n1=123 -n2=345
+var n2 *int            // Flag that stores value for -n2=234
 
 // InitCli for command: the-gpl mas -fn=array
 //   eg: the-gpl mas -fn=array # Tests the array example

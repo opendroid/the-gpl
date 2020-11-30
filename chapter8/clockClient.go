@@ -15,8 +15,8 @@ func ClockClient(port int) {
 		return
 	}
 	// Listen on conn
-	defer func() {_ = conn.Close() }()
+	defer func() { _ = conn.Close() }()
 	done := make(chan struct{})
 	tryCopy(os.Stdout, conn, done)
-	<- done // Wait for write to finish
+	<-done // Wait for write to finish
 }

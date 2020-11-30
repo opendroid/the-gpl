@@ -21,4 +21,3 @@ func TestMain(m *testing.M) {
 //  go test -run TestFetch -v
 //  cd ./lissajous
 //  go test -run TestLissajous -v
-

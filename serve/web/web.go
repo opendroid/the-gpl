@@ -12,7 +12,6 @@ import (
 	"github.com/opendroid/the-gpl/chapter8/search"
 	"github.com/opendroid/the-gpl/logger"
 	"io"
-	"log"
 	"net/http"
 	"sync"
 )
@@ -35,19 +34,20 @@ func Start(port int) {
 		mutex.Unlock()
 	})
 
-	http.Handle("/", http.HandlerFunc(rootHandler))
-	http.Handle("/lis", http.HandlerFunc(lissajousHandler))
-	http.Handle("/counter", counter)  // Show counter
-	http.Handle("/incr", http.HandlerFunc(incrHandler)) // increment counter
-	http.Handle("/egg", http.HandlerFunc(chapter3.EggHandler))
-	http.Handle("/sinc", http.HandlerFunc(chapter3.SincHandler))
-	http.Handle("/search", http.HandlerFunc(search.Query))
-	http.Handle("/valley", http.HandlerFunc(chapter3.ValleyHandler))
-	http.Handle("/sq", http.HandlerFunc(chapter3.SquaresHandler))
-	http.Handle("/post", http.HandlerFunc(httpPostInfo))
-	http.Handle("/echo", http.HandlerFunc(echoHandler))
-	http.Handle("/mandel", http.HandlerFunc(chapter3.MBGraphHandler))
-	http.Handle("/mandelbw", http.HandlerFunc(chapter3.MBGraphBWHandler))
+	http.HandleFunc("/", rootHandler)
+	http.HandleFunc("/lis", lissajousHandler)
+	http.HandleFunc("/counter", counter)
+	http.HandleFunc("/incr", incrHandler)
+	http.HandleFunc("/egg", chapter3.EggHandler)
+	http.HandleFunc("/sinc", chapter3.SincHandler)
+	http.HandleFunc("/search", search.Query)
+	http.HandleFunc("/valley", chapter3.ValleyHandler)
+	http.HandleFunc("/sq", chapter3.SquaresHandler)
+	http.HandleFunc("/post", httpPostInfo)
+	http.HandleFunc("/echo", echoHandler)
+	http.HandleFunc("/mandel", chapter3.MBGraphHandler)
+	http.HandleFunc("/mandelbw", chapter3.MBGraphBWHandler)
+
 	address := fmt.Sprintf(":%d", port)
 	_ = http.ListenAndServe(address, nil)
 }
@@ -67,7 +67,7 @@ func echoHandler(w http.ResponseWriter, r *http.Request) {
 	// Parse query params first
 	qs, ok := r.URL.Query()["q"]
 	if !ok || len(qs[0]) < 1 {
-		log.Println("Url Param 'key' is missing")
+		logger.Log.Println("Url Param 'key' is missing")
 		_, _ = io.WriteString(w, `/echo/q="echo this"`)
 		return
 	}

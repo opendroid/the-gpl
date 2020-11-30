@@ -92,11 +92,11 @@ func fetchSitesTimes(testSites []string) {
 // fetchSites fetch the sites in array testSites
 func fetchSites(testSites []string) {
 	for _, site := range testSites {
-		 page, err := Fetch(site)
-		 if err != nil {
-		 	fmt.Printf("ExecCmd: Fetch error: %v\n", err)
-		 	continue
-		 }
-		 fmt.Printf("%s", page)
+		page, err := Fetch(site)
+		if err != nil {
+			fmt.Printf("ExecCmd: Fetch error: %v\n", err)
+			continue
+		}
+		fmt.Printf("%s", page)
 	}
 }

@@ -10,7 +10,7 @@ import (
 func TestPlotOn3DSurface(t *testing.T) {
 	t.Parallel()
 	t.Run("Sinc Plot", func(t *testing.T) {
-		t.Skip("Skipping Sinc Plot");
+		t.Skip("Skipping Sinc Plot")
 		var buf bytes.Buffer
 		PlotOn3DSurface(&buf, Sinc)
 		t.Logf("%s", buf.String())

@@ -51,7 +51,7 @@ func broadcast() {
 			}
 			delete(clients, out)
 			close(out)
-		case msg := <- messages: // Copy message to all clients
+		case msg := <-messages: // Copy message to all clients
 			for c := range clients {
 				c <- msg
 			}
@@ -87,6 +87,6 @@ func chatHandler(c net.Conn) {
 // clientMessage listens to messages on channel c and copies them to connection conn
 func clientMessage(conn net.Conn, out <-chan string) {
 	for m := range out {
-		_,_ = fmt.Fprintf(conn, "%s\n", m)
+		_, _ = fmt.Fprintf(conn, "%s\n", m)
 	}
 }
