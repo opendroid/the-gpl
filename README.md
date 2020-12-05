@@ -9,6 +9,7 @@ in repo [gopl.io](https://github.com/adonovan/gopl.io/).
 
 You can access the deployed artifacts as:
  1. GPC Cloud Run `the-gpl-book` service.
+   - [About](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/about) 
    - [Post data](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/index?q="hello"&l="TheGOGPL"&a="Pike+Donovan")
    - [See Lissajous Graph](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/lis)
    - [Sinc Surface](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/sinc)
@@ -173,7 +174,7 @@ The image is also on [docker repository](https://hub.docker.com/repository/docke
 In order to push images to docker repo commit it, add tag and push. e.g:
 
 ```shell script
-docker tag the-gpl-image:v1 uopendocker/the-gpl:v1
+docker tag the-gpl:v1 uopendocker/the-gpl:v1
 docker push uopendocker/the-gpl:v1
 ```
 

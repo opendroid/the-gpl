@@ -53,7 +53,7 @@ func Start(port int) {
 	http.HandleFunc("/index", indexHandler)
 	http.HandleFunc("/lis", indexHandler)
 	http.HandleFunc("/surfaces", indexHandler)
-	http.HandleFunc("/about", indexHandler)
+	http.HandleFunc("/about", aboutHandler)
 
 	// Serve CSS and JS files
 	css := http.FileServer(http.Dir("public/css"))
@@ -68,7 +68,6 @@ func Start(port int) {
 // 	logger.Log.Println("lissajousHandler.")
 // 	lissajous.Default(w)
 // }
-
 func incrHandler(w http.ResponseWriter, r *http.Request) {
 	logger.Log.Println("incrHandler.")
 	mutex.Lock()
@@ -96,7 +95,7 @@ func gitInfoHandler(w http.ResponseWriter, _ *http.Request) {
 // favIconHandler sends CVG as fav icon
 // See https://css-tricks.com/emojis-as-favicons/
 func favIconHandler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "public/images/favicon-16x16.png")
+	http.ServeFile(w, r, "public/images/icons/favicon-16x16.png")
 	logger.Log.Println("favIconHandler.")
 }
 

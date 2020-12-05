@@ -20,10 +20,17 @@ type IndexPageData struct {
 	Data   map[string]string
 }
 
+// AboutPageData contains Active Page name and Data for the index page
+type AboutPageData struct {
+	Active string
+}
+
 // Template names
 const (
 	// IndexPage entry point go HTML page
 	IndexPage = "index.gohtml"
+	// AboutPage
+	AboutPage = "about.gohtml"
 )
 
 // String convert Active page name to a valid string compared in template
