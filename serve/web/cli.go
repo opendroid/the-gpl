@@ -3,6 +3,7 @@ package web
 import (
 	"flag"
 	"fmt"
+
 	"github.com/opendroid/the-gpl/logger"
 	"github.com/opendroid/the-gpl/serve/shell"
 )
@@ -53,7 +54,5 @@ func startServer(port int) {
 	logger.Log.Printf("%smandelbw\n", prefix)
 	logger.Log.Printf("%sincr\n", prefix)
 	logger.Log.Printf("%scounter\n", prefix)
-	logger.Log.Println(prefix + `echo?q=%22You%20can%20echo%20this%20back%22`)
-	logger.Log.Println(prefix + `post?q=%22Go%22&r=%22Vote%22&year=%222020%22&q=%22Lang%22&`)
 	Start(port)
 }

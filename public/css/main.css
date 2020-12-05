@@ -1,0 +1,22 @@
+body {
+    /* <span>Photo by <a href="https://unsplash.com/@nypl?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">The New York Public Library</a> on <a href="https://unsplash.com/?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span> */
+    background-image: url("/public/images/earth-rise.jpg");
+    background-size: cover;
+    width: 100%;
+    opacity: 0.8;
+}
+
+/* Visible Title of the Page */
+div.title {
+    color: yellow;
+    font-family: "Courier New", serif;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+/*h3, h4 in index.html and other pages */
+h3, h4 {
+    color: white;
+    font-family: "Chalkduster", "sans-serif";
+    text-align: center;
+}

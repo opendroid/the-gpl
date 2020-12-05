@@ -1,0 +1,37 @@
+/* Horizontal Navigation Bar*/
+ul.horizontal-navigation {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+    font-family: "Chalkduster", "sans-serif";
+}
+
+li.nav-tab {
+    float: left;
+    border-right:1px solid #bbb;
+}
+
+li:last-child {
+    border-left:1px solid #bbb;
+    border-right: none;
+    float: right;
+}
+
+li.nav-tab a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li.nav-tab a:hover:not(.active) {
+    background-color: #dddddd;
+    color: #333333;
+}
+
+.active {
+    background-color: #4CAF50;
+}

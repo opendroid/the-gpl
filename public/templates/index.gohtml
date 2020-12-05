@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The GPL</title>
+    <link rel="stylesheet" href="public/css/main.css">
+    <link rel="stylesheet" href="public/css/nav.css">
+    <link rel="stylesheet" href="public/css/indextable.css">
+    <link rel="stylesheet" href="public/css/footer.css">
+    <link rel="icon" href="public/images/favicon-16x16.png">
+</head>
+<body>
+<div class="title">Black Lives Matter</div>
+
+<!-- Horizontal navigation section: Fill in navigation template -->
+{{template "nav" .}}
+
+<!-- Table for Header key/values -->
+<h3> Data received from this browser by server:</h3>
+<table class="params">
+    <tr>
+        <th>Header</th>
+        <th>Values</th>
+    </tr>
+    <!-- Fill in the data -->
+    {{range $key, $values := .Data}}
+        <tr>
+            <td>{{$key}}</td>
+            <td>{{$values}}</td>
+        </tr>
+    {{end}}
+</table>
+
+<!-- Send data to server as a GET -->
+<h4>Send any test attributes using method "get"</h4>
+<form class="arbitrary-input" action="index" method="get">
+    <input type="text" name="value1" placeholder="Try sending any sentence.">
+    <input type="text" name="value2" placeholder="Try sending another sentence.">
+    <input type="submit" value="Submit">
+</form>
+
+<!-- Footer quote -->
+{{template "footer"}}
+</body>
+</html>

@@ -18,7 +18,7 @@ func Test_rootHandler(t *testing.T) {
 
 	// Declare a recorder
 	rr := httptest.NewRecorder()
-	handler := http.HandlerFunc(rootHandler)
+	handler := http.HandlerFunc(testHandler)
 	handler.ServeHTTP(rr, req)
 	if status := rr.Code; status != http.StatusOK {
 		t.Errorf("rootHandler: received status: %v expected: %v",

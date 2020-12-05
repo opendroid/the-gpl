@@ -26,6 +26,7 @@ FROM alpine:3
 RUN apk add --no-cache ca-certificates
 # Copy the binary to the production image from the builder stage.
 COPY --from=builder /app/the-gpl /the-gpl
+COPY --from=builder /app/public /public
 
 # Expose port 8888 to the outside world
 EXPOSE 8080

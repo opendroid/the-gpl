@@ -8,15 +8,12 @@ package web
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/opendroid/the-gpl/chapter1/lissajous"
+	"net/http"
+	"sync"
+
 	"github.com/opendroid/the-gpl/chapter3"
 	"github.com/opendroid/the-gpl/chapter8/search"
 	"github.com/opendroid/the-gpl/logger"
-	"io"
-	"net/http"
-	"net/url"
-	"strings"
-	"sync"
 )
 
 // Local file variables
@@ -37,48 +34,40 @@ func Start(port int) {
 		mutex.Unlock()
 	})
 
-	http.HandleFunc("/", rootHandler)
+	http.HandleFunc("/", indexHandler)
 	http.HandleFunc("/favicon.ico", favIconHandler) // For chrome.
-	http.HandleFunc("/lis", lissajousHandler)
+	// http.HandleFunc("/lis", lissajousHandler)
 	http.HandleFunc("/counter", counter)
 	http.HandleFunc("/incr", incrHandler)
+	http.HandleFunc("/test", testHandler)
 	http.HandleFunc("/egg", chapter3.EggHandler)
 	http.HandleFunc("/sinc", chapter3.SincHandler)
 	http.HandleFunc("/search", search.Query)
 	http.HandleFunc("/valley", chapter3.ValleyHandler)
 	http.HandleFunc("/sq", chapter3.SquaresHandler)
-	http.HandleFunc("/post", httpPostInfo)
-	http.HandleFunc("/echo", echoHandler)
 	http.HandleFunc("/who", gitInfoHandler)
 	http.HandleFunc("/mandel", chapter3.MBGraphHandler)
 	http.HandleFunc("/mandelbw", chapter3.MBGraphBWHandler)
 
+	// Handling files from server
+	http.HandleFunc("/index", indexHandler)
+	http.HandleFunc("/lis", indexHandler)
+	http.HandleFunc("/surfaces", indexHandler)
+	http.HandleFunc("/about", indexHandler)
+
+	// Serve CSS and JS files
+	css := http.FileServer(http.Dir("public/css"))
+	images := http.FileServer(http.Dir("public/images"))
+	http.Handle("/public/css/", http.StripPrefix("/public/css", css))
+	http.Handle("/public/images/", http.StripPrefix("/public/images", images))
 	address := fmt.Sprintf(":%d", port)
 	_ = http.ListenAndServe(address, nil)
 }
 
-func rootHandler(w http.ResponseWriter, _ *http.Request) {
-	logger.Log.Println("Root Handler func.")
-	_, _ = io.WriteString(w, "Hello from server\n")
-}
-
-func lissajousHandler(w http.ResponseWriter, _ *http.Request) {
-	logger.Log.Println("lissajousHandler.")
-	lissajous.Default(w)
-}
-
-func echoHandler(w http.ResponseWriter, r *http.Request) {
-	logger.Log.Println("echoHandler.")
-	// Parse query params first
-	qs, ok := r.URL.Query()["q"]
-	if !ok || len(qs[0]) < 1 {
-		logger.Log.Println("Url Param 'key' is missing")
-		_, _ = io.WriteString(w, `/echo/q="echo this"`)
-		return
-	}
-	echo := qs[0]
-	_, _ = io.WriteString(w, echo)
-}
+// func lissajousHandler(w http.ResponseWriter, _ *http.Request) {
+// 	logger.Log.Println("lissajousHandler.")
+// 	lissajous.Default(w)
+// }
 
 func incrHandler(w http.ResponseWriter, r *http.Request) {
 	logger.Log.Println("incrHandler.")
@@ -86,41 +75,6 @@ func incrHandler(w http.ResponseWriter, r *http.Request) {
 	counter++
 	mutex.Unlock()
 	_, _ = fmt.Fprintf(w, "URL: %q\n", r.URL.Path)
-}
-
-// httpPostInfo prints basic info, example
-// 	curl -X POST localhost:8080/post --data 'q="Ajay"&r="Thakur"&son=Aiden'
-// 		POST /post HTTP/1.1
-// 		Header[Content-Length]: [31]
-// 		Header[Content-Type]: [application/x-www-form-urlencoded]
-// 		Header[User-Agent]: [curl/7.64.1]
-// 		Header[Accept]: [*/*]
-// 		HOST: localhost:8080, Remote: [::1]:63738
-// 		Form[q]: ["Github"]
-// 		Form[r]: ["Opendroid"]
-// 		Form[s]: [Gpl]
-func httpPostInfo(w http.ResponseWriter, r *http.Request) {
-	logger.Log.Println("httpPostInfo.")
-	if path, err := url.PathUnescape(r.URL.String()); err != nil { // unescape path
-		_, _ = fmt.Fprintf(w, "%s %s %s: %v\n", r.Method, r.URL, r.Proto, err)
-	} else {
-		_, _ = fmt.Fprintf(w, "%s %s %s\n", r.Method, path, r.Proto)
-	}
-	for k, values := range r.Header {
-		v := strings.Join(values, ",")
-		_, _ = fmt.Fprintf(w, "Header[%s]: %v\n", k, v)
-	}
-	_, _ = fmt.Fprintf(w, "HOST: %s, Remote: %s\n", r.Host, r.RemoteAddr)
-
-	// Parse form first, reduces scope of 'err'
-	if err := r.ParseForm(); err != nil {
-		logger.Log.Printf("httpPostInfo: form parse error: %v", err)
-		return
-	}
-	for k, values := range r.Form {
-		v := strings.Join(values, ",")
-		_, _ = fmt.Fprintf(w, "Form[%s]: %v\n", k, v)
-	}
 }
 
 // gitInfoHandler write a JSON response to client
@@ -141,8 +95,12 @@ func gitInfoHandler(w http.ResponseWriter, _ *http.Request) {
 
 // favIconHandler sends CVG as fav icon
 // See https://css-tricks.com/emojis-as-favicons/
-func favIconHandler(w http.ResponseWriter, _ *http.Request) {
-	icon := `<svg xmlns="http://www.w3.org/2000/svg"><text y="32" font-size="32">🚀</text></svg>`
+func favIconHandler(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "public/images/favicon-16x16.png")
 	logger.Log.Println("favIconHandler.")
-	_, _ = fmt.Fprintf(w, "%s", icon)
+}
+
+// testHandler is to try unit test
+func testHandler(w http.ResponseWriter, _ *http.Request) {
+	_, _ = fmt.Fprintln(w, "Hello from server")
 }

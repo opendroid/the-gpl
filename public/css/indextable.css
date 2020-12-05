@@ -1,0 +1,71 @@
+/* CSS For table POST */
+table.params {
+    font-family: "Courier New", "sans-serif";
+    border-collapse: collapse;
+    width: 90%;
+    margin-top: 50px;
+    margin-left: 5%;
+}
+
+/* Table Heading display */
+table.params th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    color: darkmagenta;
+}
+
+/* Table data display */
+table.params td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    font-family: "Chalkduster", "sans-serif";
+}
+
+/* Column widths: 1st column*/
+table.params td:nth-child(odd) {
+    width: 20%;
+}
+
+/* Column widths: 2nd column*/
+table.params td:nth-child(even) {
+    width: 80%;
+}
+
+/* Odd row colors: 1, 3, 5 .. */
+table.params tr:nth-child(odd) {
+    background-color: ghostwhite;
+}
+/* Even row colors: 2, 4, 6 */
+table.params tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+/* Style sheet for formatting content in Index form. Height/Width similar to the table. */
+input[type=text] {
+    width: 90%;
+    margin-top: 1px;
+    margin-left: 5%;
+    padding: 12px 20px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=submit] {
+    width: 90%;
+    margin-top: 2px;
+    margin-left: 5%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #45a049;
+}

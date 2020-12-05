@@ -1,0 +1,15 @@
+/*Footer section */
+footer {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    font-family: "Courier", "sans-serif";
+    color: lightyellow;
+    text-align: right;
+    margin-right: 25px;
+}
+
+footer hr {
+    border-width: 0;
+    border-top: 1px dashed yellow;
+}

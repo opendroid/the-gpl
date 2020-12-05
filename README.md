@@ -9,7 +9,7 @@ in repo [gopl.io](https://github.com/adonovan/gopl.io/).
 
 You can access the deployed artifacts as:
  1. GPC Cloud Run `the-gpl-book` service.
-   - [Post data](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/post?q="hello"&l="TheGOGPL"&a="Pike+Donovan")
+   - [Post data](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/index?q="hello"&l="TheGOGPL"&a="Pike+Donovan")
    - [See Lissajous Graph](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/lis)
    - [Sinc Surface](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/sinc)
    - [Eggs Surface](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/egg)

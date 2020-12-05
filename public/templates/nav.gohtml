@@ -1,0 +1,10 @@
+{{define "nav"}}
+    <header>
+        <ul class="horizontal-navigation">
+            <li class="nav-tab"><a{{if eq .Active "post"}} class="active" {{end}} href="post">Post Data</a></li>
+            <li class="nav-tab"><a{{if eq .Active "lis"}} class="active" {{end}} href="lis">Lissajous</a></li>
+            <li class="nav-tab"><a{{if eq .Active "surfaces"}} class="active" {{end}} href="surfaces">Surfaces</a></li>
+            <li class="nav-tab"><a{{if eq .Active "about"}} class="active" {{end}} href="about">About</a></li>
+        </ul>
+    </header>
+{{end}}
