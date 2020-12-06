@@ -1,11 +1,12 @@
 package lissajous
 
 import (
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 	"image/gif"
 	"os"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 var config = Config{
@@ -19,7 +20,7 @@ var config = Config{
 // cd lissajous
 // go test -run TestLissajous -v
 func TestLissajous(t *testing.T) {
-	gifImageName := "../../content/media/lis.gif"
+	gifImageName := "../../public/images/media/lis.gif"
 	gifImage, err := os.Create(gifImageName)
 	require.Nil(t, err)
 	require.NotNil(t, gifImage)
@@ -33,7 +34,7 @@ func TestLissajous(t *testing.T) {
 func TestLissajous_Interface(t *testing.T) {
 
 	// Call on config
-	gifImageName := "../../content/media/lis2.gif"
+	gifImageName := "../../public/images/media/lis2.gif"
 	gifImage, err := os.Create(gifImageName)
 	require.Nil(t, err)
 	require.NotNil(t, gifImage)
