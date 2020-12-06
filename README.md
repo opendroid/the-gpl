@@ -3,24 +3,19 @@
 
 [The Go Programming 
 Language](https://www.amazon.com/Programming-Language-Addison-Wesley-Professional-Computing/dp/0134190440) 
-by _Alan A. A. Donovan_ and _Brian W. Kernighan_ is a classic Go book. This git repo is an attempt to share my learning from 
-this book in terms of solving problems posed in the book and then some. The source code by authors is on github 
-in repo [gopl.io](https://github.com/adonovan/gopl.io/).
+is a seminal programming language authored by Avengers: _Alan A. A. Donovan_ and _Brian W. Kernighan_. 
+This git repo is an attempt to share my learning from this book to showcase problems posed in the book and then some. 
+The source-code by authors is on github at [gopl.io](https://github.com/adonovan/gopl.io/).
 
-You can access the deployed artifacts as:
+You can experience the deployed artifacts on the web as:
 1. GPC Cloud Run `the-gpl-book` service.
-   - [About](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/about) 
+   - [Home](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/index), [About](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/about) 
    - [Post data](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/index?q="hello"&l="TheGOGPL"&a="Pike+Donovan")
-   - [See Lissajous Graph](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/lis)
-   - [Sinc Surface](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/sinc)
-   - [Eggs Surface](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/egg)
-   - [Valley Surface](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/valley)
-   - [Sq Surface](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/sq)
-   - [Mandel](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/mandel)
-   - [Mandel BW](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/mandelbw) 
-   - [Echo](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/echo?q=Hello%20%F0%9F%8C%8E%F0%9F%8C%8E%F0%9F%8C%8E)
-   - [who - application/json](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/who) 
+   - [Lissajous Graph](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/lis)
+   - [Mandel](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/mandel), [Black & White](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/mandelbw)
+   - Surfaces: [Sinc](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/sinc), [Eggs](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/egg), [Valley](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/valley), [Sq](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/sq)
 2. As [docker container image](https://hub.docker.com/repository/docker/uopendocker/the-gpl).
+3. Curls eg: `curl https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/who`
 
 ## Running from Web
 You can start a webserver and see simple web-server examples. The command is:
@@ -32,21 +27,21 @@ $ the-gpl server -port=8080 # start a web server at port 8080.
 Assuming, the program is installed locally as `the-gpl` you can access several methods using a CLI. Some examples are:
 
 ### Google API examples
-To use the Google  Dialogflow Agent and Speech-to-text set up:
+To use the Google  _Dialogflow Agent_ and _Speech-to-text_ set up:
 1. **GOOGLE_APPLICATION_CREDENTIALS** shell variable
 2. Enable APIs
  
-Here are commands to communicate with the bot.
+Here are commands to communicate with the Dialogflow Agent.
 ```shell script
 $ the-gpl # Prints the help of all modules
-$ the-gpl bot -project=gcp-project-id # Will do a short conversation with a bot. 
+$ the-gpl bot -project=gcp-project-id # Will do a short conversation with an agent. 
 $ the-gpl bot -project=gcp-project-id -chat=true # Can send messages from stdin
-$ the-gpl bot -chat=true -project=gcp-project-id -lang=en-US # Chat with a bot in en-US
+$ the-gpl bot -chat=true -project=gcp-project-id -lang=en-US # Chat with an agent in en-US
 ```
 
 To run live-caption speech to text first start a microphone stream on RTP port, and then use the-gpl to listen and apply STT.
 ```shell script
-$ ffmpeg -f avfoundation -i ":1" -acodec pcm_s16le -ar 48000 -f s16le udp://localhost:9999 # Start microphone streaming
+$ ffmpeg -f avfoundation -i ":1" -acodec pcm_s16le -ar 48000 -f s16le udp://localhost:9999 # macOS Start microphone streaming
 $ the-gpl stt -port=9999 # Will listen to RTP stream on port 9999 for 2 minutes and transcribe in real time
 ```
 
@@ -108,7 +103,7 @@ The GPL application can be built using:
 See [The GPL Docker](https://github.com/opendroid/the-gpl/wiki/The-GPL-Docker) wiki for docker steps,
  
  ## Mandelbrot
-Here are some sample Mandelbrot fractals generated.
+Here are some sample Mandelbrot fractals created.
 
 ![Color](public/images/media/mandel-color-256.png?raw=true "Color Mandelbrot Graph")
 ![B&W](public/images/media/mandel-bw-256.png?raw=true "Color Mandelbrot Graph")
