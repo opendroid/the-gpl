@@ -11,8 +11,11 @@ import (
 	"net/http"
 	"sync"
 
-	"github.com/opendroid/the-gpl/chapter3"
 	"github.com/opendroid/the-gpl/chapter8/search"
+
+	"github.com/opendroid/the-gpl/chapter1/lissajous"
+
+	"github.com/opendroid/the-gpl/chapter3"
 	"github.com/opendroid/the-gpl/logger"
 )
 
@@ -36,23 +39,27 @@ func Start(port int) {
 
 	http.HandleFunc("/", indexHandler)
 	http.HandleFunc("/favicon.ico", favIconHandler) // For chrome.
-	// http.HandleFunc("/lis", lissajousHandler)
+	http.HandleFunc("/lisimage", lissajousHandler)  // Computed lissajous image
 	http.HandleFunc("/counter", counter)
 	http.HandleFunc("/incr", incrHandler)
 	http.HandleFunc("/test", testHandler)
 	http.HandleFunc("/egg", chapter3.EggHandler)
 	http.HandleFunc("/sinc", chapter3.SincHandler)
-	http.HandleFunc("/search", search.Query)
 	http.HandleFunc("/valley", chapter3.ValleyHandler)
 	http.HandleFunc("/sq", chapter3.SquaresHandler)
+	http.HandleFunc("/svg/egg.svg", chapter3.EggHandlerSVG)
+	http.HandleFunc("/svg/sinc", chapter3.SincHandlerSVG)
+	http.HandleFunc("/svg/valley", chapter3.ValleyHandlerSVG)
+	http.HandleFunc("/svg/sq", chapter3.SquaresHandlerSVG)
+	http.HandleFunc("/search", search.Query)
 	http.HandleFunc("/who", gitInfoHandler)
 	http.HandleFunc("/mandel", chapter3.MBGraphHandler)
 	http.HandleFunc("/mandelbw", chapter3.MBGraphBWHandler)
 
 	// Handling files from server
 	http.HandleFunc("/index", indexHandler)
-	http.HandleFunc("/lis", indexHandler)
-	http.HandleFunc("/surfaces", indexHandler)
+	http.HandleFunc("/lis", lisHandler)
+	http.HandleFunc("/surfaces", surfacesHandler)
 	http.HandleFunc("/about", aboutHandler)
 
 	// Serve CSS and JS files
@@ -64,10 +71,10 @@ func Start(port int) {
 	_ = http.ListenAndServe(address, nil)
 }
 
-// func lissajousHandler(w http.ResponseWriter, _ *http.Request) {
-// 	logger.Log.Println("lissajousHandler.")
-// 	lissajous.Default(w)
-// }
+func lissajousHandler(w http.ResponseWriter, _ *http.Request) {
+	logger.Log.Println("lissajousHandler.")
+	lissajous.Default(w)
+}
 func incrHandler(w http.ResponseWriter, r *http.Request) {
 	logger.Log.Println("incrHandler.")
 	mutex.Lock()

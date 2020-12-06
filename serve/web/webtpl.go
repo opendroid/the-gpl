@@ -77,3 +77,18 @@ func aboutHandler(w http.ResponseWriter, _ *http.Request) {
 		logger.Log.Printf("indexHandler: %v", err)
 	}
 }
+
+func lisHandler(w http.ResponseWriter, _ *http.Request) {
+	logger.Log.Println("lisHandler.")
+	if err := templates.ExecuteTemplate(w, LisPage, &AboutPageData{Active: Lis.String(), Data: socialCards}); err != nil {
+		logger.Log.Printf("indexHandler: %v", err)
+	}
+}
+
+// surfacesHandler shows a specific surface
+func surfacesHandler(w http.ResponseWriter, _ *http.Request) {
+	logger.Log.Println("surfacesHandler.")
+	if err := templates.ExecuteTemplate(w, SurfacesPage, &SurfacesPageData{Active: Surfaces.String(), Data: EggSurface}); err != nil {
+		logger.Log.Printf("indexHandler: %v", err)
+	}
+}

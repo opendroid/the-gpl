@@ -25,7 +25,7 @@ func TestLissajous(t *testing.T) {
 	require.Nil(t, err)
 	require.NotNil(t, gifImage)
 
-	Lissajous(config, gifImage)
+	Lissajous(gifImage, config)
 	_ = gifImage.Close()
 	checkImageSizeAndType(t, gifImageName, "gif", 1024, 1024)
 }

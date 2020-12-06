@@ -1,0 +1,8 @@
+img.lissajous {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+    width: 512px;
+    border: 5px solid #555;
+}

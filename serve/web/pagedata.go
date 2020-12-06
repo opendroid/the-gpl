@@ -26,13 +26,36 @@ type AboutPageData struct {
 	Data   []SocialCard
 }
 
+// SurfacesPageData contains Active Page name and Data for the index page
+type SurfacesPageData struct {
+	Active string
+	Data   string
+}
+
 // Template names
 const (
 	// IndexPage entry point go HTML page
 	IndexPage = "index.gohtml"
 	// AboutPage
 	AboutPage = "about.gohtml"
+	// LisPage
+	LisPage = "lis.gohtml"
+	// SurfacesPage shows computed SVG images
+	SurfacesPage = "surfaces.gohtml"
+
+	// Surfaces names
+	// EggSurface invokes
+	EggSurface = "egg"
+	// SincSurface invokes
+	SincSurface = "sinc"
+	// ValleySurface invokes
+	ValleySurface = "valley"
+	// SquareSurface invokes
+	SquareSurface = "sq"
 )
+
+// Ignore lint errors
+var _, _, _, _ = EggSurface, SincSurface, ValleySurface, SquareSurface
 
 // String convert Active page name to a valid string compared in template
 func (s Active) String() string {

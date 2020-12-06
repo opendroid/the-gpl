@@ -64,8 +64,7 @@ const (
 	// SurfaceAngle at which x and y are angled
 	SurfaceAngle30 = math.Pi / 6
 	// SVGPrefix element prefix
-	SVGPrefixFormat = "<svg xmlns='http://www.w3/org/2000/svg' " +
-		"style='stroke: grey; fill: white; stroke-width:0.7' width='%d' height='%d'>\n"
+	SVGPrefixFormat = `<svg xmlns="http://www.w3/org/2000/svg" style="stroke: grey; fill: white; stroke-width:0.7" width="100%%" height="100%%" viewBox="0 0 %d %d">`
 	// SVGSuffixTag closes <svg> ... </svg>
 	SVGSuffixTag = "</svg>"
 )

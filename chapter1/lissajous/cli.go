@@ -3,9 +3,10 @@ package lissajous
 import (
 	"flag"
 	"fmt"
-	"github.com/opendroid/the-gpl/serve/shell"
 	"io"
 	"os"
+
+	"github.com/opendroid/the-gpl/serve/shell"
 )
 
 type CLI struct {
@@ -58,5 +59,5 @@ func saveSquareImage(cycles, size, frames int, w io.Writer) {
 		NFrames:    frames,
 		DelayMS:    10,
 	}
-	Lissajous(config, w)
+	Lissajous(w, config)
 }
