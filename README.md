@@ -109,5 +109,6 @@ See [The GPL Docker](https://github.com/opendroid/the-gpl/wiki/The-GPL-Docker) w
  
  ## Mandelbrot
 Here are some sample Mandelbrot fractals generated.
+
 ![Color](content/media/mandel-color-256.png?raw=true "Color Mandelbrot Graph")
 ![B&W](content/media/mandel-bw-256.png?raw=true "Color Mandelbrot Graph")
