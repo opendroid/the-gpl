@@ -71,9 +71,9 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // aboutHandler parses about templates and and presents to use
-func aboutHandler(w http.ResponseWriter, r *http.Request) {
+func aboutHandler(w http.ResponseWriter, _ *http.Request) {
 	logger.Log.Println("aboutHandler.")
-	if err := templates.ExecuteTemplate(w, AboutPage, AboutPageData{Active: About.String()}); err != nil {
+	if err := templates.ExecuteTemplate(w, AboutPage, AboutPageData{Active: About.String(), Data: socialCards}); err != nil {
 		logger.Log.Printf("indexHandler: %v", err)
 	}
 }

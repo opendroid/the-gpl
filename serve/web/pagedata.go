@@ -23,6 +23,7 @@ type IndexPageData struct {
 // AboutPageData contains Active Page name and Data for the index page
 type AboutPageData struct {
 	Active string
+	Data   []SocialCard
 }
 
 // Template names
