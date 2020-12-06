@@ -9,13 +9,13 @@ The source-code by authors is on github at [gopl.io](https://github.com/adonovan
 
 You can experience the deployed artifacts on the web as:
 1. GPC Cloud Run `the-gpl-book` service.
-   - [Home](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/index), [About](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/about) 
-   - [Post data](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/index?q="hello"&l="TheGOGPL"&a="Pike+Donovan")
-   - [Lissajous Graph](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/lis)
-   - [Mandel](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/mandel), [Black & White](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/mandelbw)
-   - Surfaces: [Sinc](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/sinc), [Eggs](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/egg), [Valley](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/valley), [Sq](https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/sq)
+   - [Home](https://the-gpl.com/index), [About](https://the-gpl.com/about) 
+   - [Post data](https://the-gpl.com/index?q="hello"&l="TheGOGPL"&a="Pike+Donovan")
+   - [Lissajous Graph](https://the-gpl.com/lis)
+   - [Mandel](https://the-gpl.com/mandel), [Black & White](https://the-gpl.com/mandelbw)
+   - Surfaces: [Sinc](https://the-gpl.com/sinc), [Eggs](https://the-gpl.com/egg), [Valley](https://the-gpl.com/valley), [Sq](https://the-gpl.com/sq)
 2. As [docker container image](https://hub.docker.com/repository/docker/uopendocker/the-gpl).
-3. Curls eg: `curl https://the-gpl-book-vs6xxfdoxa-uc.a.run.app/who`
+3. Curls eg: `curl https://the-gpl.com/who`
 
 ## Running from Web
 You can start a webserver and see simple web-server examples. The command is:
