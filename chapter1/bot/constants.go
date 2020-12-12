@@ -1,11 +1,12 @@
 package bot
 
 import (
-	dialogflow "cloud.google.com/go/dialogflow/apiv2"
 	"context"
-	"github.com/google/uuid"
 	"log"
 	"time"
+
+	dialogflow "cloud.google.com/go/dialogflow/apiv2"
+	"github.com/google/uuid"
 )
 
 // dfEnv is Dialogflow bot environments
@@ -20,9 +21,7 @@ const (
 
 const (
 	// gcpProjectName GCP project ID in use
-	gcpProjectID = "v3-eatscancelorder"
-	// gcpAuthFile name of the GOOGLE_APPLICATION_CREDENTIALS file
-	gcpAuthFile = "/Users/ajayt/Experiments/Keys/ajayt-gcp-experiments.json"
+	gcpProjectID = "your-gcp-project-id"
 	// defaultLanguage of the bot
 	defaultLanguage = "en"
 	// enUSLanguage US English

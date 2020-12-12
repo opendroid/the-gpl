@@ -4,10 +4,11 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
-	"github.com/opendroid/the-gpl/serve/shell"
 	"log"
 	"os"
 	"strings"
+
+	"github.com/opendroid/the-gpl/serve/shell"
 )
 
 // ---------------------------------------------------------------------
@@ -71,6 +72,9 @@ func (b CLI) ExecCmd(args []string) {
 		for _, m := range r {
 			l.Printf("Response: %s\n", m)
 		}
+	}
+	if err := scan.Err(); err != nil { // Log scan errors.
+		l.Printf("Scan err: %v\n", err)
 	}
 }
 

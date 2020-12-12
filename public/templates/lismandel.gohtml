@@ -14,10 +14,10 @@
 {{template "nav" .Active}}
 
 <!-- Table for Header key/values -->
-<h3>Lissajous Figures</h3>
+<h3>{{.Heading}}</h3>
 
 <!-- Add for image -->
-<img class="lissajous" src="lisimage" alt="Computed lissajous image">
+<img class="lissajous" src="{{.ImageName}}" alt="Computed image">
 
 <!-- Footer quote -->
 {{template "footer"}}

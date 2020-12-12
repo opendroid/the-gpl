@@ -1,6 +1,6 @@
 /*Footer section */
 footer {
-    position: absolute;
+    position: relative;
     bottom: 10px;
     width: 100%;
     font-family: "Courier", "sans-serif";

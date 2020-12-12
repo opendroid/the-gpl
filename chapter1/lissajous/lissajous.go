@@ -8,6 +8,7 @@ import (
 	"io"
 	"math"
 	"math/rand"
+	"net/http"
 )
 
 // Config configuration object for Lissajous curve
@@ -110,4 +111,9 @@ func Default(w io.Writer) {
 		DelayMS:    20,
 	}
 	Lissajous(w, config)
+}
+
+// Figure displays public images
+func Figure(w http.ResponseWriter, _ *http.Request) {
+	Default(w)
 }

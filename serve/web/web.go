@@ -11,11 +11,9 @@ import (
 	"net/http"
 	"sync"
 
-	"github.com/opendroid/the-gpl/chapter8/search"
-
 	"github.com/opendroid/the-gpl/chapter1/lissajous"
-
 	"github.com/opendroid/the-gpl/chapter3"
+	"github.com/opendroid/the-gpl/chapter8/search"
 	"github.com/opendroid/the-gpl/logger"
 )
 
@@ -24,6 +22,37 @@ import (
 var mutex sync.Mutex
 var counter int
 
+// handlers stores URLS to HandlerFunc
+var handlers = map[string]func(http.ResponseWriter, *http.Request){
+	"/":              indexHandler,   // 	"/" - root page
+	"/favicon.ico":   favIconHandler, // Fav icon
+	"/test":          testHandler,
+	"/lisimage":      lissajous.Figure,
+	"/mandelimage":   chapter3.MBGraphHandler,
+	"/mandelbwimage": chapter3.MBGraphBWHandler,
+	"/search":        search.Query,
+	"/who":           gitInfoHandler,
+	"/index":         indexHandler, // template pages
+	"/about":         aboutHandler,
+}
+
+// init sets up handlers map
+func init() {
+	counter := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		mutex.Lock()
+		_, _ = fmt.Fprintf(w, "Counter: %d", counter)
+		mutex.Unlock()
+	})
+	handlers["/counter"] = counter // "/incr" - increments a page counter, protected by mutex
+	handlers[sincPath.String()] = surfaceSVGHandler
+	handlers[sqPath.String()] = surfaceSVGHandler
+	handlers[eggPath.String()] = surfaceSVGHandler
+	handlers[valleyPath.String()] = surfaceSVGHandler
+	handlers[lisPath.String()] = imagesHandler
+	handlers[mandelPath.String()] = imagesHandler
+	handlers[mandelBWPath.String()] = imagesHandler
+}
+
 // Start a server that hosts pages:
 // 	/ - root page
 // 	/lis - Lissajous graph handler
@@ -31,37 +60,10 @@ var counter int
 // 	/incr - increments a page counter, protected by mutex
 // 	/counter - shows value of counter, protected by mutex
 func Start(port int) {
-	counter := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		mutex.Lock()
-		_, _ = fmt.Fprintf(w, "Counter: %d", counter)
-		mutex.Unlock()
-	})
-
-	http.HandleFunc("/", indexHandler)
-	http.HandleFunc("/favicon.ico", favIconHandler) // For chrome.
-	http.HandleFunc("/lisimage", lissajousHandler)  // Computed lissajous image
-	http.HandleFunc("/counter", counter)
-	http.HandleFunc("/incr", incrHandler)
-	http.HandleFunc("/test", testHandler)
-	http.HandleFunc("/egg", chapter3.EggHandler)
-	http.HandleFunc("/sinc", chapter3.SincHandler)
-	http.HandleFunc("/valley", chapter3.ValleyHandler)
-	http.HandleFunc("/sq", chapter3.SquaresHandler)
-	http.HandleFunc("/svg/egg.svg", chapter3.EggHandlerSVG)
-	http.HandleFunc("/svg/sinc", chapter3.SincHandlerSVG)
-	http.HandleFunc("/svg/valley", chapter3.ValleyHandlerSVG)
-	http.HandleFunc("/svg/sq", chapter3.SquaresHandlerSVG)
-	http.HandleFunc("/search", search.Query)
-	http.HandleFunc("/who", gitInfoHandler)
-	http.HandleFunc("/mandel", chapter3.MBGraphHandler)
-	http.HandleFunc("/mandelbw", chapter3.MBGraphBWHandler)
-
-	// Handling files from server
-	http.HandleFunc("/index", indexHandler)
-	http.HandleFunc("/lis", lisHandler)
-	http.HandleFunc("/surfaces", surfacesHandler)
-	http.HandleFunc("/about", aboutHandler)
-
+	// Add handlers to default mux
+	for k, v := range handlers {
+		http.HandleFunc(k, v)
+	}
 	// Serve CSS and JS files
 	css := http.FileServer(http.Dir("public/css"))
 	images := http.FileServer(http.Dir("public/images"))
@@ -71,10 +73,7 @@ func Start(port int) {
 	_ = http.ListenAndServe(address, nil)
 }
 
-func lissajousHandler(w http.ResponseWriter, _ *http.Request) {
-	logger.Log.Println("lissajousHandler.")
-	lissajous.Default(w)
-}
+// incrHandler adds one to counter in a lock
 func incrHandler(w http.ResponseWriter, r *http.Request) {
 	logger.Log.Println("incrHandler.")
 	mutex.Lock()

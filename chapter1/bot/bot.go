@@ -3,16 +3,27 @@
 package bot
 
 import (
-	dialogflow "cloud.google.com/go/dialogflow/apiv2"
 	"context"
 	"errors"
+	"fmt"
+	"log"
+	"os"
+
+	dialogflow "cloud.google.com/go/dialogflow/apiv2"
 	"google.golang.org/api/option"
 	dfProto "google.golang.org/genproto/googleapis/cloud/dialogflow/v2"
-	"log"
 )
 
 // New create a Dialog Flow agent or bot.
 func New(logger *log.Logger, gcpProject string, lang string) (*Client, error) {
+	gcpAuthFile := os.Getenv("GOOGLE_APPLICATION_CREDENTIALS") // Get auth file
+	if gcpAuthFile == "" {
+		return nil, fmt.Errorf("required env variable GOOGLE_APPLICATION_CREDENTIALS")
+	}
+	if _, err := os.Stat(gcpAuthFile); os.IsNotExist(err) {
+		return nil, fmt.Errorf("credentials file %q does not exist", gcpAuthFile)
+	}
+	// Fetch a client.
 	bc := Client{
 		gcpProjectID: gcpProject,
 		authFilePath: gcpAuthFile,

@@ -1,12 +1,14 @@
 package web
 
 import (
+	"bytes"
 	"fmt"
 	"html/template"
 	"net/http"
 	"net/url"
 	"strings"
 
+	"github.com/opendroid/the-gpl/chapter3"
 	"github.com/opendroid/the-gpl/logger"
 )
 
@@ -78,17 +80,64 @@ func aboutHandler(w http.ResponseWriter, _ *http.Request) {
 	}
 }
 
-func lisHandler(w http.ResponseWriter, _ *http.Request) {
-	logger.Log.Println("lisHandler.")
-	if err := templates.ExecuteTemplate(w, LisPage, &AboutPageData{Active: Lis.String(), Data: socialCards}); err != nil {
-		logger.Log.Printf("indexHandler: %v", err)
+// imagesHandler provides a scaffolding page for Images generated
+func imagesHandler(w http.ResponseWriter, r *http.Request) {
+	logger.Log.Printf("imagesHandler: %q", r.URL.Path)
+	var activePage, imagePath, heading string
+	switch ImagePath(r.URL.Path) {
+	case lisPath:
+		heading = LisImageHanding
+		imagePath = lisImagePath
+	case mandelPath:
+		heading = MandelImageHanding
+		imagePath = mandelImagePath
+	case mandelBWPath:
+		heading = MandelBWImageHanding
+		imagePath = mandelBWImagePath
+	default:
+		heading = MandelBWImageHanding
+		imagePath = mandelBWImagePath
+	}
+	if err := templates.ExecuteTemplate(w, LisMandelPage,
+		&ImagesPageData{
+			Active:    activePage,
+			ImageName: imagePath,
+			Heading:   heading,
+		}); err != nil {
+		logger.Log.Printf("imagesHandler: %v", err)
 	}
 }
 
-// surfacesHandler shows a specific surface
-func surfacesHandler(w http.ResponseWriter, _ *http.Request) {
-	logger.Log.Println("surfacesHandler.")
-	if err := templates.ExecuteTemplate(w, SurfacesPage, &SurfacesPageData{Active: Surfaces.String(), Data: EggSurface}); err != nil {
-		logger.Log.Printf("indexHandler: %v", err)
+// surfaceSVGHandler shows a specific surface
+func surfaceSVGHandler(w http.ResponseWriter, r *http.Request) {
+	logger.Log.Printf("sincHandler: %q", r.URL.Path)
+	var buf bytes.Buffer
+	var activePage, heading string
+	switch SVGSurfacePath(r.URL.Path) {
+	case sincPath:
+		activePage = Sinc.String()
+		heading = SincSurfaceHeading
+		chapter3.SquaresHandlerSVG(&buf)
+	case sqPath:
+		activePage = Square.String()
+		heading = SquareSurfaceHeading
+		chapter3.SquaresHandlerSVG(&buf)
+	case eggPath:
+		activePage = Egg.String()
+		heading = EggSurfaceHeading
+		chapter3.EggHandlerSVG(&buf)
+	default: // valleyPath
+		activePage = Valley.String()
+		heading = ValleySurfaceHeading
+		chapter3.ValleyHandlerSVG(&buf)
+	}
+
+	// Execute the template
+	if err := templates.ExecuteTemplate(w, SurfacesPage, &SVGPageData{
+		Active:  activePage,
+		Data:    template.HTML(buf.String()),
+		Heading: heading,
+	}); err != nil {
+		logger.Log.Printf("surfaceSVGHandler: %v", err)
 	}
 }

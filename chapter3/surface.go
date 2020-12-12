@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io"
 	"math"
-	"net/http"
 
 	"github.com/opendroid/the-gpl/logger"
 )
@@ -100,60 +99,26 @@ func Egg(x, y float64) float64 {
 	return math.Pow(2, math.Sin(x)) * math.Pow(2, math.Cos(y)) / EggDenominator
 }
 
-// EggHandler draws an egg on a writer
-func EggHandler(w http.ResponseWriter, _ *http.Request) {
-	logger.Log.Println("EggHandler.")
-	_, _ = fmt.Fprintf(w, "%s", HTMLBeginEgg)
-	PlotOn3DSurface(w, Egg)
-	_, _ = fmt.Fprintf(w, "%s", HTMLEnd)
-}
-
 // EggHandlerSVG draws an egg on a writer
-func EggHandlerSVG(w http.ResponseWriter, _ *http.Request) {
+func EggHandlerSVG(w io.Writer) {
 	logger.Log.Println("EggHandlerSVG.")
-	w.Header().Set("Content-Type", "image/svg+xml")
-	_, _ = fmt.Fprintf(w, "%s\n", `<?xml version="1.0" encoding="utf-8"?>`)
 	PlotOn3DSurface(w, Egg)
 }
 
-// SincHandler draws an sinc on a writer
-func SincHandler(w http.ResponseWriter, _ *http.Request) {
-	logger.Log.Println("SincHandler.")
-	_, _ = fmt.Fprintf(w, "%s", HTMLBeginSinc)
+//  SincSVG writes raw SVG content
+func SincSVG(w io.Writer) {
+	logger.Log.Println("SincSVG.")
 	PlotOn3DSurface(w, Sinc)
-	_, _ = fmt.Fprintf(w, "%s", HTMLEnd)
-}
-
-// SincHandlerSVG draws an sinc on a writer
-func SincHandlerSVG(w http.ResponseWriter, _ *http.Request) {
-	logger.Log.Println("SincHandlerSVG.")
-	PlotOn3DSurface(w, Sinc)
-}
-
-// ValleyHandler draws an Valley on a writer
-func ValleyHandler(w http.ResponseWriter, _ *http.Request) {
-	logger.Log.Println("ValleyHandler.")
-	_, _ = fmt.Fprintf(w, "%s", HTMLBeginValley)
-	PlotOn3DSurface(w, Valley)
-	_, _ = fmt.Fprintf(w, "%s", HTMLEnd)
 }
 
 // ValleyHandlerSVG draws an Valley on a writer
-func ValleyHandlerSVG(w http.ResponseWriter, _ *http.Request) {
+func ValleyHandlerSVG(w io.Writer) {
 	logger.Log.Println("ValleyHandlerSVG.")
 	PlotOn3DSurface(w, Valley)
 }
 
-// SquaresHandler draws an sinc on a writer
-func SquaresHandler(w http.ResponseWriter, _ *http.Request) {
-	logger.Log.Println("SquaresHandler.")
-	_, _ = fmt.Fprintf(w, "%s", HTMLBeginSquares)
-	PlotOn3DSurface(w, Squares)
-	_, _ = fmt.Fprintf(w, "%s", HTMLEnd)
-}
-
 // SquaresHandlerSVG draws an sinc on a writer
-func SquaresHandlerSVG(w http.ResponseWriter, _ *http.Request) {
+func SquaresHandlerSVG(w io.Writer) {
 	logger.Log.Println("SquaresHandlerSVG.")
 	PlotOn3DSurface(w, Squares)
 }
