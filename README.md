@@ -24,7 +24,9 @@ $ the-gpl server -port=8080 # start a web server at port 8080.
 ```
 
 ## Running from CLI
-Assuming, the program is installed locally as `the-gpl` you can access several methods using a CLI. Some examples are:
+Assuming, the program is installed locally as `the-gpl` you can access several methods using a CLI. 
+To use autocompletion `source the-gpl-autocomplete.sh`.
+Some examples are:
 
 ### Google API examples
 To use the Google  _Dialogflow Agent_ and _Speech-to-text_ set up:
