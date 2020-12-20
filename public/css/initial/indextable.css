@@ -1,9 +1,8 @@
 /* CSS For table POST */
 table.params {
-    font-family: "Courier New", "sans-serif";
     border-collapse: collapse;
     width: 90%;
-    margin-top: 50px;
+    margin-top: .25rem;
     margin-left: 5%;
 }
 
@@ -20,7 +19,6 @@ table.params td {
     border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
-    font-family: "Lucida Grande", "sans-serif";
 }
 
 /* Column widths: 1st column*/
@@ -44,28 +42,49 @@ table.params tr:nth-child(even) {
 
 /* Style sheet for formatting content in Index form. Height/Width similar to the table. */
 input[type=text] {
-    width: 90%;
-    margin-top: 1px;
-    margin-left: 5%;
     padding: 12px 20px;
-    display: inline-block;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
 }
 
 input[type=submit] {
-    width: 90%;
-    margin-top: 2px;
-    margin-left: 5%;
     background-color: #4CAF50;
     color: white;
     padding: 14px 20px;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
 }
 
 input[type=submit]:hover {
     background-color: #45a049;
+}
+
+/* Flex elements */
+.arbitrary-input{
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 2px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+.input-label-field {
+    width: 30%;
+    align-self: center;
+}
+
+.input-field-submit{
+    align-self: flex-end;
+}
+
+/* Label formats */
+.input-field-label {
+    color: springgreen;
+    margin: 0 auto;
+}
+
+.input-field-input {
+    width: 80%;
 }

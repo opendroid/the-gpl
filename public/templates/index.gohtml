@@ -3,41 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <title>The GPL</title>
-    <link rel="stylesheet" href="public/css/main.css">
-    <link rel="stylesheet" href="public/css/nav.css">
-    <link rel="stylesheet" href="public/css/indextable.css">
-    <link rel="stylesheet" href="public/css/footer.css">
-    <link rel="icon" href="public/images/icons/favicon-16x16.png">
+    {{template "head"}}
+    <link rel="stylesheet" href="/public/css/initial/indextable.css">
 </head>
 <body>
 <!-- Horizontal navigation section: Fill in navigation template -->
-{{template "nav" .Active}}
+{{template "navflex" .Active}}
 
 <!-- Table for Header key/values -->
-<h3> Data received from this browser by server:</h3>
-<table class="params">
-    <tr>
-        <th>Header</th>
-        <th>Values</th>
-    </tr>
-    <!-- Fill in the data -->
-    {{range $key, $values := .Data}}
-        <tr>
-            <td>{{$key}}</td>
-            <td>{{$values}}</td>
-        </tr>
-    {{end}}
-</table>
-
-<!-- Send data to server as a GET -->
-<h4>Send any test attributes using method "get"</h4>
-<form class="arbitrary-input" action="index" method="get">
-    <input type="text" name="value1" placeholder="Try sending any sentence.">
-    <input type="text" name="value2" placeholder="Try sending another sentence.">
-    <input type="submit" value="Submit">
-</form>
+<main role="main">
+    <section class="index-first-section">
+        <h3> Data received from this browser by server:</h3>
+        <table class="params">
+            <tr>
+                <th>Header</th>
+                <th>Values</th>
+            </tr>
+            <!-- Fill in the data -->
+            {{range $key, $values := .Data}}
+                <tr>
+                    <td>{{$key}}</td>
+                    <td>{{$values}}</td>
+                </tr>
+            {{end}}
+        </table>
+    </section>
+    <!-- Send data to server as a GET -->
+    <section class="index-table-section">
+        <h4>Send any test attributes using method "get"</h4>
+        <form class="arbitrary-input" action="/" method="get">
+            <div class="input-label-field">
+                <label for="field1" class="input-field-label"> Field 1:</label>
+                <input type="text" name="value1" id="field1" class="input-field-input"
+                       autocomplete="off" placeholder="Try sending any sentence.">
+            </div>
+            <div class="input-label-field">
+                <label for="field2" class="input-field-label"> Field 2:</label>
+                <input type="text" name="value2" id="field2" class="input-field-input"
+                       autocomplete="off" placeholder="Try sending another sentence.">
+            </div>
+            <input type="submit" class="input-field-submit" value="Submit">
+        </form>
+    </section>
+</main>
 
 <!-- Footer quote -->
 {{template "footer"}}
+
 </body>
 </html>

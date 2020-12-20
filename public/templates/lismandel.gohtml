@@ -2,24 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>The GPL</title>
-    <link rel="stylesheet" href="public/css/main.css">
-    <link rel="stylesheet" href="public/css/nav.css">
-    <link rel="stylesheet" href="public/css/lissajous.css">
-    <link rel="stylesheet" href="public/css/footer.css">
-    <link rel="icon" href="public/images/icons/favicon-16x16.png">
+    <title>Lissajous</title>
+    {{template "head"}}
+    <link rel="stylesheet" href="/public/css/initial/lismandel.css">
 </head>
 <body>
-<!-- Horizontal navigation section: Fill in navigation template -->
-{{template "nav" .Active}}
 
-<!-- Table for Header key/values -->
-<h3>{{.Heading}}</h3>
+<main role="main">
+    <!-- Horizontal navigation section: Fill in navigation template -->
+    {{template "navflex" .Active}}
+    <section class="lismandel-info">
+        <!-- Table for Header key/values -->
+        <h3>{{.Heading}}</h3>
 
-<!-- Add for image -->
-<img class="lissajous" src="{{.ImageName}}" alt="Computed image">
-
-<!-- Footer quote -->
-{{template "footer"}}
+        <!-- Add for image -->
+        <img class="lismandel" src="{{.ImageName}}" alt="Computed image">
+    </section>
+    <!-- Footer quote -->
+    {{template "footer"}}
+</main>
 </body>
 </html>

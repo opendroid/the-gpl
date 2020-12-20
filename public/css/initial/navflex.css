@@ -1,0 +1,48 @@
+/* Visible Title of the Page */
+.the-gpl-header-title {
+    color: yellow;
+    text-align: center;
+    padding-top: 0;
+}
+
+/* Horizontal Navigation Bar*/
+.flex-horizontal-navigation {
+    display: flex;
+    flex-flow: row wrap;
+    margin: 0;
+    padding: 0;
+    background-color: #333;
+    color: white;
+    width: 100%;
+    align-items: flex-start;
+}
+
+.flex-nav-tab {
+    border-right:1px solid #bbb;
+}
+
+.flex-nav-tab-last-spacer {
+    margin-left: auto;
+}
+.flex-nav-tab-last {
+    border-left:1px solid #bbb;
+    border-right: none;
+    align-self: stretch;
+}
+
+.flex-nav-tab a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.flex-nav-tab a:hover:not(.flex-nav-active) {
+    background-color: #dddddd;
+    color: #333333;
+}
+
+.flex-nav-active {
+    background-color: #4CAF50;
+}

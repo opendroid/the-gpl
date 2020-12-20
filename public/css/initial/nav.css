@@ -1,3 +1,10 @@
+/* Visible Title of the Page */
+.the-gpl-header-title {
+    color: yellow;
+    text-align: center;
+    padding-top: 0;
+}
+
 /* Horizontal Navigation Bar*/
 ul.horizontal-navigation {
     list-style-type: none;
@@ -5,7 +12,6 @@ ul.horizontal-navigation {
     padding: 0;
     overflow: hidden;
     background-color: #333;
-    font-family: "Chalkduster", "sans-serif";
 }
 
 li.nav-tab {

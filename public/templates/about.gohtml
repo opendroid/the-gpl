@@ -2,23 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>The GPL</title>
-    <link rel="stylesheet" href="public/css/main.css">
-    <link rel="stylesheet" href="public/css/nav.css">
-    <link rel="stylesheet" href="public/css/socialcard.css">
-    <link rel="stylesheet" href="public/css/footer.css">
-    <link rel="icon" href="public/images/icons/favicon-16x16.png">
+    <title>About</title>
+    {{template "head"}}
+    <link rel="stylesheet" href="/public/css/initial/socialcard.css">
 </head>
 <body>
 <!-- Horizontal navigation section: Fill in navigation template -->
-{{template "nav" .Active}}
+{{template "navflex" .Active}}
 
 <!-- Table for Header key/values -->
-<h3> Open for sharing, use these channels:</h3>
+<section class="about-connect-info-cards">
+    <h3> To connect use these channels:</h3>
 
-<!-- Add social cards -->
-{{template "socialcard" .Data}}
-
+    <!-- Add social cards -->
+    {{template "socialcard" .Data}}
+</section>
 <!-- Footer quote -->
 {{template "footer"}}
 </body>

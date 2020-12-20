@@ -1,0 +1,19 @@
+{{define "navflex"}}
+    <aside class="the-gpl-header-and-nav">
+        <!--- Quote at top of every page -->
+        <div class="the-gpl-header-title"><p>Black Lives Matter</p></div>
+        <header class="the-gpl-header">
+            <!--- Navigation bar, . is name of Active page  -->
+            <nav class="flex-horizontal-navigation">
+                <div class="flex-nav-tab"><a{{if eq . "post"}} class="flex-nav-active" {{end}} href="post">Post Data</a></div>
+                <div class="flex-nav-tab"><a{{if eq . "lis"}} class="flex-nav-active" {{end}} href="lis">Lissajous</a></div>
+                <div class="flex-nav-tab"><a{{if eq . "sinc"}} class="flex-nav-active" {{end}} href="sinc">Sinc</a></div>
+                <div class="flex-nav-tab"><a{{if eq . "egg"}} class="flex-nav-active" {{end}} href="egg">Egg</a></div>
+                <div class="flex-nav-tab"><a{{if eq . "valley"}} class="flex-nav-active" {{end}} href="valley">Valley</a></div>
+                <div class="flex-nav-tab"><a{{if eq . "sq"}} class="flex-nav-active" {{end}} href="sq">Squares</a></div>
+                <div class="flex-nav-tab flex-nav-tab-last-spacer"></div>
+                <div class="flex-nav-tab flex-nav-tab-last"><a{{if eq . "about"}} class="flex-nav-active" {{end}} href="about">About</a></div>
+            </nav>
+        </header>
+    </aside>
+{{end}}

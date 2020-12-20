@@ -86,15 +86,19 @@ func imagesHandler(w http.ResponseWriter, r *http.Request) {
 	var activePage, imagePath, heading string
 	switch ImagePath(r.URL.Path) {
 	case lisPath:
+		activePage = Lis.String()
 		heading = LisImageHanding
 		imagePath = lisImagePath
 	case mandelPath:
+		activePage = Mandel.String()
 		heading = MandelImageHanding
 		imagePath = mandelImagePath
 	case mandelBWPath:
+		activePage = MandelBW.String()
 		heading = MandelBWImageHanding
 		imagePath = mandelBWImagePath
 	default:
+		activePage = MandelBW.String()
 		heading = MandelBWImageHanding
 		imagePath = mandelBWImagePath
 	}

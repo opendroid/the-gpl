@@ -1,0 +1,22 @@
+/*Footer section */
+.mlk-quote {
+    position: relative;
+    width: 100%;
+    color: lightyellow;
+    text-align: right;
+    margin-top: 16px;
+    margin-right: 25px;
+    display: flex;
+    justify-content: flex-end;
+    align-content: center;
+    background-color: rgba(169,169,169, 0.8);
+}
+
+.mlk-quote-img {
+    width: 64px;
+    height: 64px;
+    align-self: center;
+    margin-left: 8px;
+    margin-right: 8px;
+    border-radius: 50%;
+}
