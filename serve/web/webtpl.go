@@ -1,7 +1,6 @@
 package web
 
 import (
-	"bytes"
 	"fmt"
 	"html/template"
 	"net/http"
@@ -114,34 +113,63 @@ func imagesHandler(w http.ResponseWriter, r *http.Request) {
 
 // surfaceSVGHandler shows a specific surface
 func surfaceSVGHandler(w http.ResponseWriter, r *http.Request) {
-	logger.Log.Printf("sincHandler: %q", r.URL.Path)
-	var buf bytes.Buffer
-	var activePage, heading string
+	logger.Log.Printf("surfaceSVGHandler: %q", r.URL.Path)
+	var activePage, heading, svgPage string
 	switch SVGSurfacePath(r.URL.Path) {
 	case sincPath:
 		activePage = Sinc.String()
 		heading = SincSurfaceHeading
-		chapter3.SquaresHandlerSVG(&buf)
+		svgPage = sincSVGImagePath
 	case sqPath:
 		activePage = Square.String()
 		heading = SquareSurfaceHeading
-		chapter3.SquaresHandlerSVG(&buf)
+		svgPage = sqSVGImagePath
 	case eggPath:
 		activePage = Egg.String()
 		heading = EggSurfaceHeading
-		chapter3.EggHandlerSVG(&buf)
+		svgPage = eggSVGImagePath
 	default: // valleyPath
 		activePage = Valley.String()
 		heading = ValleySurfaceHeading
-		chapter3.ValleyHandlerSVG(&buf)
+		svgPage = valleySVGImagePath
 	}
 
 	// Execute the template
 	if err := templates.ExecuteTemplate(w, SurfacesPage, &SVGPageData{
-		Active:  activePage,
-		Data:    template.HTML(buf.String()),
-		Heading: heading,
+		Active:       activePage,
+		SVGImageName: svgPage,
+		Heading:      heading,
 	}); err != nil {
 		logger.Log.Printf("surfaceSVGHandler: %v", err)
 	}
+}
+
+func sincSVGHandler(w http.ResponseWriter, _ *http.Request) {
+	logger.Log.Printf("sincSVGHandler")
+	// Send these headers:
+	// https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Getting_Started
+	w.Header().Set("Content-Type", "image/svg+xml")
+	w.Header().Set("Vary", "Accept-Encoding")
+	chapter3.SincSVG(w)
+}
+
+func sqSVGHandler(w http.ResponseWriter, _ *http.Request) {
+	logger.Log.Printf("sqSVGHandler")
+	w.Header().Set("Content-Type", "image/svg+xml")
+	w.Header().Set("Vary", "Accept-Encoding")
+	chapter3.SquaresHandlerSVG(w)
+}
+
+func eggSVGHandler(w http.ResponseWriter, _ *http.Request) {
+	logger.Log.Printf("eggSVGHandler")
+	w.Header().Set("Content-Type", "image/svg+xml")
+	w.Header().Set("Vary", "Accept-Encoding")
+	chapter3.EggHandlerSVG(w)
+}
+
+func valleySVGHandler(w http.ResponseWriter, _ *http.Request) {
+	logger.Log.Printf("valleySVGHandler")
+	w.Header().Set("Content-Type", "image/svg+xml")
+	w.Header().Set("Vary", "Accept-Encoding")
+	chapter3.ValleyHandlerSVG(w)
 }

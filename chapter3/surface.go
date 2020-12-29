@@ -101,24 +101,20 @@ func Egg(x, y float64) float64 {
 
 // EggHandlerSVG draws an egg on a writer
 func EggHandlerSVG(w io.Writer) {
-	logger.Log.Println("EggHandlerSVG.")
 	PlotOn3DSurface(w, Egg)
 }
 
 //  SincSVG writes raw SVG content
 func SincSVG(w io.Writer) {
-	logger.Log.Println("SincSVG.")
 	PlotOn3DSurface(w, Sinc)
 }
 
 // ValleyHandlerSVG draws an Valley on a writer
 func ValleyHandlerSVG(w io.Writer) {
-	logger.Log.Println("ValleyHandlerSVG.")
 	PlotOn3DSurface(w, Valley)
 }
 
 // SquaresHandlerSVG draws an sinc on a writer
 func SquaresHandlerSVG(w io.Writer) {
-	logger.Log.Println("SquaresHandlerSVG.")
 	PlotOn3DSurface(w, Squares)
 }

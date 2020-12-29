@@ -1,9 +1,5 @@
 package web
 
-import (
-	"html/template"
-)
-
 // Active defines current active page, one of enums
 type Active string
 
@@ -49,19 +45,23 @@ type ImagesPageData struct {
 type ImagePath string
 
 const (
-	lisPath           ImagePath = "/lis"
-	mandelPath        ImagePath = "/mandel"
-	mandelBWPath      ImagePath = "/mandelbw"
-	lisImagePath      string    = "/lisimage"
-	mandelImagePath   string    = "/mandelimage"
-	mandelBWImagePath string    = "/mandelbwimage"
+	lisPath            ImagePath = "/lis"
+	mandelPath         ImagePath = "/mandel" // Computed PNG image paths
+	mandelBWPath       ImagePath = "/mandelbw"
+	lisImagePath       string    = "/lisimage"
+	mandelImagePath    string    = "/mandelimage"
+	mandelBWImagePath  string    = "/mandelbwimage"
+	valleySVGImagePath string    = "/valleySVG" // Computed SVG image paths
+	sqSVGImagePath     string    = "/sqSVG"
+	sincSVGImagePath   string    = "/sincSVG"
+	eggSVGImagePath    string    = "/eggSVG"
 )
 
 // SVGPageData contains Active Page name and Data for the index page
 type SVGPageData struct {
-	Active  string
-	Data    template.HTML
-	Heading string
+	Active       string
+	SVGImageName string
+	Heading      string
 }
 
 // SVGSurfacePath lists URL paths  for SVG surfaces
