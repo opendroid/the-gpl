@@ -1,3 +1,9 @@
+html {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+}
 body {
     /* <span>Photo by <a href="https://unsplash.com/@nypl?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">The New York Public Library</a> on <a href="https://unsplash.com/?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span> */
     /*background-image: url("/public/images/backgrounds/earth-rise.jpg");*/
@@ -8,6 +14,7 @@ body {
     background-image: url("/public/images/backgrounds/ashwini-chaudhary.jpg");
     background-size: cover;
     width: 100%;
+    margin: 0;
     align-content: center;
     opacity: 0.8;
     font-family: 'Roboto', sans-serif;

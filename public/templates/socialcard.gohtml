@@ -1,14 +1,12 @@
 {{define "socialcard"}}
     {{if .}}
-        <div class="row">
+        <div class="cards">
             {{range $idx, $card := .}}
-                <div class="column">
-                    <div class="card">
-                        <img src="{{$card.Image}}" alt="{{$card.ImageAlt}}">
-                        <h3>{{$card.Title}}</h3>
-                        <h4>{{$card.SocialMessage}} <a href="{{$card.SocialLink}}"
-                                                       target="_blank">{{$card.SocialHandle}}</a></h4>
-                    </div>
+                <div class="card">
+                    <img src="{{$card.Image}}" alt="{{$card.ImageAlt}}">
+                    <h3>{{$card.Title}}</h3>
+                    <h4>{{$card.SocialMessage}} <a href="{{$card.SocialLink}}"
+                                                   target="_blank">{{$card.SocialHandle}}</a></h4>
                 </div>
             {{end}}
         </div>

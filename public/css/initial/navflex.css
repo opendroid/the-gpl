@@ -1,12 +1,17 @@
 /* Visible Title of the Page */
 .the-gpl-header-title {
+    display: block;
     color: yellow;
     text-align: center;
-    padding-top: 0;
+    padding: 0;
+    margin: 0;
+    height: 1rem;
+    font-family: "Courier New", monospace;
+    quotes: none;
 }
 
 /* Horizontal Navigation Bar*/
-.flex-horizontal-navigation {
+.flex-navigation {
     display: flex;
     flex-flow: row wrap;
     margin: 0;
@@ -17,15 +22,18 @@
     align-items: flex-start;
 }
 
+
 .flex-nav-tab {
-    border-right:1px solid #bbb;
+    border-right: 1px solid #bbb;
 }
+
 
 .flex-nav-tab-last-spacer {
     margin-left: auto;
 }
+
 .flex-nav-tab-last {
-    border-left:1px solid #bbb;
+    border-left: 1px solid #bbb;
     border-right: none;
     align-self: stretch;
 }
@@ -45,4 +53,22 @@
 
 .flex-nav-active {
     background-color: #4CAF50;
+}
+
+/* Responsive cards */
+@media screen and (max-width: 600px) {
+    .flex-navigation {
+        flex-flow: column;
+    }
+
+    .flex-nav-tab {
+        width: 100%;
+    }
+
+    .flex-nav-tab-last {
+        border-left: none;
+        border-right: none;
+        border-bottom: 3px solid #bbb;;
+        align-self: stretch;
+    }
 }

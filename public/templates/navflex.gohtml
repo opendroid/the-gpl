@@ -1,10 +1,10 @@
 {{define "navflex"}}
     <aside class="the-gpl-header-and-nav">
         <!--- Quote at top of every page -->
-        <div class="the-gpl-header-title"><p>Black Lives Matter</p></div>
+        <q class="the-gpl-header-title" cite="https://blacklivesmatter.com/">Black Lives Matter</q>
         <header class="the-gpl-header">
             <!--- Navigation bar, . is name of Active page  -->
-            <nav class="flex-horizontal-navigation">
+            <nav class="flex-navigation">
                 <div class="flex-nav-tab"><a{{if eq . "post"}} class="flex-nav-active" {{end}} href="post">Post Data</a></div>
                 <div class="flex-nav-tab"><a{{if eq . "lis"}} class="flex-nav-active" {{end}} href="lis">Lissajous</a></div>
                 <div class="flex-nav-tab"><a{{if eq . "sinc"}} class="flex-nav-active" {{end}} href="sinc">Sinc</a></div>
