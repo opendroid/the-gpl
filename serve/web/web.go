@@ -58,6 +58,10 @@ func init() {
 	handlers[sincSVGImagePath] = gzipSVG(chapter3.SincSVG)
 	handlers[eggSVGImagePath] = gzipSVG(chapter3.EggHandlerSVG)
 	handlers[sqSVGImagePath] = gzipSVG(chapter3.SquaresHandlerSVG)
+
+	// SEO related
+	handlers[robotsTxt] = fileHandler("public/robots.txt")
+	handlers[sitemapXML] = fileHandler("public/sitemap.xml")
 }
 
 // Start a server that hosts pages:

@@ -55,6 +55,8 @@ const (
 	sqSVGImagePath     string    = "/sqSVG.svg"
 	sincSVGImagePath   string    = "/sincSVG.svg"
 	eggSVGImagePath    string    = "/eggSVG.svg"
+	robotsTxt          string    = "/robots.txt"
+	sitemapXML         string    = "/sitemap.xml"
 )
 
 // SVGPageData contains Active Page name and Data for the index page

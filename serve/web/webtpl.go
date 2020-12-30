@@ -134,3 +134,11 @@ func gzipSVG(handler func(writer io.Writer)) http.HandlerFunc {
 		handler(w)
 	}
 }
+
+// fileHandler serves specific static files in /public
+func fileHandler(filename string) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		logger.Log.Printf("fileHandler: %s", filename)
+		http.ServeFile(w, r, filename)
+	}
+}
