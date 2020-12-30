@@ -1,13 +1,14 @@
 package web
 
 import (
+	"compress/gzip"
 	"fmt"
 	"html/template"
+	"io"
 	"net/http"
 	"net/url"
 	"strings"
 
-	"github.com/opendroid/the-gpl/chapter3"
 	"github.com/opendroid/the-gpl/logger"
 )
 
@@ -144,32 +145,27 @@ func surfaceSVGHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func sincSVGHandler(w http.ResponseWriter, _ *http.Request) {
-	logger.Log.Printf("sincSVGHandler")
-	// Send these headers:
-	// https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Getting_Started
-	w.Header().Set("Content-Type", "image/svg+xml")
-	w.Header().Set("Vary", "Accept-Encoding")
-	chapter3.SincSVG(w)
-}
+// gzipSVG encodes the SVG w/ gzip is User Agent accepts it
+func gzipSVG(handler func(writer io.Writer)) func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		// Send these headers:
+		// https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Getting_Started
+		w.Header().Set("Content-Type", "image/svg+xml")
+		w.Header().Set("Vary", "Accept-Encoding")
 
-func sqSVGHandler(w http.ResponseWriter, _ *http.Request) {
-	logger.Log.Printf("sqSVGHandler")
-	w.Header().Set("Content-Type", "image/svg+xml")
-	w.Header().Set("Vary", "Accept-Encoding")
-	chapter3.SquaresHandlerSVG(w)
-}
-
-func eggSVGHandler(w http.ResponseWriter, _ *http.Request) {
-	logger.Log.Printf("eggSVGHandler")
-	w.Header().Set("Content-Type", "image/svg+xml")
-	w.Header().Set("Vary", "Accept-Encoding")
-	chapter3.EggHandlerSVG(w)
-}
-
-func valleySVGHandler(w http.ResponseWriter, _ *http.Request) {
-	logger.Log.Printf("valleySVGHandler")
-	w.Header().Set("Content-Type", "image/svg+xml")
-	w.Header().Set("Vary", "Accept-Encoding")
-	chapter3.ValleyHandlerSVG(w)
+		// gzip encode SVG if user agent accepts it
+		ae := r.Header.Get("Accept-Encoding")
+		if strings.Contains(ae, "gzip") {
+			logger.Log.Printf("valleySVGHandler: gzip: %s", ae)
+			w.Header().Set("Content-Encoding", "gzip")
+			gz := gzip.NewWriter(w)
+			handler(gz)
+			if err := gz.Close(); err != nil {
+				logger.Log.Printf("gzipSVG: gzip error: %v", err)
+			}
+			return
+		}
+		logger.Log.Printf("gzipSVG: %s: does not recognize %q, accepted: %s", r.URL.Path, "gzip", ae)
+		handler(w)
+	}
 }

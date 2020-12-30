@@ -51,10 +51,10 @@ func init() {
 	handlers[lisPath.String()] = imagesHandler // Serve dynamic image paths
 	handlers[mandelPath.String()] = imagesHandler
 	handlers[mandelBWPath.String()] = imagesHandler
-	handlers[valleySVGImagePath] = valleySVGHandler // Serve dynamic SVG Images
-	handlers[sincSVGImagePath] = sincSVGHandler
-	handlers[eggSVGImagePath] = eggSVGHandler
-	handlers[sqSVGImagePath] = sqSVGHandler
+	handlers[valleySVGImagePath] = gzipSVG(chapter3.ValleyHandlerSVG) // Serve dynamic SVG Images
+	handlers[sincSVGImagePath] = gzipSVG(chapter3.SincSVG)
+	handlers[eggSVGImagePath] = gzipSVG(chapter3.EggHandlerSVG)
+	handlers[sqSVGImagePath] = gzipSVG(chapter3.SquaresHandlerSVG)
 }
 
 // Start a server that hosts pages:
