@@ -13,7 +13,7 @@ var (
 	cos30 = math.Cos(SurfaceAngle30)
 )
 
-// PlotOn3DSurface plats z = f(x,y) as a wire on a 3-D mesg surface using SVG (Scalable Vector Graphics)
+// PlotOn3DSurface plats z = f(x,y) as a wire on a 3-D mesh surface using SVG (Scalable Vector Graphics)
 //   See SVG on https://www.w3schools.com/graphics/svg_intro.asp
 //   Example, makes a hexagon
 //   <svg width="100" height="100">

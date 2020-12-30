@@ -5,14 +5,7 @@ html {
     box-sizing: border-box;
 }
 body {
-    /* <span>Photo by <a href="https://unsplash.com/@nypl?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">The New York Public Library</a> on <a href="https://unsplash.com/?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span> */
-    /*background-image: url("/public/images/backgrounds/earth-rise.jpg");*/
-    /* <span>Photo by <a href="https://unsplash.com/@vishyx?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Vishy Kathediya</a> on <a href="https://unsplash.com/s/photos/himachal-pradesh?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span>*/
-    /* Alternate picture: vishy-kathediya */
-    /*background-image: url("/public/images/backgrounds/vishy-kathediya.jpg");*/
-    /*<span>Photo by <a href="https://unsplash.com/@suicide_chewbacca?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Ashwini Chaudhary</a> on <a href="https://unsplash.com/s/photos/himachal-pradesh?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span>*/
-    background-image: url("/public/images/backgrounds/ashwini-chaudhary.jpg");
-    background-size: cover;
+    background-color: #3A3443;
     width: 100%;
     margin: 0;
     align-content: center;
@@ -21,7 +14,7 @@ body {
 }
 /*h3, h4 in index.html and other pages */
 h3, h4 {
-    color: white;
+    color: #ffffff;
     text-align: center;
     margin: 0.5rem auto;
 }

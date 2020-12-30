@@ -30,10 +30,14 @@ thegpl_completions() {
     return
   fi
   if [ "${COMP_WORDS[1]}" == "service" ]; then
-    COMPREPLY=($(compgen -W "-sp=clock:9999 -cp=clock:9999 -sp=reverb:9998 -cp=reverb:9998 -sp=chat:9997" -- "service"))
+    COMPREPLY=($(compgen -W "-sp=clock:9999 -cp=clock:9999 -sp=reverb:9998 -cp=reverb:9998 -sp=chat:9997" -- "server"))
     return
   fi
-  COMPREPLY=($(compgen -W "bits mas temp du lissajous parse service client" "${COMP_WORDS[1]}"))
+    if [ "${COMP_WORDS[1]}" == "server" ]; then
+    COMPREPLY=($(compgen -W "-port=8080" -- "service"))
+    return
+  fi
+  COMPREPLY=($(compgen -W "bits mas temp du lissajous parse service client server" "${COMP_WORDS[1]}"))
 }
 
 complete -F thegpl_completions the-gpl

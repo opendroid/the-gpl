@@ -10,18 +10,18 @@
 }
 
 .card {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     transition: 0.3s;
     width: 20%;
     padding: 1rem;
     border-radius: .25rem;
     text-align: center;
-    background-color: dimgrey;
+    background-color: #150d1c;
     margin-bottom: 1rem;
+    box-shadow: 0 4px 8px 0 #efefef;
 }
 
 .card:hover {
-    box-shadow: 0 1rem 1rem 0 rgba(0, 0.5, 0, 0.2);
+    box-shadow: 0 1rem 1rem 0 #ffee587F;
 }
 
 .card img {

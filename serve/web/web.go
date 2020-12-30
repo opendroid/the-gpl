@@ -24,16 +24,16 @@ var counter int
 
 // handlers stores URLS to HandlerFunc
 var handlers = map[string]func(http.ResponseWriter, *http.Request){
-	"/":              indexHandler,   // 	"/" - root page
-	"/favicon.ico":   favIconHandler, // Fav icon
-	"/test":          testHandler,
-	"/lisimage":      lissajous.Figure,
-	"/mandelimage":   chapter3.MBGraphHandler,
-	"/mandelbwimage": chapter3.MBGraphBWHandler,
-	"/search":        search.Query,
-	"/who":           gitInfoHandler,
-	"/index":         indexHandler, // template pages
-	"/about":         aboutHandler,
+	"/":                  indexHandler,   // 	"/" - root page
+	"/favicon.ico":       favIconHandler, // Fav icon
+	"/test":              testHandler,
+	"/lisimage.gif":      lissajous.Figure,
+	"/mandelimage.png":   chapter3.MBGraphHandler,
+	"/mandelbwimage.png": chapter3.MBGraphBWHandler,
+	"/search":            search.Query,
+	"/who":               gitInfoHandler,
+	"/index":             indexHandler, // template pages
+	"/about":             aboutHandler,
 }
 
 // init sets up handlers map
@@ -44,14 +44,17 @@ func init() {
 		mutex.Unlock()
 	})
 	handlers["/counter"] = counter // "/incr" - increments a page counter, protected by mutex
-	handlers[sincPath.String()] = surfaceSVGHandler
-	handlers[sqPath.String()] = surfaceSVGHandler
-	handlers[eggPath.String()] = surfaceSVGHandler
-	handlers[valleyPath.String()] = surfaceSVGHandler
-	handlers[lisPath.String()] = imagesHandler // Serve dynamic image paths
-	handlers[mandelPath.String()] = imagesHandler
-	handlers[mandelBWPath.String()] = imagesHandler
-	handlers[valleySVGImagePath] = gzipSVG(chapter3.ValleyHandlerSVG) // Serve dynamic SVG Images
+	// Serve SVGs templates
+	handlers[sincPath.String()] = surfaceHandler(Sinc.String(), SincSurfaceHeading, sincSVGImagePath)
+	handlers[sqPath.String()] = surfaceHandler(Square.String(), SquareSurfaceHeading, sqSVGImagePath)
+	handlers[eggPath.String()] = surfaceHandler(Egg.String(), EggSurfaceHeading, eggSVGImagePath)
+	handlers[valleyPath.String()] = surfaceHandler(Valley.String(), ValleySurfaceHeading, valleySVGImagePath)
+	// Serve dynamic image templates
+	handlers[lisPath.String()] = imageHandler(Lis.String(), LisImageHanding, lisImagePath)
+	handlers[mandelPath.String()] = imageHandler(Mandel.String(), MandelImageHanding, mandelImagePath)
+	handlers[mandelBWPath.String()] = imageHandler(MandelBW.String(), MandelBWImageHanding, mandelBWImagePath)
+	// Serve dynamic SVG Images
+	handlers[valleySVGImagePath] = gzipSVG(chapter3.ValleyHandlerSVG)
 	handlers[sincSVGImagePath] = gzipSVG(chapter3.SincSVG)
 	handlers[eggSVGImagePath] = gzipSVG(chapter3.EggHandlerSVG)
 	handlers[sqSVGImagePath] = gzipSVG(chapter3.SquaresHandlerSVG)

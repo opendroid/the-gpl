@@ -48,13 +48,13 @@ const (
 	lisPath            ImagePath = "/lis"
 	mandelPath         ImagePath = "/mandel" // Computed PNG image paths
 	mandelBWPath       ImagePath = "/mandelbw"
-	lisImagePath       string    = "/lisimage"
-	mandelImagePath    string    = "/mandelimage"
-	mandelBWImagePath  string    = "/mandelbwimage"
-	valleySVGImagePath string    = "/valleySVG" // Computed SVG image paths
-	sqSVGImagePath     string    = "/sqSVG"
-	sincSVGImagePath   string    = "/sincSVG"
-	eggSVGImagePath    string    = "/eggSVG"
+	lisImagePath       string    = "/lisimage.gif"
+	mandelImagePath    string    = "/mandelimage.png"
+	mandelBWImagePath  string    = "/mandelbwimage.png"
+	valleySVGImagePath string    = "/valleySVG.svg" // Computed SVG image paths
+	sqSVGImagePath     string    = "/sqSVG.svg"
+	sincSVGImagePath   string    = "/sincSVG.svg"
+	eggSVGImagePath    string    = "/eggSVG.svg"
 )
 
 // SVGPageData contains Active Page name and Data for the index page

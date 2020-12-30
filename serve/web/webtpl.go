@@ -80,73 +80,38 @@ func aboutHandler(w http.ResponseWriter, _ *http.Request) {
 	}
 }
 
-// imagesHandler provides a scaffolding page for Images generated
-func imagesHandler(w http.ResponseWriter, r *http.Request) {
-	logger.Log.Printf("imagesHandler: %q", r.URL.Path)
-	var activePage, imagePath, heading string
-	switch ImagePath(r.URL.Path) {
-	case lisPath:
-		activePage = Lis.String()
-		heading = LisImageHanding
-		imagePath = lisImagePath
-	case mandelPath:
-		activePage = Mandel.String()
-		heading = MandelImageHanding
-		imagePath = mandelImagePath
-	case mandelBWPath:
-		activePage = MandelBW.String()
-		heading = MandelBWImageHanding
-		imagePath = mandelBWImagePath
-	default:
-		activePage = MandelBW.String()
-		heading = MandelBWImageHanding
-		imagePath = mandelBWImagePath
-	}
-	if err := templates.ExecuteTemplate(w, LisMandelPage,
-		&ImagesPageData{
-			Active:    activePage,
-			ImageName: imagePath,
-			Heading:   heading,
-		}); err != nil {
-		logger.Log.Printf("imagesHandler: %v", err)
+// imageHandler injects image template data in LisMandelPage
+func imageHandler(activePage, heading, imagePath string) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		logger.Log.Printf("imageHandler: %s", r.URL.Path)
+		if err := templates.ExecuteTemplate(w, LisMandelPage,
+			&ImagesPageData{
+				Active:    activePage,
+				ImageName: imagePath,
+				Heading:   heading,
+			}); err != nil {
+			logger.Log.Printf("imageHandler: %s: %v", imagePath, err)
+		}
 	}
 }
 
-// surfaceSVGHandler shows a specific surface
-func surfaceSVGHandler(w http.ResponseWriter, r *http.Request) {
-	logger.Log.Printf("surfaceSVGHandler: %q", r.URL.Path)
-	var activePage, heading, svgPage string
-	switch SVGSurfacePath(r.URL.Path) {
-	case sincPath:
-		activePage = Sinc.String()
-		heading = SincSurfaceHeading
-		svgPage = sincSVGImagePath
-	case sqPath:
-		activePage = Square.String()
-		heading = SquareSurfaceHeading
-		svgPage = sqSVGImagePath
-	case eggPath:
-		activePage = Egg.String()
-		heading = EggSurfaceHeading
-		svgPage = eggSVGImagePath
-	default: // valleyPath
-		activePage = Valley.String()
-		heading = ValleySurfaceHeading
-		svgPage = valleySVGImagePath
-	}
-
-	// Execute the template
-	if err := templates.ExecuteTemplate(w, SurfacesPage, &SVGPageData{
-		Active:       activePage,
-		SVGImageName: svgPage,
-		Heading:      heading,
-	}); err != nil {
-		logger.Log.Printf("surfaceSVGHandler: %v", err)
+// surfaceHandler injects surface template data in SurfacesPage
+func surfaceHandler(activePage, heading, svgPage string) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		logger.Log.Printf("surfaceHandler: %s", r.URL.Path)
+		// Execute the Surface template with appropriate data
+		if err := templates.ExecuteTemplate(w, SurfacesPage, &SVGPageData{
+			Active:       activePage,
+			SVGImageName: svgPage,
+			Heading:      heading,
+		}); err != nil {
+			logger.Log.Printf("surfaceHandler: %v", err)
+		}
 	}
 }
 
 // gzipSVG encodes the SVG w/ gzip is User Agent accepts it
-func gzipSVG(handler func(writer io.Writer)) func(http.ResponseWriter, *http.Request) {
+func gzipSVG(handler func(writer io.Writer)) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// Send these headers:
 		// https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Getting_Started
@@ -156,7 +121,7 @@ func gzipSVG(handler func(writer io.Writer)) func(http.ResponseWriter, *http.Req
 		// gzip encode SVG if user agent accepts it
 		ae := r.Header.Get("Accept-Encoding")
 		if strings.Contains(ae, "gzip") {
-			logger.Log.Printf("valleySVGHandler: gzip: %s", ae)
+			logger.Log.Printf("gzipSVG: gzip: %s", ae)
 			w.Header().Set("Content-Encoding", "gzip")
 			gz := gzip.NewWriter(w)
 			handler(gz)
@@ -165,7 +130,7 @@ func gzipSVG(handler func(writer io.Writer)) func(http.ResponseWriter, *http.Req
 			}
 			return
 		}
-		logger.Log.Printf("gzipSVG: %s: does not recognize %q, accepted: %s", r.URL.Path, "gzip", ae)
+		logger.Log.Printf("gzipSVG: %s: UA does not accept %q, accepts: %s", r.URL.Path, "gzip", ae)
 		handler(w)
 	}
 }

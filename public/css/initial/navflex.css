@@ -47,12 +47,13 @@
 }
 
 .flex-nav-tab a:hover:not(.flex-nav-active) {
-    background-color: #dddddd;
-    color: #333333;
+    background-color: #645e6e;
+    color: #ffff6b;
 }
 
 .flex-nav-active {
-    background-color: #4CAF50;
+    background-color: #fdd835;
+    color: #000000 !important;
 }
 
 /* Responsive cards */

@@ -2,14 +2,14 @@
 .mlk-quote {
     position: relative;
     width: 100%;
-    color: lightyellow;
+    color: #fdd835;
     text-align: right;
     margin-top: 16px;
     margin-right: 25px;
     display: flex;
     justify-content: flex-end;
     align-content: center;
-    background-color: rgba(169,169,169, 0.8);
+    background-color: #333;
 }
 
 .mlk-quote-img {
