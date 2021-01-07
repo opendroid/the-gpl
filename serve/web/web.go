@@ -24,8 +24,7 @@ var counter int
 
 // handlers stores URLS to HandlerFunc
 var handlers = map[string]func(http.ResponseWriter, *http.Request){
-	"/":                  indexHandler,   // 	"/" - root page
-	"/favicon.ico":       favIconHandler, // Fav icon
+	"/":                  indexHandler, // 	"/" - root page
 	"/test":              testHandler,
 	"/lisimage.gif":      lissajous.Figure,
 	"/mandelimage.png":   chapter3.MBGraphHandler,
@@ -62,6 +61,9 @@ func init() {
 	// SEO related
 	handlers[robotsTxt] = fileHandler("public/robots.txt")
 	handlers[sitemapXML] = fileHandler("public/sitemap.xml")
+	handlers[favicon] = fileHandler("public/images/icons/favicon-16x16.png")
+	handlers[favicon16] = fileHandler("public/images/icons/favicon-16x16.png")
+	handlers[favicon32] = fileHandler("public/images/icons/favicon-32x32.png")
 }
 
 // Start a server that hosts pages:
@@ -107,13 +109,6 @@ func gitInfoHandler(w http.ResponseWriter, _ *http.Request) {
 	if err != nil {
 		logger.Log.Printf("gitInfoHandler: err: %v\n", err)
 	}
-}
-
-// favIconHandler sends CVG as fav icon
-// See https://css-tricks.com/emojis-as-favicons/
-func favIconHandler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "public/images/icons/favicon-16x16.png")
-	logger.Log.Println("favIconHandler.")
 }
 
 // testHandler is to try unit test

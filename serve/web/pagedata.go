@@ -57,6 +57,9 @@ const (
 	eggSVGImagePath    string    = "/eggSVG.svg"
 	robotsTxt          string    = "/robots.txt"
 	sitemapXML         string    = "/sitemap.xml"
+	favicon16          string    = "/public/images/icons/favicon-16x16.png"
+	favicon32          string    = "/public/images/icons/favicon-32x32.png"
+	favicon            string    = "/favicon.ico"
 )
 
 // SVGPageData contains Active Page name and Data for the index page

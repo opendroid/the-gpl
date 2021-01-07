@@ -1,10 +1,11 @@
 package bot
 
 import (
-	"github.com/stretchr/testify/assert"
 	"log"
 	"os"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 // TestNewBot tests

@@ -117,7 +117,6 @@ func gzipSVG(handler func(writer io.Writer)) http.HandlerFunc {
 		// https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Getting_Started
 		w.Header().Set("Content-Type", "image/svg+xml")
 		w.Header().Set("Vary", "Accept-Encoding")
-
 		// gzip encode SVG if user agent accepts it
 		ae := r.Header.Get("Accept-Encoding")
 		if strings.Contains(ae, "gzip") {
@@ -138,7 +137,8 @@ func gzipSVG(handler func(writer io.Writer)) http.HandlerFunc {
 // fileHandler serves specific static files in /public
 func fileHandler(filename string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		logger.Log.Printf("fileHandler: %s", filename)
+		w.Header().Set("Cache-Control", "31536000")
 		http.ServeFile(w, r, filename)
+		logger.Log.Printf("fileHandler: %s", filename)
 	}
 }
