@@ -5,6 +5,7 @@ go 1.14
 require (
 	cloud.google.com/go v0.60.0
 	github.com/aymerick/raymond v2.0.2+incompatible
+	github.com/golang/mock v1.4.4
 	github.com/google/uuid v1.1.2
 	github.com/stretchr/testify v1.6.1
 	golang.org/x/net v0.0.0-20201021035429-f5854403a974

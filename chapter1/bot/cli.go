@@ -8,6 +8,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/opendroid/the-gpl/clients/df"
 	"github.com/opendroid/the-gpl/serve/shell"
 )
 
@@ -32,10 +33,10 @@ var env *string
 // 			 the-gpl bot -project=gcp-project -lang=en-US -chat=true # Chats with bot from stdin
 func InitCli() {
 	cmd.set = flag.NewFlagSet("bot", flag.ContinueOnError)
-	gcpProjectName = cmd.set.String("project", gcpProjectID, "GCP Project Name")
-	lang = cmd.set.String("lang", defaultLanguage, "Bot language en or en-US")
+	gcpProjectName = cmd.set.String("project", df.GCPProjectID, "GCP Project Name")
+	lang = cmd.set.String("lang", df.DefaultLanguage, "Bot language en or en-US")
 	chat = cmd.set.Bool("chat", false, "true if you want to chat via command line")
-	env = cmd.set.String("env", string(dfDraft), "name of environment to connect with")
+	env = cmd.set.String("env", string(df.Draft), "name of environment to connect with")
 	shell.Add("bot", cmd)
 }
 
@@ -46,36 +47,16 @@ func (b CLI) ExecCmd(args []string) {
 		fmt.Printf("ExecBotCmd: Parse Error %s\n", err.Error())
 		return
 	}
-	l := log.New(os.Stdout, "BOT ", log.LstdFlags)
-	l.Printf("ExecCmd: bot %s. Say:\n", *gcpProjectName)
-	bot, err := New(l, *gcpProjectName, *lang)
-	if err != nil {
-		l.Printf("ExecCmd: Bot Error Creating DF session %s\n", err.Error())
-		return
+	fmt.Printf("chat: %t, project: %s\n", *chat, *gcpProjectName)
+	if *gcpProjectName != "unit-test" {
+		logger = log.New(os.Stdout, "BOT ", log.LstdFlags)
+		bot = df.New(logger, *gcpProjectName, *lang)
 	}
-	s := NewAgentSession(dfEnv(*env), *gcpProjectName)
-	// Read from std input or use existing text
-	var scan *bufio.Scanner
+	scan := bufio.NewScanner(strings.NewReader(df.SampleConvo))
 	if *chat {
 		scan = bufio.NewScanner(os.Stdin) // Read from std input
-	} else {
-		scan = bufio.NewScanner(strings.NewReader(sampleConvo))
 	}
-	for scan.Scan() { // Scan line by line.
-		q := scan.Text()
-		r, err := bot.Converse(s, q)
-		if err != nil {
-			l.Printf("ExecCmd: Conversation Error %s\n", err.Error())
-			return
-		}
-		l.Printf("Asked: %s\n", q)
-		for _, m := range r {
-			l.Printf("Response: %s\n", m)
-		}
-	}
-	if err := scan.Err(); err != nil { // Log scan errors.
-		l.Printf("Scan err: %v\n", err)
-	}
+	chatWithBot(scan, logger, df.Environment(*env), *gcpProjectName)
 }
 
 // DisplayHelp prints help on command line for the bot module

@@ -1,4 +1,4 @@
-package bot
+package df
 
 import (
 	"log"
@@ -13,8 +13,7 @@ import (
 func TestNewBot(t *testing.T) {
 	t.Skip("Skipping TestNewBot in GCP.")
 	l := log.New(os.Stdout, "BOT ", log.LstdFlags)
-	b, err := New(l, gcpProjectID, defaultLanguage)
-	assert.Nil(t, err)
+	b := New(l, GCPProjectID, DefaultLanguage)
 	assert.NotNil(t, b)
 }
 
@@ -23,11 +22,10 @@ func TestNewBot(t *testing.T) {
 func TestConverse(t *testing.T) {
 	t.Skip("Skipping TestConverse in GCP.")
 	l := log.New(os.Stdout, "BOT ", log.LstdFlags)
-	b, err := New(l, gcpProjectID, defaultLanguage)
-	assert.Nil(t, err) // No The GPL does not recommend use of asserts i.e. failing when a specific test fails.
+	b := New(l, GCPProjectID, DefaultLanguage)
 	assert.NotNil(t, b)
 
-	s := NewAgentSession(dfStaging, gcpProjectID)
+	s := NewAgentSession(Staging, GCPProjectID)
 	assert.NotNil(t, s)
 	convo := []string{"hello", "i like to cancel"}
 	for _, q := range convo {
