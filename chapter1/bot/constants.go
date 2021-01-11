@@ -34,8 +34,8 @@ const (
 	sampleConvo = "hello\ni like to cancel\ntaking too long"
 )
 
-// Client encapsulates Dialog Interface
-type Client struct {
+// AgentClient encapsulates Dialog Interface
+type AgentClient struct {
 	gcpProjectID string
 	authFilePath string
 	language     string
@@ -50,8 +50,8 @@ type Bot interface {
 	Converse(string) ([]string, error)
 }
 
-// SessionClient for a particular call on a path
-type SessionClient struct {
+// AgentSession for a particular call on a path
+type AgentSession struct {
 	env  dfEnv
 	sID  uuid.UUID
 	uID  uuid.UUID

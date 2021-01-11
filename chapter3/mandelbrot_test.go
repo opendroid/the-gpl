@@ -1,6 +1,8 @@
 package chapter3
 
 import (
+	"net/http"
+	"net/http/httptest"
 	"testing"
 )
 
@@ -43,4 +45,26 @@ func TestScale(t *testing.T) {
 	y = scaleY(MBWidth)
 	z4 := complex(x, y)
 	t.Logf("z1: %v, z2: %v, z3: %v, z4: %v", z1, z2, z3, z4)
+}
+
+// go test -run TestMBGraphHandler -v
+func TestMBGraphHandler(t *testing.T) {
+	r := httptest.NewRequest("GET", "/mb", nil)
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(MBGraphHandler)
+	handler.ServeHTTP(rr, r)
+	if rr.Code != http.StatusOK {
+		t.Errorf("MBGraphHandler status got: %d, want: %d", rr.Code, http.StatusOK)
+	}
+}
+
+// go test -run TestMBGraphHandler -v
+func TestMBGraphBWHandler(t *testing.T) {
+	r := httptest.NewRequest("GET", "/mb", nil)
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(MBGraphBWHandler)
+	handler.ServeHTTP(rr, r)
+	if rr.Code != http.StatusOK {
+		t.Errorf("MBGraphBWHandler status got: %d, want: %d", rr.Code, http.StatusOK)
+	}
 }

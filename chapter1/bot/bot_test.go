@@ -27,7 +27,7 @@ func TestConverse(t *testing.T) {
 	assert.Nil(t, err) // No The GPL does not recommend use of asserts i.e. failing when a specific test fails.
 	assert.NotNil(t, b)
 
-	s := NewSession(dfStaging, gcpProjectID)
+	s := NewAgentSession(dfStaging, gcpProjectID)
 	assert.NotNil(t, s)
 	convo := []string{"hello", "i like to cancel"}
 	for _, q := range convo {
@@ -39,5 +39,4 @@ func TestConverse(t *testing.T) {
 			t.Logf("Robo: %s", m)
 		}
 	}
-
 }

@@ -1,14 +1,15 @@
 package bot
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 // TestNewSession tests
 // go test -run TestNewSession -v
 func TestNewSession(t *testing.T) {
-	s := NewSession(dfStaging, gcpProjectID)
+	s := NewAgentSession(dfStaging, gcpProjectID)
 	assert.NotNil(t, s)
 	t.Logf("%s", s.path)
 }

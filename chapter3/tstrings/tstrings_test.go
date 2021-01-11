@@ -3,11 +3,12 @@ package tstrings
 import (
 	"bytes"
 	"fmt"
-	"github.com/stretchr/testify/assert"
 	"math"
 	"math/rand"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/assert"
 )
 
 // TestBasename test for ToF, to run
@@ -38,7 +39,7 @@ func TestBasename(t *testing.T) {
 //   cd chapter3
 //   go test -bench=BenchmarkBasename -benchmem, or
 
-// benchmarkBasename common method for benchmarkind
+// benchmarkBasename common method for benchmark functions
 func benchmarkBasename(b *testing.B, size int) {
 	// Create large strings
 	p := createPath(size)
@@ -53,6 +54,28 @@ func BenchmarkBasename100B(b *testing.B)     { benchmarkBasename(b, t100B) }
 func BenchmarkBasename1K(b *testing.B)       { benchmarkBasename(b, t1K) }
 func BenchmarkBasename10K(b *testing.B)      { benchmarkBasename(b, t10K) }
 func BenchmarkBasenameMaxInt16(b *testing.B) { benchmarkBasename(b, math.MaxInt16) }
+
+//   go test -run TestComma -v
+func TestComma(t *testing.T) {
+	testComma := []struct {
+		num      string
+		expected string
+	}{
+		{num: "1", expected: "1"},
+		{num: "123", expected: "123"},
+		{num: "1234", expected: "1,234"},
+		{num: "1234567", expected: "1,234,567"},
+		{num: "1234567890", expected: "1,234,567,890"},
+		{num: "-1234567890", expected: "-1,234,567,890"},
+	}
+	for _, n := range testComma {
+		cn := Comma(n.num)
+		if cn != n.expected {
+			t.Errorf("Comma failed: Want: %s, Got: %s", n.expected, cn)
+		}
+
+	}
+}
 
 // createALargeSeqOfBytes creates a random sequence of bytes
 func createALargeSeqOfBytes(len int) []byte {
@@ -105,6 +128,28 @@ func BenchmarkComma100B(b *testing.B)     { benchmarkComma(b, t100B) }
 func BenchmarkComma1K(b *testing.B)       { benchmarkComma(b, t1K) }
 func BenchmarkComma10K(b *testing.B)      { benchmarkComma(b, t10K) }
 func BenchmarkCommaMaxInt16(b *testing.B) { benchmarkComma(b, math.MaxInt16) }
+
+//   go test -run TestCommaWithBuf -v
+func TestCommaWithBuf(t *testing.T) {
+	testComma := []struct {
+		num      string
+		expected string
+	}{
+		{num: "1", expected: "1"},
+		{num: "123", expected: "123"},
+		{num: "1234", expected: "1,234"},
+		{num: "1234567", expected: "1,234,567"},
+		{num: "1234567890", expected: "1,234,567,890"},
+		{num: "-1234567890", expected: "-1,234,567,890"},
+	}
+	for _, n := range testComma {
+		cn := CommaWithBuf(n.num)
+		if cn != n.expected {
+			t.Errorf("CommaWithBuf failed: Want: %s, Got: %s", n.expected, cn)
+		}
+
+	}
+}
 
 // benchmarkCommaWithBuf uses non-recursive bytes.Buffer method
 func benchmarkCommaWithBuf(b *testing.B, sz int) {

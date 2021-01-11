@@ -53,7 +53,7 @@ func (b CLI) ExecCmd(args []string) {
 		l.Printf("ExecCmd: Bot Error Creating DF session %s\n", err.Error())
 		return
 	}
-	s := NewSession(dfEnv(*env), *gcpProjectName)
+	s := NewAgentSession(dfEnv(*env), *gcpProjectName)
 	// Read from std input or use existing text
 	var scan *bufio.Scanner
 	if *chat {

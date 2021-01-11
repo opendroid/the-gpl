@@ -2,11 +2,12 @@ package bot
 
 import (
 	"fmt"
+
 	uuid "github.com/google/uuid"
 )
 
-// NewSession creates a new session with a specific environment.
-func NewSession(env dfEnv, gcpProjectName string) (s *SessionClient) {
+// NewAgentSession creates a new session with a specific environment.
+func NewAgentSession(env dfEnv, gcpProjectName string) (s *AgentSession) {
 	sessionUUID := uuid.New()
 	sessionID := sessionUUID.String()
 	userUUID := uuid.New()
@@ -17,5 +18,5 @@ func NewSession(env dfEnv, gcpProjectName string) (s *SessionClient) {
 			gcpProjectName, env, uID, sessionID)
 	}
 
-	return &SessionClient{env: env, sID: sessionUUID, uID: userUUID, path: path}
+	return &AgentSession{env: env, sID: sessionUUID, uID: userUUID, path: path}
 }

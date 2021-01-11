@@ -15,7 +15,7 @@ import (
 )
 
 // New create a Dialog Flow agent or bot.
-func New(logger *log.Logger, gcpProject string, lang string) (*Client, error) {
+func New(logger *log.Logger, gcpProject string, lang string) (*AgentClient, error) {
 	gcpAuthFile := os.Getenv("GOOGLE_APPLICATION_CREDENTIALS") // Get auth file
 	if gcpAuthFile == "" {
 		return nil, fmt.Errorf("required env variable GOOGLE_APPLICATION_CREDENTIALS")
@@ -24,7 +24,7 @@ func New(logger *log.Logger, gcpProject string, lang string) (*Client, error) {
 		return nil, fmt.Errorf("credentials file %q does not exist", gcpAuthFile)
 	}
 	// Fetch a client.
-	bc := Client{
+	bc := AgentClient{
 		gcpProjectID: gcpProject,
 		authFilePath: gcpAuthFile,
 		language:     lang,
@@ -45,7 +45,7 @@ func New(logger *log.Logger, gcpProject string, lang string) (*Client, error) {
 
 // Converse send message to Dialog Flow bot. Returns responses from the agent.
 // It returns if bot does not respond in a defaultTimeout period.
-func (b Client) Converse(s *SessionClient, q string) ([]string, error) {
+func (b AgentClient) Converse(s *AgentSession, q string) ([]string, error) {
 	if q == "" {
 		return nil, errors.New("nothing to say")
 	}
