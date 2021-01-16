@@ -3,13 +3,15 @@ package bot
 import (
 	"bufio"
 	"log"
+	"os"
 
 	"github.com/opendroid/the-gpl/clients/df"
 )
 
-// bot to communicate with
-var bot df.Bot
-var logger *log.Logger
+var (
+	bot    df.Bot // bot to communicate with
+	logger = log.New(os.Stdout, "BOT ", log.LstdFlags)
+)
 
 func chatWithBot(scan *bufio.Scanner, l *log.Logger, env df.Environment, gcpProjectID string) {
 	l.Printf("ExecCmd: bot %s. Say:\n", gcpProjectID)

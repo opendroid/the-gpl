@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
-	"log"
 	"os"
 	"strings"
 
@@ -49,7 +48,6 @@ func (b CLI) ExecCmd(args []string) {
 	}
 	fmt.Printf("chat: %t, project: %s\n", *chat, *gcpProjectName)
 	if *gcpProjectName != "unit-test" {
-		logger = log.New(os.Stdout, "BOT ", log.LstdFlags)
 		bot = df.New(logger, *gcpProjectName, *lang)
 	}
 	scan := bufio.NewScanner(strings.NewReader(df.SampleConvo))
