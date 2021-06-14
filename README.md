@@ -50,7 +50,7 @@ $ the-gpl stt -port=9999 # Will listen to RTP stream on port 9999 for 2 minutes 
 ### Simple Examples from book
 Use these commands to run utilities:
 1. bits: That counts number of 1 bits in a Hex input 
-2. Array examples using `mas` i.e. maps, arrays and string utilities.
+2. Array examples using `mas` i.e., maps, arrays and string utilities.
 3. Temperature conversions among `°F, °K and °C`.
 4. Measure disk usage in a directory using command `du`
 5. Saving Lissajous gif to a file.
