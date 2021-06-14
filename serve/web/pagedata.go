@@ -8,9 +8,9 @@ const (
 	Post Active = "post"
 	// Lis page draws Lissajous images
 	Lis Active = "lis"
-	// Lis page draws Lissajous images
+	// Mandel page draws Mandelbrot fractals images
 	Mandel Active = "mandel"
-	// Lis page draws Lissajous images
+	// MandelBW page draws Mandelbrot fractals black and white images
 	MandelBW Active = "mandelbw"
 	// Sinc drawn on a 3D surface
 	Sinc Active = "sinc"
@@ -36,7 +36,7 @@ type AboutPageData struct {
 	Data   []SocialCard
 }
 
-// ImagesPageData
+// ImagesPageData defines data for templates
 type ImagesPageData struct {
 	Active, ImageName, Heading string
 }
@@ -109,28 +109,7 @@ const (
 
 // String convert Active page name to a valid string compared in template
 func (s Active) String() string {
-	switch s {
-	case Post:
-		return string(Post)
-	case Lis:
-		return string(Lis)
-	case Mandel:
-		return string(Mandel)
-	case MandelBW:
-		return string(MandelBW)
-	case Sinc:
-		return string(Sinc)
-	case Egg:
-		return string(Egg)
-	case Valley:
-		return string(Valley)
-	case Square:
-		return string(Square)
-	case About:
-		return string(About)
-	default:
-		return string(Post)
-	}
+	return string(s)
 }
 
 // String converts SVGSurfacePath to string
