@@ -2,7 +2,9 @@ package df
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
+	"fmt"
 
 	dfProto "google.golang.org/genproto/googleapis/cloud/dialogflow/v2"
 )
@@ -62,6 +64,13 @@ func getMessages(r *dfProto.QueryResult) []string {
 			if m.GetQuickReplies() != nil {
 				messages = append(messages, m.GetQuickReplies().QuickReplies...)
 			}
+		}
+	}
+	if r.OutputContexts != nil {
+		if c, err := json.Marshal(r.OutputContexts); err == nil {
+			fmt.Printf("%s", c)
+		} else {
+			fmt.Printf(`{"msg": "Error in Contexts: %s"}"`, err.Error())
 		}
 	}
 	return messages

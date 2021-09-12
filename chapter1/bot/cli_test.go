@@ -6,7 +6,7 @@ import (
 	"log"
 	"testing"
 
-	mocks "github.com/opendroid/the-gpl/mocks/df"
+	dfMock "github.com/opendroid/the-gpl/mocks/df"
 
 	"github.com/golang/mock/gomock"
 
@@ -33,7 +33,7 @@ func TestCLI_ExecCmd(t *testing.T) {
 	oldBot := bot
 	logger = log.New(&bytes.Buffer{}, "BOT ", log.LstdFlags)
 	defer func() { bot = oldBot }() // Restore bot
-	mockBot := mocks.NewMockBot(mockCtrl)
+	mockBot := dfMock.NewMockBot(mockCtrl)
 	first := mockBot.EXPECT().Converse(gomock.Any(), "hello").Return(agentResponses, nil).Times(1)
 	second := mockBot.EXPECT().Converse(gomock.Any(), "i like to cancel").Return(agentResponses, nil).Times(1)
 	third := mockBot.EXPECT().Converse(gomock.Any(), "taking too long").Return(agentResponses, nil).Times(1)
@@ -59,7 +59,7 @@ func TestCLI_ExecCmd_ConverseError(t *testing.T) {
 	oldBot := bot
 	logger = log.New(&bytes.Buffer{}, "BOT ", log.LstdFlags)
 	defer func() { bot = oldBot }() // Restore bot
-	mockBot := mocks.NewMockBot(mockCtrl)
+	mockBot := dfMock.NewMockBot(mockCtrl)
 	mockBot.EXPECT().Converse(gomock.Any(), "hello").Return(nil, fmt.Errorf("mock Error.")).Times(1)
 	bot = mockBot
 

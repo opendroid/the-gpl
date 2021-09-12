@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"container/list"
 	"fmt"
+
 	"github.com/opendroid/the-gpl/chapter2/bitsCount"
 )
 
@@ -19,8 +20,8 @@ type intSetItem struct {
 //  	base is n/64, and
 //  	word is n%64 th bit
 //  Note that these values not exposed outside interface, as they need to be managed by this module.
-//	For optimization we do not store non-existent zero words. Use a linked list to store all words.
-//  So to store 2^32-1 we dont need 2,147,483,647/64 byte array
+//	For optimization, we do not store non-existent zero words. Use a linked list to store all words.
+//  So to store 2^32-1 we don't need 2,147,483,647/64 byte array
 type IntSet struct {
 	list  *list.List
 	count int // Number of elements (i.e 1 bits) in all Words in list Set

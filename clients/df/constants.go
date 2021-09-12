@@ -20,7 +20,7 @@ const (
 )
 
 const (
-	// gcpProjectName GCP project ID in use
+	// GCPProjectID  GCP project ID in use
 	GCPProjectID = "your-gcp-project-id"
 	// DefaultLanguage of the bot
 	DefaultLanguage = "en"
@@ -28,9 +28,9 @@ const (
 	ENUSLanguage = "en-US"
 	// DefaultTimeZone where user is in
 	DefaultTimeZone = "PST"
-	// DefaultTimeout
+	// DefaultTimeout for API timeout
 	DefaultTimeout = 10 * time.Second
-	// SampleConvo
+	// SampleConvo a conversation asking question at a time
 	SampleConvo = "hello\ni like to cancel\ntaking too long"
 )
 
