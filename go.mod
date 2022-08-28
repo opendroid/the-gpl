@@ -5,7 +5,6 @@ go 1.19
 require (
 	cloud.google.com/go/dialogflow v1.12.1
 	cloud.google.com/go/speech v1.5.0
-	github.com/aymerick/raymond v2.0.2+incompatible
 	github.com/golang/mock v1.6.0
 	github.com/google/uuid v1.3.0
 	github.com/stretchr/testify v1.7.1
