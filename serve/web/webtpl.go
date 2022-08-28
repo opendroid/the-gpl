@@ -21,16 +21,17 @@ func init() {
 }
 
 // Process the "index" pattern. It also processes data by GET method sent to post page,
-// 	curl -X POST localhost:8080/post --data 'q="Hello Mr 	ROb Pike"&c="K&R"&cpp=Bjarne Stroustrup'
-// 		POST /post HTTP/1.1
-// 		Header[Content-Length]: [31]
-// 		Header[Content-Type]: [application/x-www-form-urlencoded]
-// 		Header[User-Agent]: [curl/7.64.1]
-// 		Header[Accept]: [*/*]
-// 		HOST: localhost:8080, Remote: [::1]:63738
-// 		Form[q]: ["Github"]
-// 		Form[r]: ["Opendroid"]
-// 		Form[s]: [Gpl]
+//
+//	curl -X POST localhost:8080/post --data 'q="Hello Mr 	ROb Pike"&c="K&R"&cpp=Bjarne Stroustrup'
+//		POST /post HTTP/1.1
+//		Header[Content-Length]: [31]
+//		Header[Content-Type]: [application/x-www-form-urlencoded]
+//		Header[User-Agent]: [curl/7.64.1]
+//		Header[Accept]: [*/*]
+//		HOST: localhost:8080, Remote: [::1]:63738
+//		Form[q]: ["Github"]
+//		Form[r]: ["Opendroid"]
+//		Form[s]: [Gpl]
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	logger.Log.Println("indexHandler.")
 	header := map[string]string{}                                  // data needed to show to the user

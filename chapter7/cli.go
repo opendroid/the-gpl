@@ -29,7 +29,8 @@ var counter CLICounter
 var text *string
 
 // InitCli initialized CLIDegrees for temperature conversions, eg:
-//   the-gpl degrees -c=-20°F -f-20°C -k=-20°K
+//
+//	the-gpl degrees -c=-20°F -f-20°C -k=-20°K
 func InitCli() {
 	// Set for temperature utilities
 	degrees.set = flag.NewFlagSet("degrees", flag.ContinueOnError)

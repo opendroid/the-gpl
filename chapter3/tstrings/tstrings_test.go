@@ -12,8 +12,9 @@ import (
 )
 
 // TestBasename test for ToF, to run
-//   cd chapter3
-//   go test -run TestBasename -v
+//
+//	cd chapter3
+//	go test -run TestBasename -v
 func TestBasename(t *testing.T) {
 	testBasenameOne := []struct {
 		base     string
@@ -55,7 +56,7 @@ func BenchmarkBasename1K(b *testing.B)       { benchmarkBasename(b, t1K) }
 func BenchmarkBasename10K(b *testing.B)      { benchmarkBasename(b, t10K) }
 func BenchmarkBasenameMaxInt16(b *testing.B) { benchmarkBasename(b, math.MaxInt16) }
 
-//   go test -run TestComma -v
+// go test -run TestComma -v
 func TestComma(t *testing.T) {
 	testComma := []struct {
 		num      string
@@ -103,16 +104,17 @@ func createPath(nSeps int) []byte {
 }
 
 // BenchmarkComma using recursive method
-//   cd chapter3
-//   go test -bench=BenchmarkComma -benchmem
-//   Run a profile test
-//   	go test -run=NONE -bench=BenchmarkComma -benchmem -memprofile=mem.out
-//	  go test -run=NONE -bench=BenchmarkComma  -cpuprofile=cpu.out
-//   View results:
-//   	go tool pprof -http :8000 -nodecount=10 mem.out
-//  Coverage:
-//    go test ./... -coverprofile=c.out
-//    go tool cover -html=c.out
+//
+//	  cd chapter3
+//	  go test -bench=BenchmarkComma -benchmem
+//	  Run a profile test
+//	  	go test -run=NONE -bench=BenchmarkComma -benchmem -memprofile=mem.out
+//		  go test -run=NONE -bench=BenchmarkComma  -cpuprofile=cpu.out
+//	  View results:
+//	  	go tool pprof -http :8000 -nodecount=10 mem.out
+//	 Coverage:
+//	   go test ./... -coverprofile=c.out
+//	   go tool cover -html=c.out
 func benchmarkComma(b *testing.B, sz int) {
 	b.StopTimer()
 	p := createALargeSeqOfBytes(sz)
@@ -129,7 +131,7 @@ func BenchmarkComma1K(b *testing.B)       { benchmarkComma(b, t1K) }
 func BenchmarkComma10K(b *testing.B)      { benchmarkComma(b, t10K) }
 func BenchmarkCommaMaxInt16(b *testing.B) { benchmarkComma(b, math.MaxInt16) }
 
-//   go test -run TestCommaWithBuf -v
+// go test -run TestCommaWithBuf -v
 func TestCommaWithBuf(t *testing.T) {
 	testComma := []struct {
 		num      string
@@ -170,8 +172,9 @@ func BenchmarkCommaWithBufMaxInt16(b *testing.B) { benchmarkCommaWithBuf(b, math
 
 // Test IntsToString
 // TestBasename test for ToF, to run
-//   cd chapter3
-//   go test -run TestIntsToString -v
+//
+//	cd chapter3
+//	go test -run TestIntsToString -v
 func TestIntsToString(t *testing.T) {
 	testInts := []struct {
 		ints     []int
@@ -195,9 +198,10 @@ func TestIntsToString(t *testing.T) {
 
 // Test TestConstantsBits
 // TestConstantsBits test constants
-//   cd chapter3
-//   go test -run TestConstants -v
-//   go test -run TestConstantsBits -v
+//
+//	cd chapter3
+//	go test -run TestConstants -v
+//	go test -run TestConstantsBits -v
 func TestConstantsBits(t *testing.T) {
 	testConstants := []struct {
 		declared int
@@ -222,8 +226,9 @@ func TestConstantsBits(t *testing.T) {
 
 // Test TestConstantsSizes
 // TestConstantsSizes test constants
-//   cd chapter3
-//   go test -run TestConstantsSizes -v
+//
+//	cd chapter3
+//	go test -run TestConstantsSizes -v
 func TestConstantsSizes(t *testing.T) {
 	testConstants := []struct {
 		declared float64

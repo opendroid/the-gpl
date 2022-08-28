@@ -20,6 +20,7 @@ type Result struct {
 type Results []Result
 
 // Search sends a query to Google API along with userIP and returns result.
+//
 //	DEPRECATED API
 func Search(ctx context.Context, query string) (Results, error) {
 	// Prep search API request
@@ -66,8 +67,9 @@ func Search(ctx context.Context, query string) (Results, error) {
 }
 
 // httpDo issues a HTTP request and calls f with a Response.
-//   If ctx.Done is closed while req. or f is running, http.Do cancels request, waits for f to exit, return ctx.Err()
-//   Otherwise, http.Do returns f's error
+//
+//	If ctx.Done is closed while req. or f is running, http.Do cancels request, waits for f to exit, return ctx.Err()
+//	Otherwise, http.Do returns f's error
 func httpDo(ctx context.Context, req *http.Request, f func(*http.Response, error) error) error {
 	// Run HTTP req in go routine and pass result to f
 	c := make(chan error, 1)

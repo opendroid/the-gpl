@@ -38,7 +38,8 @@ var palette = []color.Color{
 }
 
 // Lissajous curve: x = A sin(at+d), y = B sin(bt),
-//     https://en.wikipedia.org/wiki/Lissajous_curve
+//
+//	https://en.wikipedia.org/wiki/Lissajous_curve
 func Lissajous(w io.Writer, config Config) {
 	frequency := rand.Float64() * 3.0 // Freq of y oscillator
 	phase := 0.0
@@ -101,7 +102,8 @@ func (config Config) Lissajous(out io.Writer) {
 }
 
 // Default calls a Lissajous figure with default data
-//    4 cycles with 512x512 size, 6 frames and 20 ms delay
+//
+//	4 cycles with 512x512 size, 6 frames and 20 ms delay
 func Default(w io.Writer) {
 	config := Config{
 		Cycles:     4,

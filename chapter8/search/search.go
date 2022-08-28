@@ -13,9 +13,10 @@ import (
 )
 
 // Query searches a "q" within a timeout at Google.com
-//	search?q=golang&timeout=3s
-//  See Blog by: Sameer Ajmani: Go Concurrency Patterns: Context
-//			https://blog.golang.org/context
+//
+//		search?q=golang&timeout=3s
+//	 See Blog by: Sameer Ajmani: Go Concurrency Patterns: Context
+//				https://blog.golang.org/context
 func Query(w http.ResponseWriter, req *http.Request) {
 	// Create  context and cancel
 	var (

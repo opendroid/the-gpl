@@ -5,8 +5,9 @@ import (
 )
 
 // MaxInt returns maximum of integers, if no int specified return MaxInt
-//   Exercise 5.15: Write variadic functions max and min, analogous to sum. What should these
-//   functions do when called with no arguments?
+//
+//	Exercise 5.15: Write variadic functions max and min, analogous to sum. What should these
+//	functions do when called with no arguments?
 func MaxInt(numbers ...int) int {
 	// When no arguments return Max of int for that machine.
 	// Could return ok but interface will not be pretty eg fmt.Printf("Max of .. = %d", MaxInt())
@@ -24,7 +25,8 @@ func MaxInt(numbers ...int) int {
 }
 
 // MaxIntOf returns maximum of integers with at least 1 argument
-//   Exercise 5.15: Write variants that require at least one argument.
+//
+//	Exercise 5.15: Write variants that require at least one argument.
 func MaxIntOf(n1 int, numbers ...int) int {
 	max := n1
 	for _, n := range numbers {
@@ -61,7 +63,8 @@ func MinIntOf(n1 int, numbers ...int) int {
 }
 
 // Join words by adding separator among them.
-//   Exercise 5.15: Write a variadic version of strings.Join
+//
+//	Exercise 5.15: Write a variadic version of strings.Join
 func Join(sep string, words ...string) string {
 	joined := ""
 	for i, w := range words {

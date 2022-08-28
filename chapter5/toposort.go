@@ -28,8 +28,9 @@ func Toposort(m map[string][]string) []string {
 }
 
 // ToposortMap topo-sorts using map.
-//   Exercise 5.10: Rewrite topoSort to use maps instead of slices and eliminate the initial sort.
-//   Verify that the results, though nondeterministic, are valid topological orderings.
+//
+//	Exercise 5.10: Rewrite topoSort to use maps instead of slices and eliminate the initial sort.
+//	Verify that the results, though nondeterministic, are valid topological orderings.
 func ToposortMap(m map[string]map[string]bool) []string {
 	var order []string
 	seen := make(map[string]bool)

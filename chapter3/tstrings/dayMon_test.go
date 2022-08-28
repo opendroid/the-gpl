@@ -7,8 +7,9 @@ import (
 )
 
 // TestDayName test for mon of week name, to run
-//   cd chapter3
-//   go test -run TestDayName -v
+//
+//	cd chapter3
+//	go test -run TestDayName -v
 func TestDayName(t *testing.T) {
 	testBasenameOne := []struct {
 		day      DayOfWeek
@@ -34,7 +35,7 @@ func TestDayName(t *testing.T) {
 	}
 }
 
-//   go test -run TestWeekend -v
+// go test -run TestWeekend -v
 func TestWeekend(t *testing.T) {
 	testBasenameOne := []struct {
 		day      DayOfWeek
@@ -56,7 +57,7 @@ func TestWeekend(t *testing.T) {
 	}
 }
 
-//   go test -run TestWeekday -v
+// go test -run TestWeekday -v
 func TestWeekday(t *testing.T) {
 	testBasenameOne := []struct {
 		day      DayOfWeek
@@ -79,8 +80,9 @@ func TestWeekday(t *testing.T) {
 }
 
 // TestDayName test for mon of week name, to run
-//   cd chapter3
-//   go test -run TestMonthName -v
+//
+//	cd chapter3
+//	go test -run TestMonthName -v
 func TestMonthName(t *testing.T) {
 	testBasenameOne := []struct {
 		mon      MonthOfYear

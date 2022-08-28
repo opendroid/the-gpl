@@ -18,7 +18,8 @@ import (
 )
 
 // main initializes all  modules. then enables commands eg:
-//   go run main.go server -port=8081
+//
+//	go run main.go server -port=8081
 func main() {
 	// Init modules - Sets up CLIDegrees Interface
 	bitsCount.InitCli()

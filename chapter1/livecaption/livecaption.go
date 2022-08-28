@@ -102,8 +102,9 @@ func prepSpeechClient() (speechpb.Speech_StreamingRecognizeClient, error) {
 }
 
 // sendStreamToGCP sends stream to Google stream recognizer.
-//  It returns if more than audioSpeakingTimeSec of time has elapsed. To account for
-//  ffmpeg's edge cases of termination of streams.
+//
+//	It returns if more than audioSpeakingTimeSec of time has elapsed. To account for
+//	ffmpeg's edge cases of termination of streams.
 func sendStreamToGCP(w io.Writer, r io.Reader, s speechpb.Speech_StreamingRecognizeClient,
 	wg *sync.WaitGroup) {
 	defer wg.Done()

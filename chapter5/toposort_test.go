@@ -33,8 +33,9 @@ var preRequisites2 = map[string]map[string]bool{
 }
 
 // TestToposort sorts a test map of courses
-//  cd chapter5
-//  go test -run TestToposort -v
+//
+//	cd chapter5
+//	go test -run TestToposort -v
 func TestToposort(t *testing.T) {
 	t.Run("Slice sorted order", func(t *testing.T) {
 		topology := Toposort(preRequisites)
@@ -45,8 +46,9 @@ func TestToposort(t *testing.T) {
 }
 
 // TestToposortMap sorts a test map of courses
-//  cd chapter5
-//  go test -run TestToposortMap -v
+//
+//	cd chapter5
+//	go test -run TestToposortMap -v
 func TestToposortMap(t *testing.T) {
 	t.Run("Map sorted order Run 1", func(t *testing.T) {
 		topology := ToposortMap(preRequisites2)

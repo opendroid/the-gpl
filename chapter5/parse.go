@@ -76,10 +76,11 @@ func nodeText(text []string, n *html.Node) []string {
 }
 
 // outline packs the outline of a HTML document onto a 'superStack' and returns
-//	it the caller. The outline is joined by . characters.
-//  NOTE: Read the para in book on subtlety of 'stack'. The stack is pushed and not
-//	popped. It does not modify initial elements visible to the caller.
-//  caller stack is unchanged.
+//
+//		it the caller. The outline is joined by . characters.
+//	 NOTE: Read the para in book on subtlety of 'stack'. The stack is pushed and not
+//		popped. It does not modify initial elements visible to the caller.
+//	 caller stack is unchanged.
 func outline(stack []string, n *html.Node) []string {
 	var superStack []string
 	if n.Type == html.ElementNode {
@@ -172,7 +173,8 @@ func forEachNode(n *html.Node, pre, post func(n *html.Node)) {
 // ---------------------------- Section exported func  ---------------------------
 
 // ParseOutline returns outline of a website pointed to by url.
-//  The outline is array of strings
+//
+//	The outline is array of strings
 func ParseOutline(url string) ([]string, error) {
 	page, err := channels.FetchSite(url)
 	if err != nil {
@@ -189,7 +191,8 @@ func ParseOutline(url string) ([]string, error) {
 }
 
 // ParseOutlineCount returns count of tags website pointed to by url.
-//  The outline is array of strings
+//
+//	The outline is array of strings
 func ParseOutlineCount(url string) (map[string]int, error) {
 	page, err := channels.FetchSite(url)
 	if err != nil {

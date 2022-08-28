@@ -30,6 +30,7 @@ func scale(min, max, r float64) func(float64) float64 {
 }
 
 // mandelbrotImage write a image MBWidth x MBHeight to writer
+//
 //	Exercise 8.5:
 func mandelbrotImage(w io.Writer, b MandelbrotImage) {
 	img := image.NewRGBA(image.Rect(0, 0, MBWidth, MBHeight))

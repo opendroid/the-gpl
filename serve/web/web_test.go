@@ -7,8 +7,9 @@ import (
 )
 
 // Test_rootHandler tests the server
-//  Example: https://blog.questionable.services/article/testing-http-handlers-go/
-//  go test -v -run Test_rootHandler
+//
+//	Example: https://blog.questionable.services/article/testing-http-handlers-go/
+//	go test -v -run Test_rootHandler
 func Test_rootHandler(t *testing.T) {
 	// Test root
 	req, err := http.NewRequest("GET", "/", nil)
@@ -34,7 +35,8 @@ func Test_rootHandler(t *testing.T) {
 }
 
 // Test_incrHandler
-//  go test -v -run Test_rootHandler
+//
+//	go test -v -run Test_rootHandler
 func Test_incrHandler(t *testing.T) {
 	// Test incr
 	req, err := http.NewRequest("GET", "/incr", nil)

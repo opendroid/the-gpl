@@ -13,8 +13,9 @@ var testInts = struct {
 }
 
 // TestIntSet_Has tests if a uint is in set
-//  cd chapter 6
-//  go test -run TestIntSet_Has -v
+//
+//	cd chapter 6
+//	go test -run TestIntSet_Has -v
 func TestIntSet_Has(t *testing.T) {
 	t.Run("Null Set", func(t *testing.T) {
 		var setA *IntSet
@@ -41,8 +42,9 @@ func TestIntSet_Has(t *testing.T) {
 }
 
 // TestIntSet_Add tests adding uint to the set
-//  cd chapter 6
-//  go test -run TestIntSet_Add -v
+//
+//	cd chapter 6
+//	go test -run TestIntSet_Add -v
 func TestIntSet_Add(t *testing.T) {
 	setA := New()
 	for _, v := range testInts.a {
@@ -52,8 +54,9 @@ func TestIntSet_Add(t *testing.T) {
 }
 
 // TestIntSet_RemoveInts tests remove uint to the set
-//  cd chapter 6
-//  go test -run TestIntSet_RemoveInts -v
+//
+//	cd chapter 6
+//	go test -run TestIntSet_RemoveInts -v
 func TestIntSet_RemoveInts(t *testing.T) {
 	setA := New()
 	for _, v := range testInts.a {
@@ -76,8 +79,9 @@ func TestIntSet_RemoveInts(t *testing.T) {
 }
 
 // TestIntSet_UnionWith tests if a int is in set
-//  cd chapter 6
-//  go test -run TestIntSet_UnionWith -v
+//
+//	cd chapter 6
+//	go test -run TestIntSet_UnionWith -v
 func TestIntSet_UnionWith(t *testing.T) {
 	setA := New()
 	setA.AddInts(testInts.a...)
@@ -96,8 +100,9 @@ func TestIntSet_UnionWith(t *testing.T) {
 }
 
 // TestIntSet_Copy tests if copy works
-//  cd chapter 6
-//  go test -run TestIntSet_Copy -v
+//
+//	cd chapter 6
+//	go test -run TestIntSet_Copy -v
 func TestIntSet_Copy(t *testing.T) {
 	setA := NewWithInts(testInts.a...)
 	setB := setA.Copy()
@@ -110,8 +115,9 @@ func TestIntSet_Copy(t *testing.T) {
 }
 
 // TestIntSet_Clear tests if clear worked
-//  cd chapter 6
-//  go test -run TestIntSet_Clear -v
+//
+//	cd chapter 6
+//	go test -run TestIntSet_Clear -v
 func TestIntSet_Clear(t *testing.T) {
 	setA := NewWithInts(testInts.a...)
 	t.Logf("Set A: %v", setA)
@@ -126,8 +132,9 @@ func TestIntSet_Clear(t *testing.T) {
 }
 
 // TestIntSet_Elements gets a slice of elements
-//  cd chapter 6
-//  go test -run TestIntSet_Elements -v
+//
+//	cd chapter 6
+//	go test -run TestIntSet_Elements -v
 func TestIntSet_Elements(t *testing.T) {
 	setA := NewWithInts(testInts.a...)
 	expected := make([]uint, len(testInts.a))
@@ -146,8 +153,9 @@ func TestIntSet_Elements(t *testing.T) {
 }
 
 // TestIntSet_Elements gets intersection of two sets
-//  cd chapter 6
-//  go test -run TestIntSet_IntersectWith -v
+//
+//	cd chapter 6
+//	go test -run TestIntSet_IntersectWith -v
 func TestIntSet_IntersectWith(t *testing.T) {
 	setA := NewWithInts(testInts.a...)
 	setB := NewWithInts(testInts.b...)
@@ -158,8 +166,9 @@ func TestIntSet_IntersectWith(t *testing.T) {
 }
 
 // TestIntSet_DifferenceWith gets difference of two sets
-//  cd chapter 6
-//  go test -run TestIntSet_DifferenceWith -v
+//
+//	cd chapter 6
+//	go test -run TestIntSet_DifferenceWith -v
 func TestIntSet_DifferenceWith(t *testing.T) {
 	setA := NewWithInts(testInts.a...)
 	setB := NewWithInts(testInts.b...)
@@ -170,8 +179,9 @@ func TestIntSet_DifferenceWith(t *testing.T) {
 }
 
 // TestIntSet_SymmetricDifference gets symmetric difference of two sets
-//  cd chapter 6
-//  go test -run TestIntSet_SymmetricDifference -v
+//
+//	cd chapter 6
+//	go test -run TestIntSet_SymmetricDifference -v
 func TestIntSet_SymmetricDifference(t *testing.T) {
 	setA := NewWithInts(testInts.a...)
 	setB := NewWithInts(testInts.b...)

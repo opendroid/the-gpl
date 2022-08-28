@@ -16,7 +16,8 @@ const (
 )
 
 // Basename removes directory components and a .suffix
-//   e.g.: a => a, a.go => a, a/b/c.go => c, a/b/c.d.go =? cd.
+//
+//	e.g.: a => a, a.go => a, a/b/c.go => c, a/b/c.d.go =? cd.
 func Basename(a string) string {
 	// Remove everything before /
 	for i := len(a) - 1; i >= 0; i-- {
@@ -64,7 +65,8 @@ func CommaWithBuf(s string) string {
 }
 
 // IntsToString Converts []Int{1, 2, 3, 4} => "[1, 2, 3, 4]"
-//  Note that numbers in golang are all utf-8
+//
+//	Note that numbers in golang are all utf-8
 func IntsToString(values []int) string {
 	var buf bytes.Buffer
 	buf.WriteByte('[')

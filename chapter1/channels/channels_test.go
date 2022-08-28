@@ -12,8 +12,9 @@ var testSites = [...]string{"https://google.com", "https://youtube.com", "https:
 const JWFF = "https://brazil-partner-onboarding-dev.uc.r.appspot.com/ping"
 
 // TestFetch tests the fetch function
-//  cd ./chapter1/channels
-//  go test -run TestFetch -v
+//
+//	cd ./chapter1/channels
+//	go test -run TestFetch -v
 func TestFetch(t *testing.T) {
 	sitesChan := make(chan string) // Make 1 channel only
 	for _, site := range testSites {
@@ -26,8 +27,9 @@ func TestFetch(t *testing.T) {
 }
 
 // TestFetch tests the fetch function
-//  cd ./chapter1/channels
-//  go test -run TestFetch_jw -v
+//
+//	cd ./chapter1/channels
+//	go test -run TestFetch_jw -v
 func TestFetch_jw(t *testing.T) {
 	sitesChan := make(chan string) // Make 1 channel only
 	var testJW [2]string
@@ -45,8 +47,9 @@ func TestFetch_jw(t *testing.T) {
 }
 
 // TestGithubReposOfUser fetches github repos of a user
-//  cd ./channels
-//  go test -run TestGithubReposOfUser -v
+//
+//	cd ./channels
+//	go test -run TestGithubReposOfUser -v
 func TestGithubReposOfUser(t *testing.T) {
 	apiOutput := make(chan GithubUserInfo)
 	go GithubReposOfUser("opendroid", apiOutput)
@@ -57,8 +60,9 @@ func TestGithubReposOfUser(t *testing.T) {
 }
 
 // TestFetchSite fetches github repos of a user
-//  cd ./channels
-//  go test -run TestFetchSite -v
+//
+//	cd ./channels
+//	go test -run TestFetchSite -v
 func TestFetchSite(t *testing.T) {
 	site := "https://www.github.com"
 	data, err := FetchSite(site)

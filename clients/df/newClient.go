@@ -1,4 +1,4 @@
-// Package bot establishes a client session with a Dialog Flow agent or bot associated with GCP project.
+// Package df Package bot establishes a client session with a Dialog Flow agent or bot associated with GCP project.
 // The bot will respond to user questions as they type the questions.
 package df
 

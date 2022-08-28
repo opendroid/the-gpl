@@ -7,7 +7,8 @@ import (
 )
 
 // TestSearchGitIssues tests the SearchGitIssues method, first be in directory chapter 4 and then run:
-//  go test -run TestSearchGitIssues -v
+//
+//	go test -run TestSearchGitIssues -v
 func TestSearchGitIssues(t *testing.T) {
 	t.Parallel()
 	t.Run("SearchGitIssues repo:golang/go is:open json decoder", func(t *testing.T) {

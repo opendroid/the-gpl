@@ -20,7 +20,8 @@ var f *float64 // flag for Fahrenheit
 var k *float64 // flag for Kelvin
 
 // InitCli for the "temp" command
-//   eg: the-gpl temp -c=12 # Converts 12°C to °F
+//
+//	eg: the-gpl temp -c=12 # Converts 12°C to °F
 func InitCli() {
 	cmd.set = flag.NewFlagSet("temp", flag.ContinueOnError)
 	c = cmd.set.Float64("c", float64(FreezingPointC), "°Celsius")

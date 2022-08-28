@@ -18,14 +18,15 @@ var site *string
 var dir *string // Destination directory to crawl
 
 // InitCli for command: the-gpl parse -site=http://...
-//   eg: the-gpl parse -type=links     -site=https://www.yahoo.com
-//		   the-gpl parse -type=outline -site=https://www.yahoo.com
-//		   the-gpl parse -type=images -site=https://www.yahoo.com
-//		   the-gpl parse -type=scripts -site=https://www.yahoo.com
-//		   the-gpl parse -type=scripts -site=https://www.yahoo.com
-//		   the-gpl parse -type=css -site=https://www.yahoo.com
-//		   the-gpl parse -type=pretty -site=https://www.yahoo.com
-//		   the-gpl parse -type=crawl -site=https://www.yahoo.com -dir=dest-dir
+//
+//	  eg: the-gpl parse -type=links     -site=https://www.yahoo.com
+//			   the-gpl parse -type=outline -site=https://www.yahoo.com
+//			   the-gpl parse -type=images -site=https://www.yahoo.com
+//			   the-gpl parse -type=scripts -site=https://www.yahoo.com
+//			   the-gpl parse -type=scripts -site=https://www.yahoo.com
+//			   the-gpl parse -type=css -site=https://www.yahoo.com
+//			   the-gpl parse -type=pretty -site=https://www.yahoo.com
+//			   the-gpl parse -type=crawl -site=https://www.yahoo.com -dir=dest-dir
 func InitCli() {
 	cmd.set = flag.NewFlagSet("parse", flag.ContinueOnError)
 	parse = cmd.set.String("type", "outline", "one of: [links outline images scripts css pretty crawl]")

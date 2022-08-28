@@ -100,6 +100,7 @@ func NewBroadcastWriters(writers ...io.Writer) *BroadcastWriters {
 }
 
 // CountCharsWordsLines reads from a reader and returns count of
+//
 //	characters words and lines
 func CountCharsWordsLines(r io.Reader) (int, int, int) {
 	var cw ByteCounter

@@ -1,4 +1,4 @@
-#/usr/bin/env zsh
+#!/usr/bin/env zsh
 # Example: https://iridakos.com/programming/2018/03/01/bash-programmable-completion-tutorial
 thegpl_completions() {
   if [ "${COMP_WORDS[1]}" == "bits" ]; then

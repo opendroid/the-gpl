@@ -1,7 +1,8 @@
 // Package serve provides interface for displaying help and executing
-//  command line. A module wishing to participate in CLI need to conform
-//	to CmdHandlers interface and its ExecCmd method will be called when command
-//	matches.
+//
+//	 command line. A module wishing to participate in CLI need to conform
+//		to CmdHandlers interface and its ExecCmd method will be called when command
+//		matches.
 package shell
 
 import (
@@ -17,7 +18,8 @@ type CmdHandlers interface {
 }
 
 // flagHandlerMap is map of first "cmd" and it Set handlers
-//  E.G. The "lissajous" interface{} entry associated CLI for module lissajous
+//
+//	E.G. The "lissajous" interface{} entry associated CLI for module lissajous
 var flagHandlerMap = map[string]CmdHandlers{}
 
 // Add registers interface associated with command for a module so it can ve invoked

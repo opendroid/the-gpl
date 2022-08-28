@@ -18,7 +18,8 @@ var bitCountCmd CLI
 var bits *uint64 // flag for -n=#bits count
 
 // InitCli for the "bits" command
-//   eg: the-gpl bits -n=0x1234BAD0 # counts number of 1 bits in n
+//
+//	eg: the-gpl bits -n=0x1234BAD0 # counts number of 1 bits in n
 func InitCli() {
 	bitCountCmd.set = flag.NewFlagSet("bits", flag.ContinueOnError)
 	bits = bitCountCmd.set.Uint64("n", 0xBAD0FACEC0FFEE, "A 64-bit int")

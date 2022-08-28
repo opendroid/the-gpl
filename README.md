@@ -5,7 +5,7 @@
 Language](https://www.amazon.com/Programming-Language-Addison-Wesley-Professional-Computing/dp/0134190440) 
 is a seminal programming language authored by Avengers: _Alan A. A. Donovan_ and _Brian W. Kernighan_. 
 This git repo is an attempt to share my learning from this book to showcase problems posed in the book and then some. 
-The source-code by authors is on github at [gopl.io](https://github.com/adonovan/gopl.io/).
+The source-code by authors is on GitHub at [gopl.io](https://github.com/adonovan/gopl.io/).
 
 You can experience the deployed artifacts on the web as:
 1. GPC Cloud Run `the-gpl-book` service.

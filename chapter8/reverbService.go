@@ -45,6 +45,7 @@ func reverbHandler(c net.Conn) {
 }
 
 // reverb back a string as on a connection
+//
 //	HELLO >> Hello >> hello
 func reverb(c net.Conn, s string, delay time.Duration) {
 	_, _ = fmt.Fprintf(c, "\t%s\n", strings.ToUpper(s))

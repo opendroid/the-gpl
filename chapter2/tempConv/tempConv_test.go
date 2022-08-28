@@ -7,8 +7,9 @@ import (
 )
 
 // Test_ToF test for ToF, to run
-//   cd chapter2
-//   go test -run Test_ToF -v
+//
+//	cd chapter2
+//	go test -run Test_ToF -v
 func Test_ToF(t *testing.T) {
 	boilingPointF := BoilingPointC.ToF().String()
 	absoluteZeroF := AbsoluteZeroC.ToF().String()
@@ -20,8 +21,9 @@ func Test_ToF(t *testing.T) {
 }
 
 // Test_ToC test for ToC, to run
-//   cd chapter2
-//   go test -run  Test_ToC -v
+//
+//	cd chapter2
+//	go test -run  Test_ToC -v
 func Test_ToC(t *testing.T) {
 	boilingPointC := BoilingPointF.ToC().String()
 	absoluteZeroC := AbsoluteZeroF.ToC().String()

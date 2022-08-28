@@ -45,6 +45,7 @@ func walkDir(dir string, sizes chan<- int64) {
 }
 
 // dirEntry reads files in a directory and returns entries for  all.
+//
 //	Runs a max  of MaxGoRoutines of these goroutines  in parallel
 func dirEntry(dir string) []os.FileInfo {
 	defer func() { <-sema }() // Release  semaphore,  when done

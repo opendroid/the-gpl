@@ -6,7 +6,8 @@ import (
 )
 
 // TestPlotOn3DSurface tests the 3D plot function
-//   go test -run TestPlotOn3DSurface -v
+//
+//	go test -run TestPlotOn3DSurface -v
 func TestPlotOn3DSurface(t *testing.T) {
 	t.Parallel()
 	t.Run("Sinc Plot", func(t *testing.T) {

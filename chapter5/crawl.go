@@ -18,10 +18,11 @@ var (
 )
 
 // Crawl a webpage and downloads pages in that domain and saves results in destination dir.
-//   Exercise 5.13: Modify crawl to make local copies of the pages it finds, creating directories as necessary.
-//   Don’t make copies of pages that come from a different domain. For example, if the original page comes
-//   from golang.org, save all files from there, but exclude ones from vimeo.com.
-//	 Added concurrency as part of chapter 8
+//
+//	  Exercise 5.13: Modify crawl to make local copies of the pages it finds, creating directories as necessary.
+//	  Don’t make copies of pages that come from a different domain. For example, if the original page comes
+//	  from golang.org, save all files from there, but exclude ones from vimeo.com.
+//		 Added concurrency as part of chapter 8
 func Crawl(site, dir string) (int, error) {
 	if site == "" {
 		return 0, fmt.Errorf("no site to crawl")

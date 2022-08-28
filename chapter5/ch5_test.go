@@ -9,7 +9,8 @@ import (
 )
 
 // TestE51Findlinks tests Exercise 5.1 recursive version
-//  go test -run TestE51Findlinks -v
+//
+//	go test -run TestE51Findlinks -v
 func TestE51Findlinks(t *testing.T) {
 	t.Run("Links in www.google.com", func(t *testing.T) {
 		aRefs, err := fetchLinkAndApply("https://www.google.com", E51Findlinks)
@@ -25,6 +26,7 @@ func TestE51Findlinks(t *testing.T) {
 }
 
 // TestExpand tests Expand
+//
 //	go test -run TestExpand -v
 func TestExpand(t *testing.T) {
 	prices := map[string]struct {

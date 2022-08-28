@@ -1,7 +1,8 @@
 // Package web serves a sample web server that hosts URLS to
+//
 //	serve various programs in The-GPL book. It is also invokes from the
 //	docker command line to be served on Google Cloud.
-// 	logger prints log messages to standard output, where as fmt.Printf outputs to
+//	logger prints log messages to standard output, where as fmt.Printf outputs to
 //	http.ResponseWriter
 package web
 
@@ -67,11 +68,12 @@ func init() {
 }
 
 // Start a server that hosts pages:
-// 	/ - root page
-// 	/lis - Lissajous graph handler
-//  /egg - shows an egg on a page
-// 	/incr - increments a page counter, protected by mutex
-// 	/counter - shows value of counter, protected by mutex
+//
+//		/ - root page
+//		/lis - Lissajous graph handler
+//	 /egg - shows an egg on a page
+//		/incr - increments a page counter, protected by mutex
+//		/counter - shows value of counter, protected by mutex
 func Start(port int) {
 	// Add handlers to default mux
 	for k, v := range handlers {

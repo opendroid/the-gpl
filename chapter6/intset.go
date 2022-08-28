@@ -16,12 +16,13 @@ type intSetItem struct {
 }
 
 // IntSet sets of positive integers. A set contains int n if the nth bit in set is set.
-//  That is, for int n in set, the nth element, intSetItem, in list has:
-//  	base is n/64, and
-//  	word is n%64 th bit
-//  Note that these values not exposed outside interface, as they need to be managed by this module.
-//	For optimization, we do not store non-existent zero words. Use a linked list to store all words.
-//  So to store 2^32-1 we don't need 2,147,483,647/64 byte array
+//
+//	 That is, for int n in set, the nth element, intSetItem, in list has:
+//	 	base is n/64, and
+//	 	word is n%64 th bit
+//	 Note that these values not exposed outside interface, as they need to be managed by this module.
+//		For optimization, we do not store non-existent zero words. Use a linked list to store all words.
+//	 So to store 2^32-1 we don't need 2,147,483,647/64 byte array
 type IntSet struct {
 	list  *list.List
 	count int // Number of elements (i.e 1 bits) in all Words in list Set
@@ -120,7 +121,8 @@ func (s *IntSet) Add(x uint) {
 }
 
 // AddInts adds multiple positive integers x to the set
-//   Exercise 6.2 Define a variadic: (*IntSet)AddAll(...int) to add a list of values
+//
+//	Exercise 6.2 Define a variadic: (*IntSet)AddAll(...int) to add a list of values
 func (s *IntSet) AddInts(x ...uint) {
 	for _, v := range x {
 		s.Add(v)
@@ -233,7 +235,8 @@ func (s *IntSet) UnionWith(t *IntSet) {
 }
 
 // Len returns length of a set by counting number of 1-bits
-//  Exercise 6.1: Add (*IntSet)Len()
+//
+//	Exercise 6.1: Add (*IntSet)Len()
 func (s *IntSet) Len() int {
 	return s.count
 }
@@ -250,7 +253,8 @@ func (s *IntSet) Copy() *IntSet {
 }
 
 // Elements returns a slice of all integers in the set
-//   Exercise 6.4: Add a method Elements that returns a slice containing the
+//
+//	Exercise 6.4: Add a method Elements that returns a slice containing the
 func (s *IntSet) Elements() []uint {
 	var set []uint
 	if s == nil {

@@ -31,8 +31,9 @@ var testDataWithOne = []struct {
 }
 
 // TestMaxInt gets maximum of integers.
-//   cd chapter5
-//	 go test -run TestMaxInt -v
+//
+//	  cd chapter5
+//		 go test -run TestMaxInt -v
 func TestMaxInt(t *testing.T) {
 	for _, test := range testData {
 		title := fmt.Sprintf("Max of %d ints", len(test.numbers))
@@ -48,8 +49,9 @@ func TestMaxInt(t *testing.T) {
 }
 
 // TestMinInt gets minimum of integers.
-//   cd chapter5
-//	 go test -run TestMinInt -v
+//
+//	  cd chapter5
+//		 go test -run TestMinInt -v
 func TestMinInt(t *testing.T) {
 	for _, test := range testData {
 		title := fmt.Sprintf("Min of %d ints", len(test.numbers))
@@ -65,8 +67,9 @@ func TestMinInt(t *testing.T) {
 }
 
 // TestMaxIntOf gets maximum of integers.
-//   cd chapter5
-//	 go test -run TestMaxIntOf -v
+//
+//	  cd chapter5
+//		 go test -run TestMaxIntOf -v
 func TestMaxIntOf(t *testing.T) {
 	for _, test := range testDataWithOne {
 		title := fmt.Sprintf("Max of %d ints", len(test.numbers))
@@ -82,8 +85,9 @@ func TestMaxIntOf(t *testing.T) {
 }
 
 // TestMinIntOf gets minimum of integers.
-//   cd chapter5
-//	 go test -run TestMinIntOf -v
+//
+//	  cd chapter5
+//		 go test -run TestMinIntOf -v
 func TestMinIntOf(t *testing.T) {
 	for _, test := range testDataWithOne {
 		title := fmt.Sprintf("Min of %d ints", len(test.numbers))
@@ -112,8 +116,9 @@ var joinTest = []struct {
 }
 
 // TestJoin joins words separated by a separator
-//   cd chapter5
-//	 go test -run TestJoin -v
+//
+//	  cd chapter5
+//		 go test -run TestJoin -v
 func TestJoin(t *testing.T) {
 	for _, test := range joinTest {
 		title := fmt.Sprintf("%v join by %s", test.words, test.sep)

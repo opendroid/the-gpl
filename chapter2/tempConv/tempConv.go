@@ -72,19 +72,22 @@ func (k Kelvin) ToC() Celsius {
 }
 
 // String prints in format 100°F value
-//  Can use to print value in %s fmt.Printf format
+//
+//	Can use to print value in %s fmt.Printf format
 func (f Fahrenheit) String() string {
 	return fmt.Sprintf("%.2f°F", f)
 }
 
 // String prints in format 100°C value
-//  Can use in %s fmt.Printf format
+//
+//	Can use in %s fmt.Printf format
 func (c Celsius) String() string {
 	return fmt.Sprintf("%.2f°C", c)
 }
 
 // String prints in format 100°K value
-//  Can use in %s fmt.Printf format
+//
+//	Can use in %s fmt.Printf format
 func (k Kelvin) String() string {
 	return fmt.Sprintf("%.2f°K", k)
 }

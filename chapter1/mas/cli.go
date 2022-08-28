@@ -20,8 +20,9 @@ var n1 *int            // Flag that stores value for: the-gpl mas -comp  -n1=123
 var n2 *int            // Flag that stores value for -n2=234
 
 // InitCli for command: the-gpl mas -fn=array
-//   eg: the-gpl mas -fn=array # Tests the array example
-//       the-gpl mas -fn=comp -n1=123 -n2=345 # compares n1 and n2 and computes n1 - n2
+//
+//	eg: the-gpl mas -fn=array # Tests the array example
+//	    the-gpl mas -fn=comp -n1=123 -n2=345 # compares n1 and n2 and computes n1 - n2
 func InitCli() {
 	cmd.set = flag.NewFlagSet("mas", flag.ContinueOnError)
 	callMethod = cmd.set.String("fn", "array", "[array comp slice]")

@@ -14,11 +14,12 @@ var (
 )
 
 // PlotOn3DSurface plats z = f(x,y) as a wire on a 3-D mesh surface using SVG (Scalable Vector Graphics)
-//   See SVG on https://www.w3schools.com/graphics/svg_intro.asp
-//   Example, makes a hexagon
-//   <svg width="100" height="100">
-//     <polygon points="25,0 50,0 75,25 50,50 25,50 0,25" stroke="green" stroke-width="4" fill="yellow" />
-//   </svg>
+//
+//	See SVG on https://www.w3schools.com/graphics/svg_intro.asp
+//	Example, makes a hexagon
+//	<svg width="100" height="100">
+//	  <polygon points="25,0 50,0 75,25 50,50 25,50 0,25" stroke="green" stroke-width="4" fill="yellow" />
+//	</svg>
 func PlotOn3DSurface(w io.Writer, plot func(float64, float64) float64) {
 	_, err := fmt.Fprintf(w, SVGPrefixFormat, SurfaceWidth, SurfaceHeight)
 	// close SVG tag in all returns
@@ -75,7 +76,8 @@ func corner(i, j int, plot func(float64, float64) float64) (float64, float64, er
 }
 
 // Sinc sampling function retrurns 1 or sin r / r
-//   https://mathworld.wolfram.com/SincFunction.html
+//
+//	https://mathworld.wolfram.com/SincFunction.html
 func Sinc(x, y float64) float64 {
 	r := math.Hypot(x, y) // Distance of (x,y) from (0,0)
 	k := math.Sin(r) / r  // recover from a divide by zero error
@@ -104,7 +106,7 @@ func EggHandlerSVG(w io.Writer) {
 	PlotOn3DSurface(w, Egg)
 }
 
-//  SincSVG writes raw SVG content
+// SincSVG writes raw SVG content
 func SincSVG(w io.Writer) {
 	PlotOn3DSurface(w, Sinc)
 }

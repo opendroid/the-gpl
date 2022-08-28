@@ -6,7 +6,8 @@ import (
 )
 
 // TestParseOutlineCount tests the  Exercise 5.2, ParseOutlineCount
-//  go test -run TestParseOutlineCount -v
+//
+//	go test -run TestParseOutlineCount -v
 func TestParseOutlineCount(t *testing.T) {
 	t.Run("Tag count in www.google.com", func(t *testing.T) {
 		summary, err := ParseOutlineCount("https://www.google.com")
@@ -27,7 +28,8 @@ func TestParseOutlineCount(t *testing.T) {
 }
 
 // TestParseText tests the  Exercise 5.3, TestParseText
-//  go test -run TestParseText -v
+//
+//	go test -run TestParseText -v
 func TestParseText(t *testing.T) {
 	t.Run("Tag count in www.google.com", func(t *testing.T) {
 		texts, err := ParseText("https://www.google.com")
@@ -43,8 +45,9 @@ func TestParseText(t *testing.T) {
 }
 
 // TestParseOutline tests the ParseOutline method
-//  cd ./chapter5
-//  go test -run TestParseOutline -v
+//
+//	cd ./chapter5
+//	go test -run TestParseOutline -v
 func TestParseOutline(t *testing.T) {
 	t.Run("google.com", func(t *testing.T) {
 		outline, err := ParseOutline("https://google.com")
@@ -60,8 +63,9 @@ func TestParseOutline(t *testing.T) {
 }
 
 // TestParseLinks tests the ParseLinks method
-//  cd ./chapter5
-//  go test -run TestParseLinks -v
+//
+//	cd ./chapter5
+//	go test -run TestParseLinks -v
 func TestParseLinks(t *testing.T) {
 	t.Run("google.com", func(t *testing.T) {
 		links, err := ParseLinks("https://google.com")
@@ -77,8 +81,9 @@ func TestParseLinks(t *testing.T) {
 }
 
 // TestParseImages tests the ParseImages method
-//  cd ./chapter5
-//  go test -run TestParseImages -v
+//
+//	cd ./chapter5
+//	go test -run TestParseImages -v
 func TestParseImages(t *testing.T) {
 	t.Run("google.com", func(t *testing.T) {
 		links, err := ParseImages("https://google.com")

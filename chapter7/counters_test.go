@@ -17,6 +17,7 @@ var testData = []struct {
 }
 
 // TestByteCounter_Write tests ByteCounter writer interface
+//
 //	cd chapter7
 //	go test -run TestByteCounter_Write -v
 func TestByteCounter_Write(t *testing.T) {
@@ -34,6 +35,7 @@ func TestByteCounter_Write(t *testing.T) {
 }
 
 // TestWordCounter_Write tests WordCounter writer interface
+//
 //	cd chapter7
 //	go test -run TestWordCounter_Write -v
 func TestWordCounter_Write(t *testing.T) {
@@ -51,6 +53,7 @@ func TestWordCounter_Write(t *testing.T) {
 }
 
 // TestLineCounter_Write tests LineCounter writer interface
+//
 //	cd chapter7
 //	go test -run TestLineCounter_Write -v
 func TestLineCounter_Write(t *testing.T) {
@@ -68,6 +71,7 @@ func TestLineCounter_Write(t *testing.T) {
 }
 
 // TestCountingWriter tests CountingByteWriter writer interface
+//
 //	cd chapter7
 //	go test -run TestCountingWriter -v
 func TestCountingWriter(t *testing.T) {
@@ -91,6 +95,7 @@ func TestCountingWriter(t *testing.T) {
 }
 
 // TestNewBroadcastWriters tests broadcasting to groups of writer interfaces
+//
 //	cd chapter7
 //	go test -run TestNewBroadcastWriters -v
 func TestNewBroadcastWriters(t *testing.T) {
@@ -120,6 +125,7 @@ func TestNewBroadcastWriters(t *testing.T) {
 }
 
 // TestCountCharsWordsLines tests chaining of writer interface
+//
 //	cd chapter7
 //	go test -run TestCountCharsWordsLines -v
 func TestCountCharsWordsLines(t *testing.T) {

@@ -37,9 +37,10 @@ func TestBitCount(t *testing.T) {
 }
 
 // BitCountByTableLookup Benchmark the table lookup method
-//   cd chapter2
-//   go test -bench=BitCount -benchmem, or
-//   go test -bench=BitCountByTableLookup -benchmem
+//
+//	cd chapter2
+//	go test -bench=BitCount -benchmem, or
+//	go test -bench=BitCountByTableLookup -benchmem
 func BenchmarkBitCountByTableLookup(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		_ = BitCountByTableLookup(uint64(i))
@@ -47,9 +48,10 @@ func BenchmarkBitCountByTableLookup(b *testing.B) {
 }
 
 // BenchmarkBitCountByLooping benchmark iterating 1 bit at a time
-//   cd chapter2
-//   go test -bench=BitCount -benchmem, or
-//   go test -bench=BitCountEachOne -benchmem
+//
+//	cd chapter2
+//	go test -bench=BitCount -benchmem, or
+//	go test -bench=BitCountEachOne -benchmem
 func BenchmarkBitCountEachOne(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		_ = BitCountEachOne(uint64(i))
@@ -57,8 +59,9 @@ func BenchmarkBitCountEachOne(b *testing.B) {
 }
 
 // BenchmarkBitCountByLooping benchmark iterating 1 bit at a time
-//   cd chapter2
-//   go test -bench=BitCount -benchmem
+//
+//	cd chapter2
+//	go test -bench=BitCount -benchmem
 func BenchmarkBitCount(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		_ = BitCount(uint64(i))
