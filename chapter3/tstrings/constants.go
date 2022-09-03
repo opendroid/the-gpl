@@ -38,48 +38,29 @@ const (
 type DayOfWeek int8
 
 const (
-	// Sunday first day of week
-	Sunday DayOfWeek = iota
-	// Monday second day of week
-	Monday
-	// Tuesday third day of week
-	Tuesday
-	// Wednesday forth day of week
-	Wednesday
-	// Thursday fifth day of week
-	Thursday
-	// Friday day 6
-	Friday
-	// Saturday last day
-	Saturday
+	Sunday    DayOfWeek = iota // Sunday first day of week
+	Monday                     // Monday second day of week
+	Tuesday                    // Tuesday third day of week
+	Wednesday                  // Wednesday forth day of week
+	Thursday                   // Thursday fifth day of week
+	Friday                     // Friday is day 6
+	Saturday                   // Saturday last day
 )
 
 // MonthOfYear assign a number to a month,  Jan = 0
 type MonthOfYear int8
 
 const (
-	// Jan month 0
-	Jan MonthOfYear = iota
-	// Feb month 1
-	Feb
-	// Mar month 2
-	Mar
-	// Apr month 4
-	Apr
-	// May month 5
-	May
-	// Jun month 6
-	Jun
-	// July month 7
-	July
-	// Aug month 8
-	Aug
-	// Sep month 9
-	Sep
-	// Oct month 10
-	Oct
-	// Nov month 11
-	Nov
-	// Dec merry Christmas
-	Dec
+	Jan  MonthOfYear = iota // Jan month 0
+	Feb                     // Feb month 1
+	Mar                     // Mar month 2
+	Apr                     // Apr month 4
+	May                     // May month 5
+	Jun                     // Jun month 6
+	July                    // July month 7
+	Aug                     // Aug month 8
+	Sep                     // Sep month 9
+	Oct                     // Oct month 10
+	Nov                     // Nov month 11
+	Dec                     // Dec merry Christmas
 )

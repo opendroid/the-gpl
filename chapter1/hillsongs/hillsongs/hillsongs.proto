@@ -9,7 +9,7 @@ service Albums {
   // Sends a greeting
   rpc GetAlbumsList (AlbumsRequest) returns (AlbumsResponse) {}
   rpc GetAlbumWithID (AlbumRequest) returns (AlbumsResponse) {}
-  rpc GetSongsList (SongsRequest) returns (HelloReply) {}
+  rpc GetSongsList (SongsRequest) returns (SongsReply) {}
   rpc PlaySongs (HelloRequest) returns (HelloReply) {}
   rpc PlaySong (HelloRequest) returns (HelloReply) {}
 }
@@ -54,5 +54,17 @@ message AudioFormat {
 }
 
 message SongsRequest {
+
+}
+
+message SongsReply {
+
+}
+
+message HelloRequest {
+
+}
+
+message HelloReply {
 
 }

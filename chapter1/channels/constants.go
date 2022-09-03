@@ -10,7 +10,7 @@ var TestSites = []string{
 	"https://usense.io",
 }
 
-// GithubUserInfoURL Github user info URL.
+// GithubUserInfoURL GitHub user info URL.
 const GithubUserInfoURL string = "https://api.github.com/users/"
 
 // GithubUserPlan what plan user is on

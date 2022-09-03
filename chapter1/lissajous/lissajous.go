@@ -48,7 +48,7 @@ func Lissajous(w io.Writer, config Config) {
 	// Get all frames
 	paletteIndex := 0
 	for i := 0; i < config.NFrames; i++ {
-		// Define image and a index in color Palette
+		// Define image and an index in color Palette
 		rect := image.Rect(0, 0, 2*config.Size, 2*config.Size)
 		img := image.NewPaletted(rect, palette)
 		paletteIndex++
@@ -79,7 +79,7 @@ func (config Config) Lissajous(out io.Writer) {
 	// Get all frames
 	paletteIndex := 0
 	for i := 0; i < config.NFrames; i++ {
-		// Define image and a index in color Palette
+		// Define image and an index in color Palette
 		rect := image.Rect(0, 0, 2*config.Size, 2*config.Size)
 		img := image.NewPaletted(rect, palette)
 		paletteIndex++

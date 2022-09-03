@@ -76,7 +76,7 @@ func mandelbrot(z complex128, b MandelbrotImage) color.Color {
 	return color.Black
 }
 
-// MBGraphHandler
+// MBGraphHandler returns a color image.
 func MBGraphHandler(w http.ResponseWriter, _ *http.Request) { mandelbrotImage(w, MBColor) }
 
 // MBGraphBWHandler in black

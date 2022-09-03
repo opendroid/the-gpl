@@ -1,6 +1,6 @@
 package livecaption
 
-// Test livecaption file samples
+// Test live-caption file samples
 const (
 	testAudioFile    = "./samples/paleBlueDot.wav"
 	testAudioFile4   = "./samples/testConvo.wav"
@@ -23,14 +23,16 @@ const (
 	speakerLanguage         = speakerLanguageEnUS
 	speakerShowIntermediate = true
 
-	// defaultRTPPort where RTP livecaption is being streamed
+	// defaultRTPPort where RTP live-caption is being streamed
 	defaultRTPPort = 9999
 
 	bufSize = 10240 // Streaming buffer size
 	nDoers  = 2     // Mutex to wait on these number of Go tasks
 )
 
-// Reference: https://twinnation.org/articles/35/how-to-add-colors-to-your-console-terminal-output-in-go
+// LineColor defined a colors for a line, see [Terminal output in Go].
+//
+// [Terminal output in Go]: https://twinnation.org/articles/35/how-to-add-colors-to-your-console-terminal-output-in-go
 type LineColor string
 
 const (

@@ -38,7 +38,7 @@ func (a CLI) ExecCmd(args []string) {
 	StreamRTPPort(p, os.Stdout)
 }
 
-// DisplayHelp prints help on command line for the livecaption module
+// DisplayHelp prints help on command line for the live-caption module
 func (a CLI) DisplayHelp() {
 	fmt.Println("\nUsage: the-gpl stt. First run this command")
 	fmt.Println(`ffmpeg -f avfoundation -i ":1" -acodec pcm_s16le -ar 48000 -f s16le udp://localhost:9999`)

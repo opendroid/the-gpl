@@ -6,7 +6,7 @@ import (
 	"github.com/opendroid/the-gpl/serve/shell"
 )
 
-// Section to setup CLI
+// Section to set up CLI
 
 // CLI wrapper for *flag.FlagSet
 type CLI struct {

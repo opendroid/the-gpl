@@ -7,8 +7,8 @@ import (
 	"strings"
 )
 
-// E51Findlinks Exercise 5.1 make  links using traversal non-loop recursive
-func E51Findlinks(href []string, n *html.Node) []string {
+// E51FindLinks Exercise 5.1 make  links using traversal non-loop recursive
+func E51FindLinks(href []string, n *html.Node) []string {
 	if n == nil { // Terminal node reached. Return
 		return href
 	}
@@ -22,8 +22,8 @@ func E51Findlinks(href []string, n *html.Node) []string {
 			}
 		}
 	}
-	href = E51Findlinks(href, n.FirstChild)
-	href = E51Findlinks(href, n.NextSibling)
+	href = E51FindLinks(href, n.FirstChild)
+	href = E51FindLinks(href, n.NextSibling)
 	return href
 }
 

@@ -8,14 +8,14 @@ import (
 	"testing"
 )
 
-// TestE51Findlinks tests Exercise 5.1 recursive version
+// TestE51FindLinks tests Exercise 5.1 recursive version
 //
-//	go test -run TestE51Findlinks -v
-func TestE51Findlinks(t *testing.T) {
+//	go test -run TestE51FindLinks -v
+func TestE51FindLinks(t *testing.T) {
 	t.Run("Links in www.google.com", func(t *testing.T) {
-		aRefs, err := fetchLinkAndApply("https://www.google.com", E51Findlinks)
+		aRefs, err := fetchLinkAndApply("https://www.google.com", E51FindLinks)
 		if err != nil {
-			t.Errorf("Error E51Findlinks: %v", err)
+			t.Errorf("Error E51FindLinks: %v", err)
 			t.Fail()
 		}
 		t.Logf("Size: %d", len(aRefs))

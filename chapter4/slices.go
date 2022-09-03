@@ -26,7 +26,7 @@ const (
 	Uranus
 	// Neptune eighth planet
 	Neptune
-	// Pluto ninth bpdy
+	// Pluto ninth body
 	Pluto // 9th body
 	// HauMea 10th body
 	HauMea
@@ -34,7 +34,7 @@ const (
 	MakeMake
 	// GongGong 12th body
 	GongGong
-	// LastBody: Nothing here
+	// LastBody Nothing here
 	LastBody
 )
 
@@ -58,7 +58,7 @@ func TNO() Bodies {
 	return bodiesInSolarSystem[Pluto:LastBody]
 }
 
-// printLenAndCap test function
+// PrintLenAndCaOfAllBodies test function
 func PrintLenAndCaOfAllBodies() {
 	inner := InnerPlanets()
 	gg := GasGiants()

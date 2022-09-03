@@ -24,7 +24,7 @@ func BitCount(x uint64) int {
 		nBitsInNumbers[byte(x>>(7*8))])
 }
 
-// BitCountByTableLookup Counts number of bits in a 64 bit unsigned integer
+// BitCountByTableLookup Counts number of bits in a 64-bit unsigned integer
 // using table looking using array, approx  30x slower than "BitCount"
 func BitCountByTableLookup(x uint64) int {
 	var sum = 0

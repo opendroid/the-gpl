@@ -7,27 +7,25 @@ that may be inefficient. Any changes made to by functions to the passed array is
 copy received.
 
 By default, array elements are initialized to zero, eg
-```go
-{
+```
   // Initialize few elements of an array
-  var planets = [8]string{"Mercury", "Venus", 4: "Jupiter"} // Unspecified take "" values
-} 
+  var _ = [8]string{"Mercury", "Venus", 4: "Jupiter"} // Unspecified take "" values
 ```
 
 ## Slices
 Lightweight data structure `(pointer, length, capacity)` that gives access to underlying array.
 Multiple slices can share the same underlying array. See image below. **Slices are not comparable**. 
 To look for empty slice perform `len(s) == 0` not `s == nil`.
-```go
-var s []int // len(s) == 0, s == nil
-s = nil     // len(s) == 0, s == nil
-s = []int{} // len(s) == 0, s != nil
+```
+  var s []int // len(s) == 0, s == nil
+  s = nil     // len(s) == 0, s == nil
+  s = []int{} // len(s) == 0, s != nil
 ```
 Go function should treat `len(s) == 0` and `s == nil` slices same way.
 
 To make slice use `make([]T, len, cap)` built-in function. To append to a slice use pattern:
-```go
-slice = append(slice, "Whatever") // Returns updated space structure pointer.  
+```
+  slice = append(slice, "Whatever") // Returns updated space structure pointer.  
 ```
 
 
@@ -39,7 +37,7 @@ unordered key, value pairs. Features of map are:
 - The key type **K** must be comparable  (eg: **not `slice` or `map`**) using `==`. Avoid floating-point numbers as keys.
 - The value **V** can be any composite type including a `map`.
 - Cannot take address of a map elements eg `_ = &ages["golang"] // compile error`.
-- Order of map iteration is not specified, eg `for k, v in range {fmt.Printf("%s:%s", k, v)}` order is not guaranteed.
+- Order of map iteration is not specified, e.g. `for k, v in range {fmt.Printf("%s:%s", k, v)}` order is not guaranteed.
 - `nil` map reference behaves as `empty` maps for operations **delete, len** and **range**.
 - Accessing a map by subscripting always returns a value, even if key is not there.
 - Return value for a non-existent key always returns zero value for its type.
@@ -59,9 +57,9 @@ A `struct` groups together zero or more names values of arbitrary type as a sing
 - Zero value of struct is composed of zero value of each of fields. 
 - Zero value should be meaningful. eg: `bytes.Buffer` or `sync.Mutex` zero-values are ready-to-use.
 - If all fields of struct are comparable, then structs are comparable. Those can be used as map keys.
-- `struct embedding` mechanism allows named struct as anonymous filed. It is syntactic sugar on dot notation. eg
+- `struct embedding` mechanism allows named struct as anonymous filed. It is syntactic sugar on dot notation. e.g.
 
-```go
+```
 type Point struct {X, Y int}
 type Circle struct { Point; Radius int} // anonymous center
 type Wheel struct { Circle; Spokes int}  
@@ -72,7 +70,7 @@ Check on [playground](https://play.golang.org/p/w99AaWcePFA).
 ### Structs and map
 A struct with no fields is called `empty struct`. Some go programmers use it as a value of map that represents a set.
 
-```go
+```
 seen := make(map[string]struct{}) // set of strings
 if _, ok = seen["go"]; !ok {
   if seen[s] == struct{} 
@@ -85,7 +83,7 @@ support to parse and marshal JSON to golang `struct`. See [playground JSON examp
 The library uses `field tags`, a metadata string associated with field at compile time. The field tags are `space` separated
  `key:value` pairs. In example below `json` key controls behavior of `encoding/json` and `xml` of `encoding/xml`.
 
-```go
+```
 	type State struct {
 		Name         string  `xml:"name,omitempty" json:"name,omitempty"`
 		Capital      string  `xml:"capital,omitempty" json:"capital,omitempty"`
@@ -93,7 +91,7 @@ The library uses `field tags`, a metadata string associated with field at compil
 		GDPBillions  int16   `xml:"gdp_billions,omitempty" json:"gdp_billions,omitempty"`
 	}
 ```
-Note that names of struct fields that json encoder should manipulate should be exported i.e capitalized. 
+Note that names of struct fields that json encoder should manipulate should be exported i.e. capitalized. 
 This metadata will provide hints to library to use a JSON as:
 ```json
 {
@@ -117,9 +115,6 @@ An example of XML data for this struct is:
 `json.Marshal` provides a way to convert a golang struct to string with no extraneous white spaces.
 
 ### Unmarshal
-Converts a []byte, i.e stringified JSON, in a golang memory location.
+Converts a []byte, i.e stringifies JSON, in a golang memory location.
 
 **Note:** Similar utilities are provided to parse XML as well. See [playground XML example](https://play.golang.org/p/TIBzdIyyNTm).
-
-## Pictures
-![Solar System Bodies](../content/media/slicesBodies.jpeg?raw=true "Bodies in Solar System")

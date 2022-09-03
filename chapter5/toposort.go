@@ -4,8 +4,8 @@ import (
 	"sort"
 )
 
-// Toposort sorts a  map into a topo sorted string of dependencies
-func Toposort(m map[string][]string) []string {
+// TopologicalSort sorts a  map into a topological sorted string of dependencies
+func TopologicalSort(m map[string][]string) []string {
 	var order []string
 	seen := make(map[string]bool)
 	var visitAll func(items []string) // recursive func, required for recursion
@@ -27,11 +27,11 @@ func Toposort(m map[string][]string) []string {
 	return order
 }
 
-// ToposortMap topo-sorts using map.
+// TopologicalSortMap topological-sorts using map.
 //
-//	Exercise 5.10: Rewrite topoSort to use maps instead of slices and eliminate the initial sort.
+//	Exercise 5.10: Rewrite TopologicalSort to use maps instead of slices and eliminate the initial sort.
 //	Verify that the results, though nondeterministic, are valid topological orderings.
-func ToposortMap(m map[string]map[string]bool) []string {
+func TopologicalSortMap(m map[string]map[string]bool) []string {
 	var order []string
 	seen := make(map[string]bool)
 	var visitAll func(items map[string]bool) // recursive func

@@ -3,7 +3,7 @@ package df
 import (
 	"fmt"
 
-	uuid "github.com/google/uuid"
+	"github.com/google/uuid"
 )
 
 // NewAgentSession creates a new session with a specific environment.

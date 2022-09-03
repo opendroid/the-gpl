@@ -2,7 +2,7 @@
 //
 //	serve various programs in The-GPL book. It is also invokes from the
 //	docker command line to be served on Google Cloud.
-//	logger prints log messages to standard output, where as fmt.Printf outputs to
+//	logger prints log messages to standard output, whereas fmt.Printf outputs to
 //	http.ResponseWriter
 package web
 

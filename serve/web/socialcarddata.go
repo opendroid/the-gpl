@@ -27,7 +27,7 @@ var linkedin = SocialCard{
 	SocialHandle:  "@Ajay",
 }
 
-// github info
+// GitHub info
 var github = SocialCard{
 	Image:         "public/images/misc/ilya-pavlov.jpg",
 	ImageAlt:      "Coding image",

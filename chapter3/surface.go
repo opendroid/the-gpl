@@ -69,13 +69,13 @@ func corner(i, j int, plot func(float64, float64) float64) (float64, float64, er
 	if math.IsNaN(z) {
 		return 0, 0, fmt.Errorf("invalid IsNaN polygon at (%d, %d), ignore", i, j)
 	}
-	// Project (x, y, z) to a isometric 2-D SCG canvas
+	// Project (x, y, z) to an isometric 2-D SCG canvas
 	sx := SurfaceWidth/2 + (x-y)*cos30*SurfaceXYScale
 	sy := SurfaceHeight/2 + (x+y)*sin30*SurfaceXYScale - z*SurfaceZScale
 	return sx, sy, nil
 }
 
-// Sinc sampling function retrurns 1 or sin r / r
+// Sinc sampling function returns 1 or sin r / r
 //
 //	https://mathworld.wolfram.com/SincFunction.html
 func Sinc(x, y float64) float64 {
@@ -111,12 +111,12 @@ func SincSVG(w io.Writer) {
 	PlotOn3DSurface(w, Sinc)
 }
 
-// ValleyHandlerSVG draws an Valley on a writer
+// ValleyHandlerSVG draws a Valley on a writer
 func ValleyHandlerSVG(w io.Writer) {
 	PlotOn3DSurface(w, Valley)
 }
 
-// SquaresHandlerSVG draws an sinc on a writer
+// SquaresHandlerSVG draws a sinc on a writer
 func SquaresHandlerSVG(w io.Writer) {
 	PlotOn3DSurface(w, Squares)
 }

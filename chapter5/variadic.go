@@ -10,7 +10,7 @@ import (
 //	functions do when called with no arguments?
 func MaxInt(numbers ...int) int {
 	// When no arguments return Max of int for that machine.
-	// Could return ok but interface will not be pretty eg fmt.Printf("Max of .. = %d", MaxInt())
+	// Could return ok but interface will not be pretty e.g. fmt.Printf("Max of .. = %d", MaxInt())
 	if len(numbers) == 0 {
 		return math.MaxInt64
 	}

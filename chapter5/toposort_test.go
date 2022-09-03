@@ -32,32 +32,32 @@ var preRequisites2 = map[string]map[string]bool{
 	"programming  languages": {"data structures": true, "computer organization": true},
 }
 
-// TestToposort sorts a test map of courses
+// TestTopologicalSort sorts a test map of courses
 //
 //	cd chapter5
-//	go test -run TestToposort -v
-func TestToposort(t *testing.T) {
+//	go test -run TestTopologicalSort -v
+func TestTopologicalSort(t *testing.T) {
 	t.Run("Slice sorted order", func(t *testing.T) {
-		topology := Toposort(preRequisites)
+		topology := TopologicalSort(preRequisites)
 		for i, course := range topology {
 			t.Logf("%d: %s", i+1, course)
 		}
 	})
 }
 
-// TestToposortMap sorts a test map of courses
+// TestTopologicalSortMap sorts a test map of courses
 //
 //	cd chapter5
-//	go test -run TestToposortMap -v
-func TestToposortMap(t *testing.T) {
+//	go test -run TestTopologicalSortMap -v
+func TestTopologicalSortMap(t *testing.T) {
 	t.Run("Map sorted order Run 1", func(t *testing.T) {
-		topology := ToposortMap(preRequisites2)
+		topology := TopologicalSortMap(preRequisites2)
 		for i, course := range topology {
 			t.Logf("%d: %s", i+1, course)
 		}
 	})
 	t.Run("Map sorted order Run 2", func(t *testing.T) {
-		topology := ToposortMap(preRequisites2)
+		topology := TopologicalSortMap(preRequisites2)
 		for i, course := range topology {
 			t.Logf("%d: %s", i+1, course)
 		}

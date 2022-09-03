@@ -55,6 +55,7 @@ func InitCli() {
 }
 
 // Implement CLI for server side
+
 // ExecCmd executes a specific service command
 func (m CliService) ExecCmd(args []string) {
 	err := m.set.Parse(args)
@@ -93,7 +94,6 @@ func (m CliService) DisplayHelp() {
 	m.set.PrintDefaults()
 }
 
-// Implement CLI for client side
 // ExecCmd executes a client CLI command with syntax
 //
 //	the-gpl service -cp="clock:9999"
@@ -129,10 +129,9 @@ func (m CliClient) DisplayHelp() {
 	m.set.PrintDefaults()
 }
 
-// Implement CLI for du - disc Usage
 // ExecCmd executes a client CLI command with syntax
 //
-//	the-gpl service -cp="clock:9999"
+//	the-gpl service du - disc Usage
 func (m CliDu) ExecCmd(args []string) {
 	err := m.set.Parse(args)
 	if err != nil {

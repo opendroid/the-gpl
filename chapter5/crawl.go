@@ -3,7 +3,6 @@ package chapter5
 import (
 	"fmt"
 	"github.com/opendroid/the-gpl/chapter1/channels"
-	"io/ioutil"
 	"net/url"
 	"os"
 	"path/filepath"
@@ -12,17 +11,16 @@ import (
 	"time"
 )
 
-var (
-	// MaxCPUs for concurrency
-	MaxCPUs int = 4
+const (
+	MaxCPUs = 4 // MaxCPUs for concurrency
 )
 
 // Crawl a webpage and downloads pages in that domain and saves results in destination dir.
 //
-//	  Exercise 5.13: Modify crawl to make local copies of the pages it finds, creating directories as necessary.
-//	  Don’t make copies of pages that come from a different domain. For example, if the original page comes
-//	  from golang.org, save all files from there, but exclude ones from vimeo.com.
-//		 Added concurrency as part of chapter 8
+// Exercise 5.13: Modify crawl to make local copies of the pages it finds, creating directories as necessary.
+// Don’t make copies of pages that come from a different domain. For example, if the original page comes
+// from golang.org, save all files from there, but exclude ones from vimeo.com.
+// Added concurrency as part of chapter 8
 func Crawl(site, dir string) (int, error) {
 	if site == "" {
 		return 0, fmt.Errorf("no site to crawl")
@@ -58,7 +56,7 @@ func Crawl(site, dir string) (int, error) {
 				return
 			}
 			fName := getPathFileName(dir, link)
-			err = ioutil.WriteFile(fName, []byte(data), os.ModePerm)
+			err = os.WriteFile(fName, []byte(data), os.ModePerm)
 			if err != nil {
 				fmt.Printf("Crawl error writing: %v\n", err)
 				return
@@ -84,9 +82,7 @@ func getPathFileName(dir, link string) string {
 	}
 
 	// Remove ending "/"
-	if strings.HasSuffix(basePath, "/") {
-		basePath = basePath[0 : len(basePath)-1]
-	}
+	basePath = strings.TrimSuffix(basePath, "/")
 
 	// If no link provided use temp
 	if link == "" {
@@ -108,12 +104,8 @@ func getPathFileName(dir, link string) string {
 	if host == "" {
 		host = fmt.Sprintf("host.%d", time.Now().Unix())
 	}
-
-	if strings.HasSuffix(path, "/") { // Remove trailing "/" if present
-		path = path[:len(path)-1]
-	}
-
-	if !strings.HasSuffix(path, ".html") { // Add HTML prefix if does not exist
+	path = strings.TrimSuffix(path, "/")
+	if !strings.HasSuffix(path, ".html") { // Add HTML prefix if it does not exist
 		path = fmt.Sprintf("%s.html", path)
 	}
 

@@ -9,7 +9,7 @@ var testSites = [...]string{"https://google.com", "https://youtube.com", "https:
 	"https://qq.com", "https://amazon.com", "https://usense.io",
 }
 
-const JWFF = "https://brazil-partner-onboarding-dev.uc.r.appspot.com/ping"
+const JwFf = "https://brazil-partner-onboarding-dev.uc.r.appspot.com/ping"
 
 // TestFetch tests the fetch function
 //
@@ -34,7 +34,7 @@ func TestFetch_jw(t *testing.T) {
 	sitesChan := make(chan string) // Make 1 channel only
 	var testJW [2]string
 	for i := 0; i < len(testJW); i++ {
-		testJW[i] = JWFF
+		testJW[i] = JwFf
 	}
 
 	for _, site := range testJW {
@@ -46,7 +46,7 @@ func TestFetch_jw(t *testing.T) {
 	}
 }
 
-// TestGithubReposOfUser fetches github repos of a user
+// TestGithubReposOfUser fetches GitHub repos of a user
 //
 //	cd ./channels
 //	go test -run TestGithubReposOfUser -v
@@ -59,7 +59,7 @@ func TestGithubReposOfUser(t *testing.T) {
 	t.Logf("UserInfo:\n%s\n", uInfo)
 }
 
-// TestFetchSite fetches github repos of a user
+// TestFetchSite fetches GitHub repos of a user
 //
 //	cd ./channels
 //	go test -run TestFetchSite -v

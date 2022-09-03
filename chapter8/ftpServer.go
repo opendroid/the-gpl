@@ -6,7 +6,7 @@ import (
 	"net"
 )
 
-// FTPServer
+// FTPServer starts FTP server on localhost:{port}
 func FTPServer(port int) {
 	address := fmt.Sprintf("localhost:%d", port)
 	listener, err := net.Listen("tcp", address)

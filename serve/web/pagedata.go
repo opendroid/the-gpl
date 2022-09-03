@@ -83,9 +83,9 @@ const (
 const (
 	// IndexPage entry point go HTML page
 	IndexPage = "index.gohtml"
-	// AboutPage
+	// AboutPage shows about page
 	AboutPage = "about.gohtml"
-	// LisMandelPage
+	// LisMandelPage shows Lissajous and Mandelbrot images
 	LisMandelPage = "lismandel.gohtml"
 	// SurfacesPage shows computed SVG images
 	SurfacesPage = "surfaces.gohtml"

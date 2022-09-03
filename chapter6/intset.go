@@ -12,7 +12,7 @@ import (
 // intSetItem a non-zero word and id of what # word it is
 type intSetItem struct {
 	base int  // base of word stored n/64
-	word uint // word represents the n%64 th bit in a item. List is maintained by increasing value of word
+	word uint // word represents the n%64 th bit in an item. List is maintained by increasing value of word
 }
 
 // IntSet sets of positive integers. A set contains int n if the nth bit in set is set.
@@ -264,7 +264,7 @@ func (s *IntSet) Elements() []uint {
 		item := element.Value.(intSetItem)
 		i := item.base
 		w := item.word
-		for b := 0; b < int(bitsPerWord); b++ { // b'th bit
+		for b := 0; b < int(bitsPerWord); b++ { // b-th bit
 			if w == 0 {
 				continue
 			}

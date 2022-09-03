@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"time"
 )
@@ -30,10 +29,10 @@ func GithubReposOfUser(username string, responses chan<- GithubUserInfo) {
 }
 
 // Channels:
-//   1. A send to a nil channel blocks forever
-//   2. A receive from a nil channel blocks forever
-//   3. A send to a closed channel panics
-//   4. A receive from a close d channel returns the zero value immediately
+//   1. Send to a nil channel blocks forever
+//   2. Receive from a nil channel blocks forever
+//   3. Send to a closed channel panics
+//   4. Receive from a close d channel returns the zero value immediately
 
 // FetchTimeInfo returns time taken to access a URL and writes it to "ch" channel
 func FetchTimeInfo(url string, ch chan<- string) {
@@ -43,7 +42,7 @@ func FetchTimeInfo(url string, ch chan<- string) {
 		ch <- fmt.Sprintf("err: %v", err)
 		return
 	}
-	nBytes, err := io.Copy(ioutil.Discard, resp.Body)
+	nBytes, err := io.Copy(io.Discard, resp.Body)
 	_ = resp.Body.Close()
 	if err != nil {
 		ch <- fmt.Sprintf("Error reading url: %s, err:%v", url, err)
@@ -59,7 +58,7 @@ func Fetch(url string) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("err: %v", err)
 	}
-	data, err := ioutil.ReadAll(resp.Body)
+	data, err := io.ReadAll(resp.Body)
 	_ = resp.Body.Close()
 	if err != nil {
 		return "", fmt.Errorf("parse err: %v", err)

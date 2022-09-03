@@ -22,7 +22,7 @@ func init() {
 
 // Process the "index" pattern. It also processes data by GET method sent to post page,
 //
-//	curl -X POST localhost:8080/post --data 'q="Hello Mr 	ROb Pike"&c="K&R"&cpp=Bjarne Stroustrup'
+//	curl -X POST localhost:8080/post --data 'q="Hello Mr 	Rob Pike"&c="K&R"&cpp="Bjarne Stroustrup"'
 //		POST /post HTTP/1.1
 //		Header[Content-Length]: [31]
 //		Header[Content-Type]: [application/x-www-form-urlencoded]
@@ -73,7 +73,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// aboutHandler parses about templates and and presents to use
+// aboutHandler parses about templates and presents to use
 func aboutHandler(w http.ResponseWriter, _ *http.Request) {
 	logger.Log.Println("aboutHandler.")
 	if err := templates.ExecuteTemplate(w, AboutPage, &AboutPageData{Active: About.String(), Data: socialCards}); err != nil {

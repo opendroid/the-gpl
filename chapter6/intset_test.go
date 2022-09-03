@@ -12,7 +12,7 @@ var testInts = struct {
 	b: []uint{2047, 3, 7, 254, 1024, 65, 130, 640, 257, 300, 512, 4294967295},
 }
 
-// TestIntSet_Has tests if a uint is in set
+// TestIntSet_Has tests if an uint is in set
 //
 //	cd chapter 6
 //	go test -run TestIntSet_Has -v
@@ -78,7 +78,7 @@ func TestIntSet_RemoveInts(t *testing.T) {
 	}
 }
 
-// TestIntSet_UnionWith tests if a int is in set
+// TestIntSet_UnionWith tests if an int is in set
 //
 //	cd chapter 6
 //	go test -run TestIntSet_UnionWith -v

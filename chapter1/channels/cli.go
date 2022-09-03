@@ -37,11 +37,11 @@ func (s *siteFlag) Set(value string) error {
 }
 
 // InitCli for command: the-gpl fetch -site=https://google.com
-//   eg: the-gpl fetch -site=https://google.com  -site=http://www.facebook.com # Fetch multiple sites
+//   eg: the-gpl fetch -site=https://google.com  -site=https://www.facebook.com # Fetch multiple sites
 
 func InitCli() {
 	cmd.set = flag.NewFlagSet("fetch", flag.ContinueOnError)
-	cmd.set.Var(&sites, "site", "-site=http://www.google.com -site=http://www.facebook.com")
+	cmd.set.Var(&sites, "site", "-site=https://www.google.com -site=https://www.facebook.com")
 	body = cmd.set.Bool("body", false, "-body=true for downloading complete page")
 	shell.Add("fetch", cmd)
 }
@@ -64,7 +64,7 @@ func (m CLI) ExecCmd(args []string) {
 		urls = append(urls, TestSites...)
 	}
 
-	if *body { // By default only display the timing info
+	if *body { // By default, only display the timing info
 		fetchSites(urls)
 	} else {
 		fetchSitesTimes(urls) // Fetch time summary page

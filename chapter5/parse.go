@@ -37,7 +37,7 @@ const (
 // Map of nodes
 var htmlNodes = map[NodeType]NodeValue{A: Href, Img: Src, Script: Src, Link: Href}
 
-// nodeLinks Exercise 5.4 returns list of all href links for type t in a HTML node n.
+// nodeLinks Exercise 5.4 returns list of all href links for type t in HTML node n.
 func nodeLinks(t NodeType, href []string, n *html.Node) []string {
 	nt, ok := htmlNodes[t]
 	if !ok {
@@ -75,7 +75,7 @@ func nodeText(text []string, n *html.Node) []string {
 	return text
 }
 
-// outline packs the outline of a HTML document onto a 'superStack' and returns
+// outline packs the outline of HTML document onto a 'superStack' and returns
 //
 //		it the caller. The outline is joined by . characters.
 //	 NOTE: Read the para in book on subtlety of 'stack'. The stack is pushed and not
@@ -103,22 +103,22 @@ func outlineCount(count map[string]int, n *html.Node) {
 	}
 }
 
-// links returns list of all href links in a HTML node n.
+// links returns list of all href links in HTML node n.
 func links(href []string, n *html.Node) []string {
 	return nodeLinks(A, href, n)
 }
 
-// images returns list of all image src links in a HTML node n.
+// images returns list of all image src links in HTML node n.
 func images(href []string, n *html.Node) []string {
 	return nodeLinks(Img, href, n)
 }
 
-// scripts returns list of all image src links in a HTML node n.
+// scripts returns list of all image src links in HTML node n.
 func scripts(href []string, n *html.Node) []string {
 	return nodeLinks(Script, href, n)
 }
 
-// css returns list of all image src links in a HTML node n.
+// css returns list of all image src links in HTML node n.
 func css(href []string, n *html.Node) []string {
 	return nodeLinks(Link, href, n)
 }
@@ -147,17 +147,17 @@ func resolveFullPath(hrefs []string, base string) ([]string, error) {
 // removeDuplicates from a list of items and returns de-duped list
 func removeDuplicates(items []string) []string {
 	seen := make(map[string]bool)
-	var deduped []string
+	var once []string
 	for _, item := range items {
 		if _, ok := seen[item]; !ok {
 			seen[item] = true
-			deduped = append(deduped, item)
+			once = append(once, item)
 		}
 	}
-	return deduped
+	return once
 }
 
-// forEachNode runs pre and post functions and each html.Node
+// forEachNode runs pre- and post-functions and each html.Node
 func forEachNode(n *html.Node, pre, post func(n *html.Node)) {
 	if pre != nil {
 		pre(n)
@@ -241,14 +241,14 @@ func ParseImages(url string) ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	srcs := images(nil, doc)               // Fetch image links
-	srcs, err = resolveFullPath(srcs, url) // Make all links full path
+	links := images(nil, doc)                // Fetch image links
+	links, err = resolveFullPath(links, url) // Make all links full path
 	if err != nil {
 		return nil, err
 	}
-	srcs = removeDuplicates(srcs) // De-dup links
-	sort.Strings(srcs)            // Sort links alphabetically
-	return srcs, nil
+	links = removeDuplicates(links) // De-dup links
+	sort.Strings(links)             // Sort links alphabetically
+	return links, nil
 }
 
 // ParseScripts returns all full scripts unique href links of a website pointed to by url.
@@ -262,14 +262,14 @@ func ParseScripts(url string) ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	srcs := scripts(nil, doc)              // Fetch Script links
-	srcs, err = resolveFullPath(srcs, url) // Make all links full path
+	links := scripts(nil, doc)               // Fetch Script links
+	links, err = resolveFullPath(links, url) // Make all links full path
 	if err != nil {
 		return nil, err
 	}
-	srcs = removeDuplicates(srcs) // De-dup links
-	sort.Strings(srcs)            // Sort links alphabetically
-	return srcs, nil
+	links = removeDuplicates(links) // De-dup links
+	sort.Strings(links)             // Sort links alphabetically
+	return links, nil
 }
 
 // ParseCss returns all full CSS unique href links of a website pointed to by url.
@@ -283,14 +283,14 @@ func ParseCss(url string) ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	srcs := css(nil, doc)                  // Fetch CSS links
-	srcs, err = resolveFullPath(srcs, url) // Make all links full path
+	links := css(nil, doc)                   // Fetch CSS links
+	links, err = resolveFullPath(links, url) // Make all links full path
 	if err != nil {
 		return nil, err
 	}
-	srcs = removeDuplicates(srcs) // De-dup links
-	sort.Strings(srcs)            // Sort links alphabetically
-	return srcs, nil
+	links = removeDuplicates(links) // De-dup links
+	sort.Strings(links)             // Sort links alphabetically
+	return links, nil
 }
 
 // ParseText returns text nodes data except script and style elements
@@ -308,7 +308,7 @@ func ParseText(url string) ([]string, error) {
 	return text, nil
 }
 
-// PrettyHTML prints HTML of a url in pretty fashion
+// PrettyHTML prints HTML of an url in pretty fashion
 func PrettyHTML(url string) ([]string, error) {
 	page, err := channels.FetchSite(url) // Fetch site
 	if err != nil {

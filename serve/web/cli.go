@@ -43,17 +43,17 @@ func (s CLI) DisplayHelp() {
 
 // startServer starts the server on port
 func startServer(port int) {
-	prefix := fmt.Sprintf("http://localhost:%d/", port)
+	prefix := fmt.Sprintf("http://localhost:%d", port)
 	logger.Log.Println("Starting server, sample URLs:")
 	logger.Log.Println(prefix)
-	logger.Log.Printf("%swho\n", prefix)
-	logger.Log.Printf("%sgraph\n", prefix)
-	logger.Log.Printf("%segg\n", prefix)
-	logger.Log.Printf("%ssinc\n", prefix)
-	logger.Log.Printf("%ssearch?q=%%22%s%%22&imeout=3s\n", prefix, "The%20Go%20Programming%20Language")
-	logger.Log.Printf("%smandel\n", prefix)
-	logger.Log.Printf("%smandelbw\n", prefix)
-	logger.Log.Printf("%sincr\n", prefix)
-	logger.Log.Printf("%scounter\n", prefix)
+	logger.Log.Printf("%s/who\n", prefix)
+	logger.Log.Printf("%s/graph\n", prefix)
+	logger.Log.Printf("%s/egg\n", prefix)
+	logger.Log.Printf("%s/sinc\n", prefix)
+	logger.Log.Printf("%s/search?q=%%22%s%%22&Timeout=3s\n", prefix, "The%20Go%20Programming%20Language")
+	logger.Log.Printf("%s/mandel\n", prefix)
+	logger.Log.Printf("%s/mandelbw\n", prefix)
+	logger.Log.Printf("%s/incr\n", prefix)
+	logger.Log.Printf("%s/counter\n", prefix)
 	Start(port)
 }

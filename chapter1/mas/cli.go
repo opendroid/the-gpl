@@ -31,7 +31,7 @@ func InitCli() {
 	shell.Add("mas", cmd)
 }
 
-// ExecCmd run bit count from CLI
+// ExecCmd runs bit-count from CLI
 func (m CLI) ExecCmd(args []string) {
 	err := m.set.Parse(args)
 	if err != nil {

@@ -2,7 +2,6 @@ package chapter8
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"sync"
@@ -23,8 +22,8 @@ import (
 //    Solution 2: Implement cancel mechanism using separate  cancel or done channel.
 //			The sender go-routines monitor it and stop further processing if 'done' is closed.
 
-// MaxGoRoutines number of parallel go-routines
 const MaxOpenFiles = 1024 // Reduce number of open system files
+// MaxGoRoutines number of parallel go-routines
 const MaxGoRoutines = MaxOpenFiles / 2
 
 var sema = make(chan struct{}, MaxGoRoutines) // sema counting semaphore to  run
@@ -39,7 +38,11 @@ func walkDir(dir string, sizes chan<- int64) {
 			subDir := filepath.Join(dir, entry.Name())
 			go walkDir(subDir, sizes)
 		} else {
-			sizes <- entry.Size()
+			if info, err := entry.Info(); err == nil {
+				sizes <- info.Size()
+			} else {
+				fmt.Printf("du:walkDir: %v", err)
+			}
 		}
 	}
 }
@@ -47,10 +50,10 @@ func walkDir(dir string, sizes chan<- int64) {
 // dirEntry reads files in a directory and returns entries for  all.
 //
 //	Runs a max  of MaxGoRoutines of these goroutines  in parallel
-func dirEntry(dir string) []os.FileInfo {
+func dirEntry(dir string) []os.DirEntry {
 	defer func() { <-sema }() // Release  semaphore,  when done
 	sema <- struct{}{}        // Acquire semaphore
-	entries, err := ioutil.ReadDir(dir)
+	entries, err := os.ReadDir(dir)
 	if err != nil {
 		fmt.Printf("du: %v", err)
 		return nil

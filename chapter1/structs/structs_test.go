@@ -10,16 +10,16 @@ func TestGetAThakur(t *testing.T) {
 	aThakur := GetAThakur()
 	aThakur.Describe()
 
-	bThakur := &Thakur{Age: 20, Name: "Aiden"}
+	bThakur := &ThakurCopy{Age: 20, Name: "Aiden"}
 	bThakur.Describe()
-	ChangeThakur(bThakur)
-	bThakur.Describe()
-	bThakur.ValueDescribe() // Operate on copy of bThakur
+	bThakur.ChangeToHeadOfHousehold() // This is a value receiver
+	bThakur.Describe()                // notice, did not change
+	bThakur.ValueDescribe()           // Operate on copy of bThakur
 	bThakur.GotMarried()
-	bThakur.Describe()
+	bThakur.Describe() // notice, did not change value of bThakur
 
 	cThakur := NewThakur("Angela", 20)
-	cThakur.ThoughtIGotMarried()
+	cThakur.ThoughtIGotMarried() // Operate on cThakur
 	cThakur.Describe()
 	cThakur.GotMarried()
 	cThakur.Describe()

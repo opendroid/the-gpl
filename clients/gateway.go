@@ -13,3 +13,5 @@ type Gateway struct {
 func NewGateway(df df.Bot) Gateway {
 	return Gateway{DialogFlowES: df}
 }
+
+var _ = NewGateway // Silence unused warning

@@ -50,13 +50,13 @@ func (c *LineCounter) Write(p []byte) (int, error) {
 //   that wraps the original, and a pointer to an int64 variable that at any moment contains
 //   the number of bytes written to the newWriter.
 
-// CountWriter intercepts a io.Writer and counts numbers of characters written to it
+// CountWriter intercepts an io.Writer and counts numbers of characters written to it
 type CountWriter struct {
 	count int64
 	w     io.Writer
 }
 
-// Write define the counting Write interface interface
+// Write define the counting "Write interface" interface
 func (c *CountWriter) Write(p []byte) (int, error) {
 	c.count += int64(len(p))
 	return c.w.Write(p) // Write to original writer
@@ -68,7 +68,7 @@ func CountingWriter(w io.Writer) (io.Writer, *int64) {
 	return &cw, &cw.count
 }
 
-// Exercise: Create a broadcast writer list so we can call
+// Exercise: Create a broadcast writer list so that we can call
 //	ByteCounter, WordCounter and LineCounter on one list
 
 // BroadcastWriters sequentially writes to writers in linked list

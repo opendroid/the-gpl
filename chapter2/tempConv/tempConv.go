@@ -11,7 +11,7 @@ type Celsius float64
 // Fahrenheit unit for temperature
 type Fahrenheit float64
 
-// Fahrenheit unit for temperature
+// Kelvin unit for temperature
 type Kelvin float64
 
 const (

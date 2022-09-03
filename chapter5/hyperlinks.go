@@ -16,17 +16,19 @@ func (a Hyperlinks) Len() int {
 func (a Hyperlinks) Less(i, j int) bool {
 	var ai, aj string
 	// Strip http:// or https:// from both strings
-	if strings.HasPrefix(string(a[i]), "http://") {
+	if //goland:noinspection ALL
+	strings.HasPrefix(a[i], "http://") {
 		ai = a[i][7:]
-	} else if strings.HasPrefix(string(a[i]), "https://") {
+	} else if strings.HasPrefix(a[i], "https://") {
 		ai = a[i][8:] // https://
 	} else {
 		ai = a[i][:]
 	}
 
-	if strings.HasPrefix(string(a[i]), "http://") {
+	if //goland:noinspection ALL
+	strings.HasPrefix(a[i], "http://") {
 		aj = a[j][7:]
-	} else if strings.HasPrefix(string(a[i]), "https://") {
+	} else if strings.HasPrefix(a[i], "https://") {
 		aj = a[j][8:] // https://
 	} else {
 		aj = a[j][:]

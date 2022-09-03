@@ -23,7 +23,7 @@ func CompareNumbers(i1, i2 int) (bool, int) {
 	return true, 0
 }
 
-// AddToSlices Adds elements to a array slice
+// AddToSlices Adds elements to an array slice
 func AddToSlices() {
 	var aSlice []int // Empty slice
 	aSlice = append(aSlice, 1, 2, 3, 4, 5)

@@ -66,7 +66,7 @@ func Search(ctx context.Context, query string) (Results, error) {
 	return results, err
 }
 
-// httpDo issues a HTTP request and calls f with a Response.
+// httpDo issues HTTP request and calls f with a Response.
 //
 //	If ctx.Done is closed while req. or f is running, http.Do cancels request, waits for f to exit, return ctx.Err()
 //	Otherwise, http.Do returns f's error

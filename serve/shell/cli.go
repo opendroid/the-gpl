@@ -1,4 +1,4 @@
-// Package serve provides interface for displaying help and executing
+// Package shell provides interface for displaying help and executing
 //
 //	 command line. A module wishing to participate in CLI need to conform
 //		to CmdHandlers interface and its ExecCmd method will be called when command
@@ -22,7 +22,7 @@ type CmdHandlers interface {
 //	E.G. The "lissajous" interface{} entry associated CLI for module lissajous
 var flagHandlerMap = map[string]CmdHandlers{}
 
-// Add registers interface associated with command for a module so it can ve invoked
+// Add registers interface associated with command for a module so that it can be invoked
 func Add(cmd string, handlers CmdHandlers) {
 	flagHandlerMap[cmd] = handlers
 }

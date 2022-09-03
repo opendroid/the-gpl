@@ -24,7 +24,7 @@ var celsius *tempConv.Celsius
 var fahrenheit *tempConv.Fahrenheit
 var kelvin *tempConv.Kelvin
 
-// counter counts charcaters, words and lines in a input text string
+// counter counts characters, words and lines in an input text string
 var counter CLICounter
 var text *string
 

@@ -90,7 +90,7 @@ func ExampleBitCountByTableLookup() {
 	a64IntBits := BitCountByTableLookup(a64bUInt)
 	fmt.Printf("There are %d one bits in 0x%X\n", a64IntBits, a64bUInt)
 	// Output:
-	// There are 39 one bits in 0xC0FFEEBAACE0BABE
+	// There are 39 one-bits in 0xC0FFEEBAACE0BABE
 }
 
 // ExampleBitCountEachOne example counts bits in a 64 bit int one bit at a time
@@ -99,5 +99,5 @@ func ExampleBitCountEachOne() {
 	a64IntBits := BitCountEachOne(a64bUInt)
 	fmt.Printf("There are %d one bits in 0x%X\n", a64IntBits, a64bUInt)
 	// Output:
-	// There are 39 one bits in 0xC0FFEEBAACE0BABE
+	// There are 39 one-bits in 0xC0FFEEBAACE0BABE
 }
