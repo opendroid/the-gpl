@@ -1,10 +1,5 @@
 # Build the module.
 steps:
-  - id: lint
-    name: "golang"
-    entrypoint: 'go'
-    args: ["vet","./..."]
-    env: ["PROJECT_ROOT=the-gpl"]
   - id: build
     name: "gcr.io/cloud-builders/docker"
     args: ['build', '--tag=gcr.io/the-gpl/book', '.']
