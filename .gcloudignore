@@ -12,5 +12,4 @@
 # below:
 .git
 .gitignore
-public
 #!include:.gitignore
