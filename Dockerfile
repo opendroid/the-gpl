@@ -5,11 +5,10 @@
 FROM golang:1.19 as builder
 LABEL maintainer="Open Web <plutoapps@outlook.com>"
 WORKDIR /app
+COPY go.mod go.sum ./
+RUN go mod download && go mod verify
 COPY . ./
-RUN go mod download
-RUN go mod verify
-RUN go test ./...
-RUN CGO_ENABLED=0 GOOS=linux go build -mod=readonly -v -o the-gpl
+RUN go test ./... && CGO_ENABLED=0 GOOS=linux go build -mod=readonly -v -o the-gpl
 
 # Step 2: Build the container image
 # Use the official Alpine image (https://hub.docker.com/_/alpine) for a lean production container.
