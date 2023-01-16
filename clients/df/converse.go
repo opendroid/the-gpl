@@ -6,7 +6,7 @@ import (
 	"errors"
 	"fmt"
 
-	dfProto "google.golang.org/genproto/googleapis/cloud/dialogflow/v2"
+	dfProto "cloud.google.com/go/dialogflow/apiv2/dialogflowpb"
 )
 
 // Bot interface defines methods available for BotClient

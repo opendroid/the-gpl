@@ -5,16 +5,17 @@ package livecaption
 
 import (
 	"bufio"
-	speech "cloud.google.com/go/speech/apiv1"
 	"context"
 	"encoding/json"
 	"fmt"
-	speechpb "google.golang.org/genproto/googleapis/cloud/speech/v1"
 	"io"
 	"net"
 	"os"
 	"sync"
 	"time"
+
+	speech "cloud.google.com/go/speech/apiv1"
+	"cloud.google.com/go/speech/apiv1/speechpb"
 )
 
 // StreamAudioFile streams a livecaption file to Google Speech to text recognizer
