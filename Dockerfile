@@ -2,7 +2,7 @@
 # Sample https://cloud.google.com/run/docs/quickstarts/build-and-deploy?_ga=2.91290522.-1679093051.1593441137
 
 # Step 1: Build the application
-FROM golang:1.22 as builder
+FROM golang:1.25 as builder
 LABEL maintainer="Open Web <plutoapps@outlook.com>"
 WORKDIR /app
 COPY go.mod go.sum ./
