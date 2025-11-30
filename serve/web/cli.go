@@ -1,44 +1,29 @@
 package web
 
 import (
-	"flag"
 	"fmt"
 
 	"github.com/opendroid/the-gpl/logger"
-	"github.com/opendroid/the-gpl/serve/shell"
+	"github.com/spf13/cobra"
 )
 
-type CLI struct {
-	set *flag.FlagSet
-}
+// NewServerCmd creates the server command
+// eg: the-gpl server --port=8888 # Starts http on port
+func NewServerCmd() *cobra.Command {
+	var port int
 
-// bitCountCmd allows to refer call send this module the CLI argument
-var cmd CLI
-var port *int
-
-// InitCli for command: the-gpl server
-//
-//	eg: the-gpl server -port=8888 # Starts http on port
-func InitCli() {
-	cmd.set = flag.NewFlagSet("server", flag.ContinueOnError)
-	port = cmd.set.Int("port", 8080, "Port number eg: 8080")
-	shell.Add("server", cmd)
-}
-
-// ExecCmd run server from CLI
-func (s CLI) ExecCmd(args []string) {
-	err := s.set.Parse(args)
-	if err != nil {
-		fmt.Printf("ExecCmd: Server %s\n", err.Error())
-		return
+	cmd := &cobra.Command{
+		Use:   "server",
+		Short: "Start HTTP server",
+		Long:  `Starts the HTTP server on the specified port.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			startServer(port)
+		},
 	}
-	startServer(*port)
-}
 
-// DisplayHelp prints help on command line for lissajous module
-func (s CLI) DisplayHelp() {
-	fmt.Println("\nUsage: the-gpl server. At the -port=")
-	s.set.PrintDefaults()
+	cmd.Flags().IntVar(&port, "port", 8080, "Port number eg: 8080")
+
+	return cmd
 }
 
 // startServer starts the server on port

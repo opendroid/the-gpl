@@ -13,7 +13,7 @@ var (
 	logger = log.New(os.Stdout, "BOT ", log.LstdFlags)
 )
 
-func chatWithBot(scan *bufio.Scanner, l *log.Logger, env df.Environment, gcpProjectID string) {
+func chatWithBot(scan *bufio.Scanner, l *log.Logger, env df.Environment, gcpProjectID string, isChat bool) {
 	l.Printf("ExecCmd: bot %s. Say:\n", gcpProjectID)
 	if bot == nil {
 		l.Printf("ExecCmd: Bot Error Creating DF session.")
@@ -24,7 +24,7 @@ func chatWithBot(scan *bufio.Scanner, l *log.Logger, env df.Environment, gcpProj
 	for scan.Scan() { // Scan line by line.
 		q := scan.Text()
 		r, err := bot.Converse(s, q)
-		l.Printf("ExecCmd: chat %t, q: %s", *chat, q)
+		l.Printf("ExecCmd: chat %t, q: %s", isChat, q)
 		if err != nil {
 			l.Printf("ExecCmd: Conversation Error %s\n", err.Error())
 			return

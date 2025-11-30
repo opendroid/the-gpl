@@ -1,54 +1,39 @@
 package lissajous
 
 import (
-	"flag"
 	"fmt"
 	"io"
 	"os"
 
-	"github.com/opendroid/the-gpl/serve/shell"
+	"github.com/spf13/cobra"
 )
 
-type CLI struct {
-	set *flag.FlagSet
-}
+// NewLissajousCmd creates the lissajous command
+// eg: the-gpl lissajous --cycles=2 --size=1025 --frames=10 --file=~/Downloads.gif
+func NewLissajousCmd() *cobra.Command {
+	var cycles, size, frames int
+	var outFileName string
 
-// bitCountCmd allows to refer call send this module the CLI argument
-var cmd CLI
-var cycles, size, frames *int
-var outFileName *string
-
-// InitCli for command: the-gpl lissajous # implements lissajous command
-//
-//	eg: the-gpl lissajous -cycles=2 -size=1025 -frames=10 -sile=~/Downloads.gif
-func InitCli() {
-	cmd.set = flag.NewFlagSet("lissajous", flag.ExitOnError)
-	cycles = cmd.set.Int("cycles", 2, "number of cycles")
-	size = cmd.set.Int("size", 512, "size of square image")
-	frames = cmd.set.Int("frames", 10, "number of frames")
-	outFileName = cmd.set.String("file", "lis.gif", "name of output file")
-	shell.Add("lissajous", cmd)
-}
-
-// ExecCmd run lissajous count from CLI
-func (l CLI) ExecCmd(args []string) {
-	err := l.set.Parse(args)
-	if err != nil {
-		fmt.Printf("ExecCmd: Lissajous %s\n", err.Error())
-		return
+	cmd := &cobra.Command{
+		Use:   "lissajous",
+		Short: "Generate Lissajous figures",
+		Long:  `Generates a GIF animation of Lissajous figures.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			f, err := os.Create(outFileName)
+			if err != nil {
+				fmt.Printf("ExecCmd: Write to file %s: %s\n", outFileName, err.Error())
+				return
+			}
+			saveSquareImage(cycles, size, frames, f)
+		},
 	}
-	f, err := os.Create(*outFileName)
-	if err != nil {
-		fmt.Printf("ExecCmd: Write to file %s: %s\n", *outFileName, err.Error())
-		return
-	}
-	saveSquareImage(*cycles, *size, *frames, f)
-}
 
-// DisplayHelp prints help on command line for lissajous module
-func (l CLI) DisplayHelp() {
-	fmt.Println("\nUsage: the-gpl lissajous. Saves a lissajous figure of n cycles, n frames and square size.")
-	l.set.PrintDefaults()
+	cmd.Flags().IntVar(&cycles, "cycles", 2, "number of cycles")
+	cmd.Flags().IntVar(&size, "size", 512, "size of square image")
+	cmd.Flags().IntVar(&frames, "frames", 10, "number of frames")
+	cmd.Flags().StringVar(&outFileName, "file", "lis.gif", "name of output file")
+
+	return cmd
 }
 
 // saveImageSquare tests lissajous package

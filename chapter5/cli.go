@@ -1,102 +1,76 @@
 package chapter5
 
 import (
-	"flag"
 	"fmt"
-	"github.com/opendroid/the-gpl/serve/shell"
+
+	"github.com/spf13/cobra"
 )
 
-// CLI wrapper for *flag.FlagSet
-type CLI struct {
-	set *flag.FlagSet
-}
+// NewParseCmd creates the parse command
+// eg: the-gpl parse --type=links     --site=https://www.yahoo.com
+func NewParseCmd() *cobra.Command {
+	var parseType string
+	var site string
+	var dir string
 
-// cmd allows to refer call send this module the CLI argument
-var cmd CLI
-var parse *string // Flag that stores value for -type="parse"
-var site *string
-var dir *string // Destination directory to crawl
-
-// InitCli for command: the-gpl parse -site=http://...
-//
-//	  eg: the-gpl parse -type=links     -site=https://www.yahoo.com
-//			   the-gpl parse -type=outline -site=https://www.yahoo.com
-//			   the-gpl parse -type=images -site=https://www.yahoo.com
-//			   the-gpl parse -type=scripts -site=https://www.yahoo.com
-//			   the-gpl parse -type=scripts -site=https://www.yahoo.com
-//			   the-gpl parse -type=css -site=https://www.yahoo.com
-//			   the-gpl parse -type=pretty -site=https://www.yahoo.com
-//			   the-gpl parse -type=crawl -site=https://www.yahoo.com -dir=dest-dir
-func InitCli() {
-	cmd.set = flag.NewFlagSet("parse", flag.ContinueOnError)
-	parse = cmd.set.String("type", "outline", "one of: [links outline images scripts css pretty crawl]")
-	site = cmd.set.String("site", "https://www.yahoo.com/", "-site=https://site.to.parse.com/")
-	dir = cmd.set.String("dir", "~/Downloads/", "-dir=/Users/guest/Downloads # Download to directory /Users/guest/Downloads/www.yahoo.com")
-	shell.Add("parse", cmd)
-}
-
-// ExecCmd run bit-count from CLI
-func (m CLI) ExecCmd(args []string) {
-	err := m.set.Parse(args)
-	if err != nil {
-		fmt.Printf("ExecCmd: HTML Parse Error %s\n", err.Error())
-		return
+	cmd := &cobra.Command{
+		Use:   "parse",
+		Short: "HTML parsing utilities",
+		Long:  `Parse a site for links, outline, images, scripts, css, pretty print, or crawl.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			switch parseType {
+			case "outline":
+				outline, err := ParseOutline(site)
+				if err != nil {
+					fmt.Printf("ExecCmd: HTML Outline error: %v", err)
+				}
+				printSlice(outline, "Outline for "+site)
+			case "links":
+				links, err := ParseLinks(site)
+				if err != nil {
+					fmt.Printf("ExecCmd: HTML Links error: %v", err)
+				}
+				printSlice(links, "Links in "+site)
+			case "images":
+				images, err := ParseImages(site)
+				if err != nil {
+					fmt.Printf("ExecCmd: HTML Images error: %v", err)
+				}
+				printSlice(images, "Images in "+site)
+			case "scripts":
+				images, err := ParseScripts(site)
+				if err != nil {
+					fmt.Printf("ExecCmd: HTML Scripts error: %v", err)
+				}
+				printSlice(images, "Scripts in "+site)
+			case "css":
+				images, err := ParseCss(site)
+				if err != nil {
+					fmt.Printf("ExecCmd: HTML CSS error: %v", err)
+				}
+				printSlice(images, "CSS in "+site)
+			case "pretty":
+				text, err := PrettyHTML(site)
+				if err != nil {
+					fmt.Printf("ExecCmd: HTML Pretty error: %v", err)
+				}
+				printSlice(text, "")
+			case "crawl":
+				n, err := Crawl(site, dir)
+				if err != nil {
+					fmt.Printf("ExecCmd: Crrawl error: %v", err)
+				}
+				fmt.Printf("ExecCmd: Crawl %d pages feteched\n", n)
+			}
+		},
 	}
 
-	switch *parse {
-	case "outline":
-		outline, err := ParseOutline(*site)
-		if err != nil {
-			fmt.Printf("ExecCmd: HTML Outline error: %v", err)
-		}
-		printSlice(outline, "Outline for "+*site)
-	case "links":
-		links, err := ParseLinks(*site)
-		if err != nil {
-			fmt.Printf("ExecCmd: HTML Links error: %v", err)
-		}
-		printSlice(links, "Links in "+*site)
-	case "images":
-		images, err := ParseImages(*site)
-		if err != nil {
-			fmt.Printf("ExecCmd: HTML Images error: %v", err)
-		}
-		printSlice(images, "Images in "+*site)
-	case "scripts":
-		images, err := ParseScripts(*site)
-		if err != nil {
-			fmt.Printf("ExecCmd: HTML Scripts error: %v", err)
-		}
-		printSlice(images, "Scripts in "+*site)
-	case "css":
-		images, err := ParseCss(*site)
-		if err != nil {
-			fmt.Printf("ExecCmd: HTML CSS error: %v", err)
-		}
-		printSlice(images, "CSS in "+*site)
-	case "pretty":
-		text, err := PrettyHTML(*site)
-		if err != nil {
-			fmt.Printf("ExecCmd: HTML Pretty error: %v", err)
-		}
-		printSlice(text, "")
-	case "crawl":
-		n, err := Crawl(*site, *dir)
-		if err != nil {
-			fmt.Printf("ExecCmd: Crrawl error: %v", err)
-		}
-		fmt.Printf("ExecCmd: Crawl %d pages feteched\n", n)
-	}
-}
+	cmd.Flags().StringVar(&parseType, "type", "outline", "one of: [links outline images scripts css pretty crawl]")
+	cmd.Flags().StringVar(&site, "site", "https://www.yahoo.com/", "-site=https://site.to.parse.com/")
+	cmd.Flags().StringVar(&dir, "dir", "~/Downloads/", "-dir=/Users/guest/Downloads # Download to directory /Users/guest/Downloads/www.yahoo.com")
 
-// DisplayHelp prints help on command line for bits module
-func (m CLI) DisplayHelp() {
-	fmt.Println("\nUsage: the-gpl parse a site for links, outline, images, scripts, css, pretty, crawl etc")
-	m.set.PrintDefaults()
+	return cmd
 }
-
-// ---------------------------------------------------------------------------
-// Handlers for parse command
 
 // printSlice prints a slice on stdout
 func printSlice(a []string, message string) {

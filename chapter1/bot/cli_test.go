@@ -14,16 +14,26 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// TestInitCli tests initialization
-func TestInitCli(t *testing.T) {
-	InitCli()
-	assert.Equal(t, df.GCPProjectID, *gcpProjectName)
-	assert.Equal(t, df.DefaultLanguage, *lang)
-	assert.Equal(t, false, *chat)
-	assert.Equal(t, string(df.Draft), *env)
+// TestNewBotCmd tests command creation and default flags
+func TestNewBotCmd(t *testing.T) {
+	cmd := NewBotCmd()
+	assert.NotNil(t, cmd)
+	assert.Equal(t, "bot", cmd.Use)
+
+	// Check default flags
+	project, _ := cmd.Flags().GetString("project")
+	assert.Equal(t, df.GCPProjectID, project)
+
+	lang, _ := cmd.Flags().GetString("lang")
+	assert.Equal(t, df.DefaultLanguage, lang)
+
+	chat, _ := cmd.Flags().GetBool("chat")
+	assert.Equal(t, false, chat)
+
+	env, _ := cmd.Flags().GetString("env")
+	assert.Equal(t, string(df.Draft), env)
 }
 
-var command = []string{"-chat=false", "-project=unit-test"}
 var agentResponses = []string{"cochatbot.hi_hcihy"}
 
 // TestCLI_ExecCmd tests the chatting with the bot.
@@ -40,19 +50,24 @@ func TestCLI_ExecCmd(t *testing.T) {
 	gomock.InOrder(first, second, third)
 	bot = mockBot
 
-	InitCli()
-	cmd.ExecCmd(command)
+	cmd := NewBotCmd()
+	cmd.SetArgs([]string{"--chat=false", "--project=unit-test"})
+	err := cmd.Execute()
+	assert.NoError(t, err)
 }
 
-// TestCLI_ExecCmd tests the chatting with the bot.
+// TestCLI_ExecCmd_BotNil tests the chatting with the bot when bot is nil.
 func TestCLI_ExecCmd_BotNil(t *testing.T) {
 	bot = nil
 	logger = log.New(&bytes.Buffer{}, "BOT ", log.LstdFlags)
-	InitCli()
-	cmd.ExecCmd(command)
+
+	cmd := NewBotCmd()
+	cmd.SetArgs([]string{"--chat=false", "--project=unit-test"})
+	err := cmd.Execute()
+	assert.NoError(t, err)
 }
 
-// TestCLI_ExecCmd_ConverseError tests the chatting with the bot.
+// TestCLI_ExecCmd_ConverseError tests the chatting with the bot when converse returns error.
 func TestCLI_ExecCmd_ConverseError(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
@@ -63,6 +78,8 @@ func TestCLI_ExecCmd_ConverseError(t *testing.T) {
 	mockBot.EXPECT().Converse(gomock.Any(), "hello").Return(nil, fmt.Errorf("mock Error.")).Times(1)
 	bot = mockBot
 
-	InitCli()
-	cmd.ExecCmd(command)
+	cmd := NewBotCmd()
+	cmd.SetArgs([]string{"--chat=false", "--project=unit-test"})
+	err := cmd.Execute()
+	assert.NoError(t, err)
 }

@@ -1,43 +1,212 @@
-#!/usr/bin/env zsh
-# Example: https://iridakos.com/programming/2018/03/01/bash-programmable-completion-tutorial
-thegpl_completions() {
-  if [ "${COMP_WORDS[1]}" == "bits" ]; then
-    COMPREPLY=($(compgen -W "-n=0x0badcafe" -- "bits"))
-    return
-  fi
-  if [ "${COMP_WORDS[1]}" == "mas" ]; then
-    COMPREPLY=($(compgen -W "-fn=array -fn=comp" -- "mas"))
-    return
-  fi
-  if [ "${COMP_WORDS[1]}" == "temp" ]; then
-    COMPREPLY=($(compgen -W "-c=12 -f=12 -k=12" -- "temp"))
-    return
-  fi
-  if [ "${COMP_WORDS[1]}" == "degrees" ]; then
-    COMPREPLY=($(compgen -W "-c=12°F -f=12°K -k=12°C" -- "degrees"))
-    return
-  fi
-  if [ "${COMP_WORDS[1]}" == "du" ]; then
-    COMPREPLY=($(compgen -W "-dir=." -- "du"))
-    return
-  fi
-  if [ "${COMP_WORDS[1]}" == "parse" ]; then
-    if [ "$COMP_CWORD" -eq 3 ]; then
-      COMPREPLY=($(compgen -W "-type=outline type=links -type=images type=pretty -type=crawl" -- "parse"))
-      return
+#compdef the-gpl
+compdef _the-gpl the-gpl
+
+# zsh completion for the-gpl                              -*- shell-script -*-
+
+__the-gpl_debug()
+{
+    local file="$BASH_COMP_DEBUG_FILE"
+    if [[ -n ${file} ]]; then
+        echo "$*" >> "${file}"
     fi
-    COMPREPLY=($(compgen -W "-site=https://www.google.com -site=https://www.duckduckgo.com" -- "site"))
-    return
-  fi
-  if [ "${COMP_WORDS[1]}" == "service" ]; then
-    COMPREPLY=($(compgen -W "-sp=clock:9999 -cp=clock:9999 -sp=reverb:9998 -cp=reverb:9998 -sp=chat:9997" -- "server"))
-    return
-  fi
-    if [ "${COMP_WORDS[1]}" == "server" ]; then
-    COMPREPLY=($(compgen -W "-port=8080" -- "service"))
-    return
-  fi
-  COMPREPLY=($(compgen -W "bits mas temp du lissajous parse service client server" "${COMP_WORDS[1]}"))
 }
 
-complete -F thegpl_completions the-gpl
+_the-gpl()
+{
+    local shellCompDirectiveError=1
+    local shellCompDirectiveNoSpace=2
+    local shellCompDirectiveNoFileComp=4
+    local shellCompDirectiveFilterFileExt=8
+    local shellCompDirectiveFilterDirs=16
+    local shellCompDirectiveKeepOrder=32
+
+    local lastParam lastChar flagPrefix requestComp out directive comp lastComp noSpace keepOrder
+    local -a completions
+
+    __the-gpl_debug "\n========= starting completion logic =========="
+    __the-gpl_debug "CURRENT: ${CURRENT}, words[*]: ${words[*]}"
+
+    # The user could have moved the cursor backwards on the command-line.
+    # We need to trigger completion from the $CURRENT location, so we need
+    # to truncate the command-line ($words) up to the $CURRENT location.
+    # (We cannot use $CURSOR as its value does not work when a command is an alias.)
+    words=("${=words[1,CURRENT]}")
+    __the-gpl_debug "Truncated words[*]: ${words[*]},"
+
+    lastParam=${words[-1]}
+    lastChar=${lastParam[-1]}
+    __the-gpl_debug "lastParam: ${lastParam}, lastChar: ${lastChar}"
+
+    # For zsh, when completing a flag with an = (e.g., the-gpl -n=<TAB>)
+    # completions must be prefixed with the flag
+    setopt local_options BASH_REMATCH
+    if [[ "${lastParam}" =~ '-.*=' ]]; then
+        # We are dealing with a flag with an =
+        flagPrefix="-P ${BASH_REMATCH}"
+    fi
+
+    # Prepare the command to obtain completions
+    requestComp="${words[1]} __complete ${words[2,-1]}"
+    if [ "${lastChar}" = "" ]; then
+        # If the last parameter is complete (there is a space following it)
+        # We add an extra empty parameter so we can indicate this to the go completion code.
+        __the-gpl_debug "Adding extra empty parameter"
+        requestComp="${requestComp} \"\""
+    fi
+
+    __the-gpl_debug "About to call: eval ${requestComp}"
+
+    # Use eval to handle any environment variables and such
+    out=$(eval ${requestComp} 2>/dev/null)
+    __the-gpl_debug "completion output: ${out}"
+
+    # Extract the directive integer following a : from the last line
+    local lastLine
+    while IFS='\n' read -r line; do
+        lastLine=${line}
+    done < <(printf "%s\n" "${out[@]}")
+    __the-gpl_debug "last line: ${lastLine}"
+
+    if [ "${lastLine[1]}" = : ]; then
+        directive=${lastLine[2,-1]}
+        # Remove the directive including the : and the newline
+        local suffix
+        (( suffix=${#lastLine}+2))
+        out=${out[1,-$suffix]}
+    else
+        # There is no directive specified.  Leave $out as is.
+        __the-gpl_debug "No directive found.  Setting do default"
+        directive=0
+    fi
+
+    __the-gpl_debug "directive: ${directive}"
+    __the-gpl_debug "completions: ${out}"
+    __the-gpl_debug "flagPrefix: ${flagPrefix}"
+
+    if [ $((directive & shellCompDirectiveError)) -ne 0 ]; then
+        __the-gpl_debug "Completion received error. Ignoring completions."
+        return
+    fi
+
+    local activeHelpMarker="_activeHelp_ "
+    local endIndex=${#activeHelpMarker}
+    local startIndex=$((${#activeHelpMarker}+1))
+    local hasActiveHelp=0
+    while IFS='\n' read -r comp; do
+        # Check if this is an activeHelp statement (i.e., prefixed with $activeHelpMarker)
+        if [ "${comp[1,$endIndex]}" = "$activeHelpMarker" ];then
+            __the-gpl_debug "ActiveHelp found: $comp"
+            comp="${comp[$startIndex,-1]}"
+            if [ -n "$comp" ]; then
+                compadd -x "${comp}"
+                __the-gpl_debug "ActiveHelp will need delimiter"
+                hasActiveHelp=1
+            fi
+
+            continue
+        fi
+
+        if [ -n "$comp" ]; then
+            # If requested, completions are returned with a description.
+            # The description is preceded by a TAB character.
+            # For zsh's _describe, we need to use a : instead of a TAB.
+            # We first need to escape any : as part of the completion itself.
+            comp=${comp//:/\\:}
+
+            local tab="$(printf '\t')"
+            comp=${comp//$tab/:}
+
+            __the-gpl_debug "Adding completion: ${comp}"
+            completions+=${comp}
+            lastComp=$comp
+        fi
+    done < <(printf "%s\n" "${out[@]}")
+
+    # Add a delimiter after the activeHelp statements, but only if:
+    # - there are completions following the activeHelp statements, or
+    # - file completion will be performed (so there will be choices after the activeHelp)
+    if [ $hasActiveHelp -eq 1 ]; then
+        if [ ${#completions} -ne 0 ] || [ $((directive & shellCompDirectiveNoFileComp)) -eq 0 ]; then
+            __the-gpl_debug "Adding activeHelp delimiter"
+            compadd -x "--"
+            hasActiveHelp=0
+        fi
+    fi
+
+    if [ $((directive & shellCompDirectiveNoSpace)) -ne 0 ]; then
+        __the-gpl_debug "Activating nospace."
+        noSpace="-S ''"
+    fi
+
+    if [ $((directive & shellCompDirectiveKeepOrder)) -ne 0 ]; then
+        __the-gpl_debug "Activating keep order."
+        keepOrder="-V"
+    fi
+
+    if [ $((directive & shellCompDirectiveFilterFileExt)) -ne 0 ]; then
+        # File extension filtering
+        local filteringCmd
+        filteringCmd='_files'
+        for filter in ${completions[@]}; do
+            if [ ${filter[1]} != '*' ]; then
+                # zsh requires a glob pattern to do file filtering
+                filter="\*.$filter"
+            fi
+            filteringCmd+=" -g $filter"
+        done
+        filteringCmd+=" ${flagPrefix}"
+
+        __the-gpl_debug "File filtering command: $filteringCmd"
+        _arguments '*:filename:'"$filteringCmd"
+    elif [ $((directive & shellCompDirectiveFilterDirs)) -ne 0 ]; then
+        # File completion for directories only
+        local subdir
+        subdir="${completions[1]}"
+        if [ -n "$subdir" ]; then
+            __the-gpl_debug "Listing directories in $subdir"
+            pushd "${subdir}" >/dev/null 2>&1
+        else
+            __the-gpl_debug "Listing directories in ."
+        fi
+
+        local result
+        _arguments '*:dirname:_files -/'" ${flagPrefix}"
+        result=$?
+        if [ -n "$subdir" ]; then
+            popd >/dev/null 2>&1
+        fi
+        return $result
+    else
+        __the-gpl_debug "Calling _describe"
+        if eval _describe $keepOrder "completions" completions $flagPrefix $noSpace; then
+            __the-gpl_debug "_describe found some completions"
+
+            # Return the success of having called _describe
+            return 0
+        else
+            __the-gpl_debug "_describe did not find completions."
+            __the-gpl_debug "Checking if we should do file completion."
+            if [ $((directive & shellCompDirectiveNoFileComp)) -ne 0 ]; then
+                __the-gpl_debug "deactivating file completion"
+
+                # We must return an error code here to let zsh know that there were no
+                # completions found by _describe; this is what will trigger other
+                # matching algorithms to attempt to find completions.
+                # For example zsh can match letters in the middle of words.
+                return 1
+            else
+                # Perform file completion
+                __the-gpl_debug "Activating file completion"
+
+                # We must return the result of this command, so it must be the
+                # last command, or else we must store its result to return it.
+                _arguments '*:filename:_files'" ${flagPrefix}"
+            fi
+        fi
+    fi
+}
+
+# don't run the completion function when being source-ed or eval-ed
+if [ "$funcstack[1]" = "_the-gpl" ]; then
+    _the-gpl
+fi

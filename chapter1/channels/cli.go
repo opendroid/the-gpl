@@ -1,80 +1,42 @@
 package channels
 
 import (
-	"flag"
 	"fmt"
-	"github.com/opendroid/the-gpl/serve/shell"
+
+	"github.com/spf13/cobra"
 )
 
-// Command line help func
+// NewFetchCmd creates the fetch command
+// eg: the-gpl fetch --site=https://google.com  --site=https://www.facebook.com # Fetch multiple sites
+func NewFetchCmd() *cobra.Command {
+	var sites []string
+	var body bool
 
-// CLI wrapper for *flag.FlagSet
-type CLI struct {
-	set *flag.FlagSet
-}
+	cmd := &cobra.Command{
+		Use:   "fetch",
+		Short: "Fetch URLs concurrently",
+		Long:  `Fetch multiple URLs concurrently and report their response times or body content.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			// Prepare list of sites to be fetched
+			var urls []string
+			if len(sites) > 0 {
+				urls = append(urls, sites...)
+			} else {
+				urls = append(urls, TestSites...)
+			}
 
-// cmd allows to refer call send this module the CLI argument
-var cmd CLI
-
-type siteFlag []string // Flag that stores value for -sites="site1" -sites="site2"
-var sites siteFlag
-var body *bool // Fetch complete HTML body of the site
-
-// String satisfy the flag.Value interface
-func (s *siteFlag) String() string {
-	sites := "["
-	for _, site := range *s {
-		sites += fmt.Sprintf("%s ", site)
-	}
-	sites += "]"
-	return sites
-}
-
-// Set satisfy the flag.Value interface
-func (s *siteFlag) Set(value string) error {
-	*s = append(*s, value)
-	return nil
-}
-
-// InitCli for command: the-gpl fetch -site=https://google.com
-//   eg: the-gpl fetch -site=https://google.com  -site=https://www.facebook.com # Fetch multiple sites
-
-func InitCli() {
-	cmd.set = flag.NewFlagSet("fetch", flag.ContinueOnError)
-	cmd.set.Var(&sites, "site", "-site=https://www.google.com -site=https://www.facebook.com")
-	body = cmd.set.Bool("body", false, "-body=true for downloading complete page")
-	shell.Add("fetch", cmd)
-}
-
-// ExecCmd run fetch from CLI
-func (m CLI) ExecCmd(args []string) {
-	err := m.set.Parse(args)
-	if err != nil {
-		fmt.Printf("ExecCmd: Fetch Parse Error %s\n", err.Error())
-		m.DisplayHelp()
-		return
+			if body { // By default, only display the timing info
+				fetchSites(urls)
+			} else {
+				fetchSitesTimes(urls) // Fetch time summary page
+			}
+		},
 	}
 
-	// Prepare list of sites to be fetched
-	var urls []string
-	urls = make([]string, 0, len(sites))
-	if len(sites) > 0 {
-		urls = append(urls, sites...)
-	} else {
-		urls = append(urls, TestSites...)
-	}
+	cmd.Flags().StringSliceVar(&sites, "site", nil, "List of sites to fetch")
+	cmd.Flags().BoolVar(&body, "body", false, "true for downloading complete page")
 
-	if *body { // By default, only display the timing info
-		fetchSites(urls)
-	} else {
-		fetchSitesTimes(urls) // Fetch time summary page
-	}
-}
-
-// DisplayHelp prints help on command line for bits module
-func (m CLI) DisplayHelp() {
-	fmt.Println("\nUsage: the-gpl fetch (list of sites , separated)")
-	m.set.PrintDefaults()
+	return cmd
 }
 
 // fetchSitesTimes fetch the sites in array testSites

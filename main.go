@@ -12,28 +12,40 @@ import (
 	"github.com/opendroid/the-gpl/chapter5"
 	"github.com/opendroid/the-gpl/chapter7"
 	"github.com/opendroid/the-gpl/chapter8"
-	"github.com/opendroid/the-gpl/serve/shell"
+	"github.com/opendroid/the-gpl/cmd"
 	"github.com/opendroid/the-gpl/serve/web"
-	"os"
 )
 
-// main initializes all  modules. then enables commands eg:
-//
-//	go run main.go server -port=8081
+// main initializes all modules and executes the root command.
 func main() {
-	// Init modules - Sets up CLIDegrees Interface
-	bitsCount.InitCli()
-	bot.InitCli()
-	channels.InitCli()
-	chapter5.InitCli()
-	chapter7.InitCli()
-	lissajous.InitCli()
-	livecaption.InitCli()
-	mas.InitCli()
-	tempConv.InitCli()
-	web.InitCli()
-	chapter8.InitCli()
+	rootCmd := cmd.GetRootCmd()
 
-	// Execute commands
-	shell.ExecCLICmd(os.Args[:])
+	// Chapter 1
+	rootCmd.AddCommand(bot.NewBotCmd())
+	rootCmd.AddCommand(channels.NewFetchCmd())
+	rootCmd.AddCommand(lissajous.NewLissajousCmd())
+	rootCmd.AddCommand(livecaption.NewSTTCmd())
+	rootCmd.AddCommand(mas.NewMasCmd())
+
+	// Chapter 2
+	rootCmd.AddCommand(bitsCount.NewBitsCmd())
+	rootCmd.AddCommand(tempConv.NewTempCmd())
+
+	// Chapter 5
+	rootCmd.AddCommand(chapter5.NewParseCmd())
+
+	// Chapter 7
+	rootCmd.AddCommand(chapter7.NewDegreesCmd())
+	rootCmd.AddCommand(chapter7.NewCountCmd())
+
+	// Chapter 8
+	rootCmd.AddCommand(chapter8.NewServiceCmd())
+	rootCmd.AddCommand(chapter8.NewClientCmd())
+	rootCmd.AddCommand(chapter8.NewDuCmd())
+
+	// Serve
+	rootCmd.AddCommand(web.NewServerCmd())
+
+	// Execute
+	cmd.Execute()
 }
