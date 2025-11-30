@@ -2,6 +2,9 @@
 package main
 
 import (
+	"log/slog"
+	"os"
+
 	"github.com/opendroid/the-gpl/chapter1/bot"
 	"github.com/opendroid/the-gpl/chapter1/channels"
 	"github.com/opendroid/the-gpl/chapter1/lissajous"
@@ -18,6 +21,10 @@ import (
 
 // main initializes all modules and executes the root command.
 func main() {
+	// Setup default slog logger
+	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
+	slog.SetDefault(logger)
+
 	rootCmd := cmd.GetRootCmd()
 
 	// Chapter 1

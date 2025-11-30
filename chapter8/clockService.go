@@ -2,7 +2,7 @@ package chapter8
 
 import (
 	"fmt"
-	"github.com/opendroid/the-gpl/logger"
+	"log/slog"
 	"net"
 	"time"
 )
@@ -12,7 +12,7 @@ func ClockServer(port int) {
 	address := fmt.Sprintf("localhost:%d", port)
 	listener, err := net.Listen("tcp", address)
 	if err != nil {
-		logger.Log.Printf("err in clock port %v\n", err)
+		slog.Error("err in clock port", "err", err)
 		return
 	}
 
@@ -20,7 +20,7 @@ func ClockServer(port int) {
 	for {
 		conn, err := listener.Accept()
 		if err != nil {
-			logger.Log.Printf("connection aborted: %v\n", err)
+			slog.Error("connection aborted", "err", err)
 			continue
 		}
 		go clockHandler(conn)
@@ -31,13 +31,13 @@ func ClockServer(port int) {
 func clockHandler(c net.Conn) {
 	defer func() {
 		_ = c.Close()
-		logger.Log.Printf("\nClosing close connection %s\n", c.LocalAddr())
+		slog.Info("Closing close connection", "addr", c.LocalAddr())
 	}() // Close connection when done
-	logger.Log.Println("Starting clock service connection.")
+	slog.Info("Starting clock service connection.")
 	for {
 		_, err := fmt.Fprintf(c, "%s", time.Now().Format("15:04:05\n"))
 		if err != nil {
-			logger.Log.Printf("closing %v\n", err)
+			slog.Error("closing", "err", err)
 			return
 		}
 		time.Sleep(ClockDelay * time.Second)

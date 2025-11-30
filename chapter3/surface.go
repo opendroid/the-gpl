@@ -3,9 +3,8 @@ package chapter3
 import (
 	"fmt"
 	"io"
+	"log/slog"
 	"math"
-
-	"github.com/opendroid/the-gpl/logger"
 )
 
 var (
@@ -51,7 +50,7 @@ func PlotOn3DSurface(w io.Writer, plot func(float64, float64) float64) {
 			_, err = fmt.Fprintf(w, "<polygon points=\"%g,%g %g,%g %g,%g %g,%g\"/>\n",
 				ax, ay, bx, by, cx, cy, dx, dy)
 			if err != nil {
-				logger.Log.Printf("PlotOn3DSurface: polygon point Error: %s\n", err)
+				slog.Error("PlotOn3DSurface: polygon point Error", "err", err)
 				return
 			}
 		}

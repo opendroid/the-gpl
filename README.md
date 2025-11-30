@@ -20,7 +20,7 @@ You can experience the deployed artifacts on the web as:
 ## Running from Web
 You can start a webserver and see simple web-server examples. The command is:
 ```shell script
-$ the-gpl server -port=8080 # start a web server at port 8080.
+$ the-gpl server --port=8080 # start a web server at port 8080.
 ```
 
 ## Running from CLI
@@ -36,9 +36,9 @@ To use the Google  _Dialogflow Agent_ and _Speech-to-text_ set up:
 Here are commands to communicate with the Dialogflow Agent.
 ```shell script
 $ the-gpl # Prints the help of all modules
-$ the-gpl bot -project=gcp-project-id # Will do a short conversation with an agent. 
-$ the-gpl bot -project=gcp-project-id -chat=true # Can send messages from stdin
-$ the-gpl bot -chat=true -project=gcp-project-id -lang=en-US # Chat with an agent in en-US
+$ the-gpl bot --project=gcp-project-id # Will do a short conversation with an agent. 
+$ the-gpl bot --project=gcp-project-id --chat=true # Can send messages from stdin
+$ the-gpl bot --chat=true --project=gcp-project-id --lang=en-US # Chat with an agent in en-US
 ```
 
 To run live-caption speech to text first start a microphone stream on RTP port, and then use the-gpl to listen and apply STT.
@@ -56,30 +56,30 @@ Use these commands to run utilities:
 5. Saving Lissajous gif to a file.
 
 ```shell script
-$ the-gpl bits -n=0xBAD0FACE # will count 1 bits in n
-$ the-gpl mas -fn=array # Tests array
-$ the-gpl mas -fn=comp -n1=123 -n2=345 # Compare n1 and n2
+$ the-gpl bits --n=0xBAD0FACE # will count 1 bits in n
+$ the-gpl mas --fn=array # Tests array
+$ the-gpl mas --fn=comp --n1=123 --n2=345 # Compare n1 and n2
 
 # Temperature utilities
-$ the-gpl temp -c=12 -f=12 -k=12 # Converts 12°C to °C/°F/°K
-$ the-gpl degrees -c=12°F -f=12°K -k=12°C # Converts 12°C to °C/°F/°K
+$ the-gpl temp --c=12 --f=12 --k=12 # Converts 12°C to °C/°F/°K
+$ the-gpl degrees --c=12 --f=12 --k=12 # Converts 12°C to °C/°F/°K
 
 # du: Disk Usage calculates size of all files in a directory recursively, using go-routines
-$ the-gpl du -dir=$HOME/gocode
+$ the-gpl du --dir=$HOME/gocode
 
 # Output a Lissajous graph to -file of size 1024 pixels 20 frames and 10 cycles
-$ the-gpl lissajous -file ~/Downloads/lis.gif -size=1024 -frames=20 -cycles=10
+$ the-gpl lissajous --file ~/Downloads/lis.gif --size=1024 --frames=20 --cycles=10
 ```
 
 ### Crawling Examples
 These commands fetch a website and does various operations on it.
 ```shell script
 # Parse various HTML content of sites URL
-$ the-gpl parse -type=outline -site=https://www.airbnb.com # Creates a summary outline of a page
-$ the-gpl parse -type=links -site=https://images.google.com #  Prints all links on a webpage
-$ the-gpl parse -type=images -site=https://www.yahoo.com # Fetches image URLs in a site
-$ the-gpl parse -type=pretty -site=https://www.google.com
-$ the-gpl parse -type=crawl -site=https://www.google.com  -dir=/Users/guest/Downloads # Crawl pages to /Users/guest/Downloads/www.google.com 
+$ the-gpl parse --type=outline --site=https://www.airbnb.com # Creates a summary outline of a page
+$ the-gpl parse --type=links --site=https://images.google.com #  Prints all links on a webpage
+$ the-gpl parse --type=images --site=https://www.yahoo.com # Fetches image URLs in a site
+$ the-gpl parse --type=pretty --site=https://www.google.com
+$ the-gpl parse --type=crawl --site=https://www.google.com  --dir=/Users/guest/Downloads # Crawl pages to /Users/guest/Downloads/www.google.com 
 ```
 
 ### Simple Servers and Clients

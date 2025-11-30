@@ -3,10 +3,10 @@ package chapter8
 
 import (
 	"fmt"
+	"log/slog"
 	"strconv"
 	"strings"
 
-	"github.com/opendroid/the-gpl/logger"
 	"github.com/spf13/cobra"
 )
 
@@ -29,19 +29,19 @@ func NewServiceCmd() *cobra.Command {
 			port, _ := strconv.Atoi(params[1])
 			switch service {
 			case "clock":
-				logger.Log.Printf("Started %q service on port %d\n", service, port)
+				slog.Info("Started service", "service", service, "port", port)
 				ClockServer(port)
 			case "reverb":
-				logger.Log.Printf("Started %q service on port %d\n", service, port)
+				slog.Info("Started service", "service", service, "port", port)
 				ReverbServer(port)
 			case "ftp":
-				logger.Log.Printf("Started %q service on port %d\n", service, port)
+				slog.Info("Started service", "service", service, "port", port)
 				FTPServer(port)
 			case "chat":
-				logger.Log.Printf("Started %q service on port %d\n", service, port)
+				slog.Info("Started service", "service", service, "port", port)
 				ChatService(port)
 			default:
-				logger.Log.Printf("service %s not implemented\n", service)
+				slog.Info("Service not implemented", "service", service)
 			}
 		},
 	}

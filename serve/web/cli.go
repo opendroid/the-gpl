@@ -2,8 +2,8 @@ package web
 
 import (
 	"fmt"
+	"log/slog"
 
-	"github.com/opendroid/the-gpl/logger"
 	"github.com/spf13/cobra"
 )
 
@@ -29,16 +29,16 @@ func NewServerCmd() *cobra.Command {
 // startServer starts the server on port
 func startServer(port int) {
 	prefix := fmt.Sprintf("http://localhost:%d", port)
-	logger.Log.Println("Starting server, sample URLs:")
-	logger.Log.Println(prefix)
-	logger.Log.Printf("%s/who\n", prefix)
-	logger.Log.Printf("%s/graph\n", prefix)
-	logger.Log.Printf("%s/egg\n", prefix)
-	logger.Log.Printf("%s/sinc\n", prefix)
-	logger.Log.Printf("%s/search?q=%%22%s%%22&Timeout=3s\n", prefix, "The%20Go%20Programming%20Language")
-	logger.Log.Printf("%s/mandel\n", prefix)
-	logger.Log.Printf("%s/mandelbw\n", prefix)
-	logger.Log.Printf("%s/incr\n", prefix)
-	logger.Log.Printf("%s/counter\n", prefix)
+	slog.Info("Starting server, sample URLs:")
+	slog.Info(prefix)
+	slog.Info(fmt.Sprintf("%s/who", prefix))
+	slog.Info(fmt.Sprintf("%s/graph", prefix))
+	slog.Info(fmt.Sprintf("%s/egg", prefix))
+	slog.Info(fmt.Sprintf("%s/sinc", prefix))
+	slog.Info(fmt.Sprintf("%s/search?q=%%22%s%%22&Timeout=3s", prefix, "The%20Go%20Programming%20Language"))
+	slog.Info(fmt.Sprintf("%s/mandel", prefix))
+	slog.Info(fmt.Sprintf("%s/mandelbw", prefix))
+	slog.Info(fmt.Sprintf("%s/incr", prefix))
+	slog.Info(fmt.Sprintf("%s/counter", prefix))
 	Start(port)
 }

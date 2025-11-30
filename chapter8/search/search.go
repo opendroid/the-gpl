@@ -4,12 +4,13 @@ package search
 import (
 	"context"
 	"fmt"
-	"github.com/opendroid/the-gpl/chapter8/search/google"
-	"github.com/opendroid/the-gpl/chapter8/search/userip"
-	"github.com/opendroid/the-gpl/logger"
 	"html/template"
+	"log/slog"
 	"net/http"
 	"time"
+
+	"github.com/opendroid/the-gpl/chapter8/search/google"
+	"github.com/opendroid/the-gpl/chapter8/search/userip"
 )
 
 // Query searches a "q" within a timeout at Google.com
@@ -63,7 +64,7 @@ func Query(w http.ResponseWriter, req *http.Request) {
 		Timeout: timeout,
 		Elapsed: elapsed,
 	}); err != nil {
-		logger.Log.Printf("Query: %q: %v", q, err)
+		slog.Error("Query error", "q", q, "err", err)
 	}
 }
 

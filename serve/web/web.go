@@ -9,13 +9,13 @@ package web
 import (
 	"encoding/json"
 	"fmt"
+	"log/slog"
 	"net/http"
 	"sync"
 
 	"github.com/opendroid/the-gpl/chapter1/lissajous"
 	"github.com/opendroid/the-gpl/chapter3"
 	"github.com/opendroid/the-gpl/chapter8/search"
-	"github.com/opendroid/the-gpl/logger"
 )
 
 // Local file variables
@@ -90,7 +90,7 @@ func Start(port int) {
 
 // incrHandler adds one to counter in a lock
 func incrHandler(w http.ResponseWriter, r *http.Request) {
-	logger.Log.Println("incrHandler.")
+	slog.Info("incrHandler.")
 	mutex.Lock()
 	counter++
 	mutex.Unlock()
@@ -99,7 +99,7 @@ func incrHandler(w http.ResponseWriter, r *http.Request) {
 
 // gitInfoHandler write a JSON response to client
 func gitInfoHandler(w http.ResponseWriter, _ *http.Request) {
-	logger.Log.Println("gitInfoHandler.")
+	slog.Info("gitInfoHandler.")
 	data := struct{ Username, Profile, Repo, LinkedIn string }{
 		Username: "opendroid",
 		Profile:  "https://github.com/opendroid",
@@ -109,7 +109,7 @@ func gitInfoHandler(w http.ResponseWriter, _ *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	err := json.NewEncoder(w).Encode(data)
 	if err != nil {
-		logger.Log.Printf("gitInfoHandler: err: %v\n", err)
+		slog.Error("gitInfoHandler: err", "err", err)
 	}
 }
 

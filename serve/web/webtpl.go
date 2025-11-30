@@ -5,11 +5,10 @@ import (
 	"fmt"
 	"html/template"
 	"io"
+	"log/slog"
 	"net/http"
 	"net/url"
 	"strings"
-
-	"github.com/opendroid/the-gpl/logger"
 )
 
 // templates processed
@@ -33,7 +32,7 @@ func init() {
 //		Form[r]: ["Opendroid"]
 //		Form[s]: [Gpl]
 func indexHandler(w http.ResponseWriter, r *http.Request) {
-	logger.Log.Println("indexHandler.")
+	slog.Info("indexHandler.")
 	header := map[string]string{}                                  // data needed to show to the user
 	if path, err := url.PathUnescape(r.URL.String()); err != nil { // unescape path
 		header["URL"] = fmt.Sprintf("%s %s %s: %v\n", r.Method, r.URL, r.Proto, err)
@@ -54,7 +53,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Parse form first, reduces scope of 'err'
 	if err := r.ParseForm(); err != nil {
-		logger.Log.Printf("indexHandler: form parse error: %v", err)
+		slog.Error("indexHandler: form parse error", "err", err)
 		return
 	}
 	for k, values := range r.Form {
@@ -69,29 +68,29 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	// Execute the template
 	data := IndexPageData{Active: Post.String(), Data: header}
 	if err := templates.ExecuteTemplate(w, IndexPage, &data); err != nil {
-		logger.Log.Printf("indexHandler: %v", err)
+		slog.Error("indexHandler", "err", err)
 	}
 }
 
 // aboutHandler parses about templates and presents to use
 func aboutHandler(w http.ResponseWriter, _ *http.Request) {
-	logger.Log.Println("aboutHandler.")
+	slog.Info("aboutHandler.")
 	if err := templates.ExecuteTemplate(w, AboutPage, &AboutPageData{Active: About.String(), Data: socialCards}); err != nil {
-		logger.Log.Printf("indexHandler: %v", err)
+		slog.Error("aboutHandler", "err", err)
 	}
 }
 
 // imageHandler injects image template data in LisMandelPage
 func imageHandler(activePage, heading, imagePath string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		logger.Log.Printf("imageHandler: %s", r.URL.Path)
+		slog.Info("imageHandler", "path", r.URL.Path)
 		if err := templates.ExecuteTemplate(w, LisMandelPage,
 			&ImagesPageData{
 				Active:    activePage,
 				ImageName: imagePath,
 				Heading:   heading,
 			}); err != nil {
-			logger.Log.Printf("imageHandler: %s: %v", imagePath, err)
+			slog.Error("imageHandler", "path", imagePath, "err", err)
 		}
 	}
 }
@@ -99,14 +98,14 @@ func imageHandler(activePage, heading, imagePath string) http.HandlerFunc {
 // surfaceHandler injects surface template data in SurfacesPage
 func surfaceHandler(activePage, heading, svgPage string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		logger.Log.Printf("surfaceHandler: %s", r.URL.Path)
+		slog.Info("surfaceHandler", "path", r.URL.Path)
 		// Execute the Surface template with appropriate data
 		if err := templates.ExecuteTemplate(w, SurfacesPage, &SVGPageData{
 			Active:       activePage,
 			SVGImageName: svgPage,
 			Heading:      heading,
 		}); err != nil {
-			logger.Log.Printf("surfaceHandler: %v", err)
+			slog.Error("surfaceHandler", "err", err)
 		}
 	}
 }
@@ -121,16 +120,16 @@ func gzipSVG(handler func(writer io.Writer)) http.HandlerFunc {
 		// gzip encode SVG if user agent accepts it
 		ae := r.Header.Get("Accept-Encoding")
 		if strings.Contains(ae, "gzip") {
-			logger.Log.Printf("gzipSVG: gzip: %s", ae)
+			slog.Info("gzipSVG: gzip", "ae", ae)
 			w.Header().Set("Content-Encoding", "gzip")
 			gz := gzip.NewWriter(w)
 			handler(gz)
 			if err := gz.Close(); err != nil {
-				logger.Log.Printf("gzipSVG: gzip error: %v", err)
+				slog.Error("gzipSVG: gzip error", "err", err)
 			}
 			return
 		}
-		logger.Log.Printf("gzipSVG: %s: UA does not accept %q, accepts: %s", r.URL.Path, "gzip", ae)
+		slog.Info("gzipSVG: UA does not accept gzip", "path", r.URL.Path, "accepts", ae)
 		handler(w)
 	}
 }
@@ -140,6 +139,6 @@ func fileHandler(filename string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Cache-Control", "31536000")
 		http.ServeFile(w, r, filename)
-		logger.Log.Printf("fileHandler: %s", filename)
+		slog.Info("fileHandler", "filename", filename)
 	}
 }

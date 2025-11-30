@@ -4,9 +4,9 @@ package google
 import (
 	"context"
 	"encoding/json"
+	"log/slog"
 
 	"github.com/opendroid/the-gpl/chapter8/search/userip" // Local import group
-	"github.com/opendroid/the-gpl/logger"
 
 	"net/http"
 )
@@ -52,7 +52,7 @@ func Search(ctx context.Context, query string) (Results, error) {
 			}
 		}
 		if err := json.NewDecoder(resp.Body).Decode(&data); err != nil {
-			logger.Log.Printf("Search: q=%v\n", q)
+			slog.Error("Search error", "q", q)
 			return err
 		}
 		for _, res := range data.ResponseData.Results {
