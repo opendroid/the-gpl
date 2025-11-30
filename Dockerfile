@@ -18,4 +18,4 @@ RUN apk add --no-cache ca-certificates
 COPY --from=builder /app/the-gpl /the-gpl
 COPY --from=builder /app/public /public
 EXPOSE 8080
-CMD ["/the-gpl", "server", "-port=8080"]
+CMD ["/the-gpl", "server", "--port=8080"]
