@@ -2,11 +2,10 @@ package tstrings
 
 import (
 	"bytes"
+	"crypto/rand"
 	"fmt"
 	"math"
-	"math/rand"
 	"testing"
-	"time"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -81,15 +80,17 @@ func TestComma(t *testing.T) {
 // createALargeSeqOfBytes creates a random sequence of bytes
 func createALargeSeqOfBytes(len int) []byte {
 	b := make([]byte, len)
-	rand.Read(b)
+	_, err := rand.Read(b)
+	if err != nil {
+		return []byte("/abc/bcd/cde/def/efg/ghi/ghi.hkl.ijk.klm")
+	}
 	return b
 }
 
 // createPath with n separators
 func createPath(nSeps int) []byte {
 	var p bytes.Buffer // A Buffer needs no initialization.
-	rand.Seed(time.Now().UnixNano())
-	for i := 0; i < nSeps; i++ {
+	for i := range nSeps {
 		sz := 10
 		if i == nSeps-1 {
 			sz = math.MaxInt16

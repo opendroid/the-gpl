@@ -3,8 +3,9 @@ package chapter5
 
 import (
 	"fmt"
-	"golang.org/x/net/html"
 	"strings"
+
+	"golang.org/x/net/html"
 )
 
 // E51FindLinks Exercise 5.1 make  links using traversal non-loop recursive
@@ -59,7 +60,7 @@ func startElement(n *html.Node) {
 		}
 		indents++
 	} else if (n.Type == html.TextNode || n.Type == html.CommentNode) &&
-		!(n.Parent.Type == html.ElementNode && (n.Parent.Data == Script || n.Parent.Data == Style)) {
+		n.Parent.Type != html.ElementNode || (n.Parent.Data != Script && n.Parent.Data != Style) {
 		// indent each line and print
 		lines := strings.Split(n.Data, "\n")
 		for _, line := range lines {
@@ -75,7 +76,7 @@ func startElement(n *html.Node) {
 func endElement(n *html.Node) {
 	if n.Type == html.ElementNode {
 		indents--
-		if !(n.Data == Img || n.FirstChild == nil) {
+		if n.Data != Img && n.FirstChild != nil {
 			fmt.Printf("%*s</%s>\n", indents*tabSize, "", n.Data)
 		}
 	}
