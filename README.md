@@ -44,7 +44,7 @@ $ the-gpl bot --chat=true --project=gcp-project-id --lang=en-US # Chat with an a
 To run live-caption speech to text first start a microphone stream on RTP port, and then use the-gpl to listen and apply STT.
 ```shell script
 $ ffmpeg -f avfoundation -i ":1" -acodec pcm_s16le -ar 48000 -f s16le udp://localhost:9999 # macOS Start microphone streaming
-$ the-gpl stt -port=9999 # Will listen to RTP stream on port 9999 for 2 minutes and transcribe in real time
+$ the-gpl stt --port=9999 # Will listen to RTP stream on port 9999 for 2 minutes and transcribe in real time
 ```
 
 ### Simple Examples from book

@@ -31,7 +31,7 @@ the pale blue dot, the only home we've ever known.
 ```
 
 The [Google ML](https://cloud.google.com/sdk/gcloud/reference/ml/speech/recognize) command line shows the reference output:
-` gcloud ml speech recognize ../../public/paleBlueDot.wav  --language-code=en_US`
+`gcloud ml speech recognize ../../public/paleBlueDot.wav --language-code=en_US`
 
 Output:
 ```json

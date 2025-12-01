@@ -28,7 +28,7 @@ type GithubUserInfo struct {
 	Blog              string         `json:"blog,omitempty"`
 	Company           string         `json:"company,omitempty"`
 	CreatedAt         string         `json:"created_at,omitempty"`
-	Email             interface{}    `json:"email,omitempty"`
+	Email             any            `json:"email,omitempty"`
 	EventsURL         string         `json:"events_url,omitempty"`
 	Followers         int64          `json:"followers,omitempty"`
 	FollowersURL      string         `json:"followers_url,omitempty"`
