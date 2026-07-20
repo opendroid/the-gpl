@@ -24,7 +24,7 @@ func PlotOn3DSurface(w io.Writer, plot func(float64, float64) float64) {
 	// close SVG tag in all returns
 	defer (func() { _, _ = fmt.Fprintf(w, "\n%s\n", SVGSuffixTag) })()
 	if err != nil {
-		_ = fmt.Errorf("PlotOn3DSurface: Error: %s", err)
+		slog.Error("PlotOn3DSurface", "err", err)
 		return
 	}
 
