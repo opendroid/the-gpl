@@ -59,6 +59,10 @@ func init() {
 	handlers[eggSVGImagePath] = gzipSVG(chapter3.EggHandlerSVG)
 	handlers[sqSVGImagePath] = gzipSVG(chapter3.SquaresHandlerSVG)
 
+	// Content pages
+	handlers["/chapters"] = chaptersHandler
+	handlers["/ask-page"] = askPageHandler
+
 	// SEO related
 	handlers[robotsTxt] = fileHandler("public/robots.txt")
 	handlers[sitemapXML] = fileHandler("public/sitemap.xml")
