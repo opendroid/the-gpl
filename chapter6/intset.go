@@ -153,7 +153,8 @@ func (s *IntSet) Remove(x uint) {
 	}
 }
 
-// IntersectWith Exercise 6.3  Implement methods for IntersectWith
+// IntersectWith returns a new IntSet containing elements present in both s and t (s ∩ t).
+// Exercise 6.3.
 func (s *IntSet) IntersectWith(t *IntSet) *IntSet {
 	r := New()
 	for _, v := range t.Elements() {
@@ -164,7 +165,8 @@ func (s *IntSet) IntersectWith(t *IntSet) *IntSet {
 	return r
 }
 
-// DifferenceWith Exercise 6.3  Implement methods for DifferenceWith
+// DifferenceWith returns a new IntSet of elements in t but not in s (t − s).
+// Exercise 6.3.
 func (s *IntSet) DifferenceWith(t *IntSet) *IntSet {
 	r := New()
 	for _, v := range t.Elements() {
@@ -175,7 +177,8 @@ func (s *IntSet) DifferenceWith(t *IntSet) *IntSet {
 	return r
 }
 
-// SymmetricDifference Exercise 6.3  Implement methods for SymmetricDifference
+// SymmetricDifference returns a new IntSet of elements in either s or t but not both ((s ∪ t) − (s ∩ t)).
+// Exercise 6.3.
 func (s *IntSet) SymmetricDifference(t *IntSet) *IntSet {
 	r := s.Copy()
 	r.UnionWith(t)
@@ -195,7 +198,7 @@ func (s *IntSet) Clear() {
 	s.list = list.New()
 }
 
-// UnionWith create a union of set s with IntSet (t). Not thread safe
+// UnionWith adds all elements of t into s in place (s ∪= t). Not thread-safe.
 func (s *IntSet) UnionWith(t *IntSet) {
 	// Iterate for all elements of input union list
 	for element := t.list.Front(); element != nil; element = element.Next() {
@@ -234,14 +237,12 @@ func (s *IntSet) UnionWith(t *IntSet) {
 	}
 }
 
-// Len returns length of a set by counting number of 1-bits
-//
-//	Exercise 6.1: Add (*IntSet)Len()
+// Len returns the number of elements in the set. Exercise 6.1.
 func (s *IntSet) Len() int {
 	return s.count
 }
 
-// Copy returns copy of set Exercise 6.1
+// Copy returns a deep copy of the set. Exercise 6.1.
 func (s *IntSet) Copy() *IntSet {
 	if s == nil {
 		return nil
@@ -252,9 +253,7 @@ func (s *IntSet) Copy() *IntSet {
 	return c
 }
 
-// Elements returns a slice of all integers in the set
-//
-//	Exercise 6.4: Add a method Elements that returns a slice containing the
+// Elements returns a sorted slice of all integers in the set. Exercise 6.4.
 func (s *IntSet) Elements() []uint {
 	var set []uint
 	if s == nil {

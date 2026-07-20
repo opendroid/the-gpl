@@ -1,3 +1,7 @@
+// Package chapter8 covers Chapter 8 of The Go Programming Language: Goroutines and Channels.
+//
+// It provides TCP services (clock, reverb, chat, FTP), a concurrent disk-usage
+// utility (DU), and a parallel web search — all demonstrating Go's CSP concurrency model.
 package chapter8
 
 import (

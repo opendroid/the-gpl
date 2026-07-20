@@ -1,4 +1,6 @@
-// Package google implements a Search using a deprecated API.
+// Package google implements a web search using the deprecated Google AJAX Search API.
+// Demonstrates context propagation, HTTP cancellation, and goroutine-based fan-out
+// as shown in Chapter 8 of The Go Programming Language.
 package google
 
 import (
@@ -11,12 +13,12 @@ import (
 	"net/http"
 )
 
-// Result a search result
+// Result holds the title and URL of a single web search result.
 type Result struct {
 	Title, URL string
 }
 
-// Results array of results
+// Results is a slice of Result values returned by Search.
 type Results []Result
 
 // Search sends a query to Google API along with userIP and returns result.

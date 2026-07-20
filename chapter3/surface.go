@@ -84,38 +84,38 @@ func Sinc(x, y float64) float64 {
 	return k
 }
 
-// Squares of sorts
+// Squares returns a square-wave grid surface: (sin(x/π) + cos(y/π))² / SquaresDenominator.
 func Squares(x, y float64) float64 {
 	return math.Pow(math.Sin(x/math.Pi)+math.Cos(y/math.Pi), 2) / SquaresDenominator
 }
 
-// Valley of sorts
+// Valley returns a saddle/valley surface: sin(−y) · 2^(−hypot(x,y)).
 func Valley(x, y float64) float64 {
 	r := math.Hypot(x, y) // Distance of (x,y) from (0,0)
 	return math.Sin(-y) * math.Pow(2, -r)
 }
 
-// Egg sampling function returns squares
+// Egg returns an egg-carton surface: 2^sin(x) · 2^cos(y) / EggDenominator.
 func Egg(x, y float64) float64 {
 	return math.Pow(2, math.Sin(x)) * math.Pow(2, math.Cos(y)) / EggDenominator
 }
 
-// EggHandlerSVG draws an egg on a writer
+// EggHandlerSVG writes an egg-carton 3-D surface as SVG to w. Served at /eggSVG.svg.
 func EggHandlerSVG(w io.Writer) {
 	PlotOn3DSurface(w, Egg)
 }
 
-// SincSVG writes raw SVG content
+// SincSVG writes a sinc (sin(r)/r) 3-D surface as SVG to w. Served at /sincSVG.svg.
 func SincSVG(w io.Writer) {
 	PlotOn3DSurface(w, Sinc)
 }
 
-// ValleyHandlerSVG draws a Valley on a writer
+// ValleyHandlerSVG writes a valley/saddle 3-D surface as SVG to w. Served at /valleySVG.svg.
 func ValleyHandlerSVG(w io.Writer) {
 	PlotOn3DSurface(w, Valley)
 }
 
-// SquaresHandlerSVG draws a sinc on a writer
+// SquaresHandlerSVG writes a square-wave grid 3-D surface as SVG to w. Served at /sqSVG.svg.
 func SquaresHandlerSVG(w io.Writer) {
 	PlotOn3DSurface(w, Squares)
 }

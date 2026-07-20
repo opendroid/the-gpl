@@ -22,8 +22,10 @@ import (
 //    Solution 2: Implement cancel mechanism using separate  cancel or done channel.
 //			The sender go-routines monitor it and stop further processing if 'done' is closed.
 
-const MaxOpenFiles = 1024 // Reduce number of open system files
-// MaxGoRoutines number of parallel go-routines
+// MaxOpenFiles caps the total open file descriptors used by DU.
+const MaxOpenFiles = 1024
+
+// MaxGoRoutines is the concurrency limit for parallel walkDir goroutines (MaxOpenFiles / 2).
 const MaxGoRoutines = MaxOpenFiles / 2
 
 var sema = make(chan struct{}, MaxGoRoutines) // sema counting semaphore to  run
@@ -61,7 +63,8 @@ func dirEntry(dir string) []os.DirEntry {
 	return entries
 }
 
-// DU Disk Usage returns size of a directory
+// DU returns the total byte size of all files under dir, using up to MaxGoRoutines
+// parallel goroutines. When verbose is true it prints a running summary every second.
 func DU(dir string, verbose bool) int64 {
 	sizes := make(chan int64, MaxOpenFiles) // Create c channel that holds sizes for MaxOpenFiles files max
 	wg.Add(1)
