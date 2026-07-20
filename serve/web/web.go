@@ -13,6 +13,7 @@ import (
 	"net/http"
 	"sync"
 
+	"github.com/opendroid/the-gpl/aitutor"
 	"github.com/opendroid/the-gpl/chapter1/lissajous"
 	"github.com/opendroid/the-gpl/chapter3"
 	"github.com/opendroid/the-gpl/chapter8/search"
@@ -58,6 +59,9 @@ func init() {
 	handlers[sincSVGImagePath] = gzipSVG(chapter3.SincSVG)
 	handlers[eggSVGImagePath] = gzipSVG(chapter3.EggHandlerSVG)
 	handlers[sqSVGImagePath] = gzipSVG(chapter3.SquaresHandlerSVG)
+
+	// AI tutor
+	handlers["/ask"] = askHandler
 
 	// SEO and AI crawler related
 	handlers[llmsTxt] = fileHandler("llms.txt")
@@ -117,4 +121,27 @@ func gitInfoHandler(w http.ResponseWriter, _ *http.Request) {
 // testHandler is to try unit test
 func testHandler(w http.ResponseWriter, _ *http.Request) {
 	_, _ = fmt.Fprintln(w, "Hello from server")
+}
+
+// askHandler answers a Go tutor question via Claude.
+//
+// GET /ask?q=<question>&chapter=<N>
+// Returns JSON: {"answer": "..."}  or  {"error": "..."}
+func askHandler(w http.ResponseWriter, r *http.Request) {
+	q := r.URL.Query().Get("q")
+	if q == "" {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusBadRequest)
+		_ = json.NewEncoder(w).Encode(map[string]string{"error": "q parameter is required"})
+		return
+	}
+	answer, err := aitutor.Ask(q, "")
+	w.Header().Set("Content-Type", "application/json")
+	if err != nil {
+		slog.Error("askHandler: tutor error", "err", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		_ = json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
+		return
+	}
+	_ = json.NewEncoder(w).Encode(map[string]string{"answer": answer})
 }
