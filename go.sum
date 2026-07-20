@@ -8,8 +8,12 @@ cloud.google.com/go/compute/metadata v0.9.0 h1:pDUj4QMoPejqq20dK0Pg2N4yG9zIkYGdB
 cloud.google.com/go/compute/metadata v0.9.0/go.mod h1:E0bWwX5wTnLPedCKqk3pJmVgCBSM6qQI1yTBdEb3C10=
 cloud.google.com/go/dialogflow v1.85.0 h1:BySuYr/crqFSP9iFFp36LJ1t49qpn00oqtreGyhD3yA=
 cloud.google.com/go/dialogflow v1.85.0/go.mod h1:OU8Lj1aw5Vr2hl9ifW+vsKnc2b4iJH+41U7nZ4whg3U=
+cloud.google.com/go/iam v1.12.0 h1:Aki3bX9aHUDKPHfnRJfDcTdVedvy6quGBQcTqx3DRXk=
+cloud.google.com/go/iam v1.12.0/go.mod h1:FEZ4lXpADAC2AIpQY7LANNjjwyQ2jK439CI2VaD+sLY=
 cloud.google.com/go/longrunning v1.2.0 h1:WjYH3YHBGCxGJP9M4dWGHBfXr/cFIjMkNgWcJj7/iMM=
 cloud.google.com/go/longrunning v1.2.0/go.mod h1:5KMQALFGOCtFoi2xSOA1u3H7WKlhmckgiyFw7+LGQp0=
+cloud.google.com/go/secretmanager v1.21.0 h1:e56QQaKWRyzBdUz40AeZaio/ZHAl268cFx3QFAAw9CY=
+cloud.google.com/go/secretmanager v1.21.0/go.mod h1:+nlV+GYqTD8DM+x7Kk3UF7ZPYgdYMowrkZxAmMXORQ8=
 cloud.google.com/go/speech v1.36.0 h1:ZcmRKcY02vkF3o/Eaa9yI3i1baNFTF4ctyDZVRfnNS0=
 cloud.google.com/go/speech v1.36.0/go.mod h1:tiSA8MiX49o1ngq5Ww2JFTvfjKxtAuBKY/UIH6coCPg=
 github.com/anthropics/anthropic-sdk-go v1.58.0 h1:WbvzpIbFpd/eR6H4KK84j7VLuRJnIfKKyAptR1C49EI=

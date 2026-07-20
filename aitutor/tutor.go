@@ -5,9 +5,9 @@ import (
 	"context"
 	_ "embed"
 	"fmt"
-	"os"
 
 	anthropic "github.com/anthropics/anthropic-sdk-go"
+	"github.com/anthropics/anthropic-sdk-go/option"
 )
 
 //go:embed prompt.md
@@ -16,19 +16,20 @@ var systemPrompt string
 // Ask sends a question to the Claude API and returns the answer.
 // chapterContext is optional additional context (e.g., a chapter README).
 func Ask(question, chapterContext string) (string, error) {
-	apiKey := os.Getenv("ANTHROPIC_API_KEY")
-	if apiKey == "" {
-		return "", fmt.Errorf("ANTHROPIC_API_KEY environment variable not set")
+	ctx := context.Background()
+	apiKey, err := getAPIKey(ctx)
+	if err != nil {
+		return "", err
 	}
 
-	client := anthropic.NewClient()
+	client := anthropic.NewClient(option.WithAPIKey(apiKey))
 
 	userContent := question
 	if chapterContext != "" {
 		userContent = fmt.Sprintf("Chapter context:\n%s\n\nQuestion: %s", chapterContext, question)
 	}
 
-	msg, err := client.Messages.New(context.Background(), anthropic.MessageNewParams{
+	msg, err := client.Messages.New(ctx, anthropic.MessageNewParams{
 		Model:     anthropic.ModelClaudeSonnet4_5,
 		MaxTokens: 1024,
 		System: []anthropic.TextBlockParam{

@@ -4,6 +4,7 @@ go 1.26.0
 
 require (
 	cloud.google.com/go/dialogflow v1.85.0
+	cloud.google.com/go/secretmanager v1.21.0
 	cloud.google.com/go/speech v1.36.0
 	github.com/anthropics/anthropic-sdk-go v1.58.0
 	github.com/golang/mock v1.6.0
@@ -19,6 +20,7 @@ require (
 	cloud.google.com/go/auth v0.22.0 // indirect
 	cloud.google.com/go/auth/oauth2adapt v0.2.8 // indirect
 	cloud.google.com/go/compute/metadata v0.9.0 // indirect
+	cloud.google.com/go/iam v1.12.0 // indirect
 	cloud.google.com/go/longrunning v1.2.0 // indirect
 	github.com/bahlo/generic-list-go v0.2.0 // indirect
 	github.com/buger/jsonparser v1.2.0 // indirect
