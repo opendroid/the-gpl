@@ -1,0 +1,72 @@
+# the-gpl
+
+> Go learning repository: worked examples and exercises from "The Go Programming Language" by Donovan & Kernighan.
+
+Module: github.com/opendroid/the-gpl
+Language: Go 1.25
+License: AGPL-3.0
+Live site: https://the-gpl.com
+Source: https://github.com/opendroid/the-gpl
+
+## Chapters
+
+- [Chapter 1 — Tutorial](https://github.com/opendroid/the-gpl/tree/master/chapter1): Lissajous GIF, HTTP fetch, duplicate line finder, maps/arrays/strings, goroutine channels, Dialogflow bot, Speech-to-Text live caption.
+- [Chapter 2 — Program Structure](https://github.com/opendroid/the-gpl/tree/master/chapter2): Bit counting (popcount), temperature unit conversion (°F/°C/°K).
+- [Chapter 3 — Basic Types](https://github.com/opendroid/the-gpl/tree/master/chapter3): Mandelbrot fractal renderer (color + B&W), 3-D surface plots (sinc/egg/valley/square), string utilities, numeric constants.
+- [Chapter 4 — Composite Types](https://github.com/opendroid/the-gpl/tree/master/chapter4): Arrays, slices, maps, structs, JSON/XML marshalling, GitHub issues API client, git commit templates.
+- [Chapter 5 — Functions](https://github.com/opendroid/the-gpl/tree/master/chapter5): Recursive HTML link finder, HTML pretty-printer, web crawler (Exercise 5.13), topological sort, variadic functions, closures.
+- [Chapter 6 — Methods](https://github.com/opendroid/the-gpl/tree/master/chapter6): IntSet type using a bit-vector, method sets, pointer vs value receivers.
+- [Chapter 7 — Interfaces](https://github.com/opendroid/the-gpl/tree/master/chapter7): Temperature converter interface, http.Handler counter, sort.Interface, cobra CLI wired through interfaces.
+- [Chapter 8 — Goroutines and Channels](https://github.com/opendroid/the-gpl/tree/master/chapter8): Clock/reverb/chat TCP servers and clients, concurrent disk-usage (du), FTP server, parallel web search (Google/Bing).
+
+## Web Routes (https://the-gpl.com)
+
+- [/index](https://the-gpl.com/index) — Home page
+- [/about](https://the-gpl.com/about) — About page
+- [/lis](https://the-gpl.com/lis) — Lissajous animated GIF
+- [/mandel](https://the-gpl.com/mandel) — Mandelbrot fractal (color)
+- [/mandelbw](https://the-gpl.com/mandelbw) — Mandelbrot fractal (B&W)
+- [/sinc](https://the-gpl.com/sinc) — 3-D sinc surface (SVG)
+- [/egg](https://the-gpl.com/egg) — 3-D egg surface (SVG)
+- [/valley](https://the-gpl.com/valley) — 3-D valley surface (SVG)
+- [/sq](https://the-gpl.com/sq) — 3-D square surface (SVG)
+- [/search?q=...&Timeout=3s](https://the-gpl.com/search) — Parallel web search
+- [/who](https://the-gpl.com/who) — Repository info (JSON)
+- [/llms.txt](https://the-gpl.com/llms.txt) — This file
+
+## CLI Commands
+
+```
+the-gpl server --port=8080          # Start HTTP server
+the-gpl lissajous --file=out.gif    # Generate Lissajous GIF
+the-gpl bits --n=0xBAD0FACE         # Count 1-bits in hex number
+the-gpl temp --c=100                # Temperature conversions
+the-gpl mas --fn=array              # Maps/arrays/strings examples
+the-gpl parse --type=links --site=https://example.com  # HTML parsing
+the-gpl du --dir=$HOME              # Concurrent disk usage
+the-gpl service -sp="clock:9999"    # Start TCP clock service
+the-gpl client  -cp="clock:9999"    # Connect TCP clock client
+the-gpl bot --project=gcp-project   # Dialogflow chatbot
+the-gpl stt --port=9999             # Speech-to-text from RTP stream
+```
+
+## Key Packages
+
+- `serve/web` — HTTP handlers, HTML templates, static file serving
+- `chapter1/lissajous` — Lissajous GIF generator
+- `chapter1/bot` — Dialogflow conversational agent
+- `chapter1/livecaption` — Google Speech-to-Text over RTP/UDP
+- `chapter3` — Mandelbrot and 3-D surface renderers
+- `chapter5` — HTML parsing and web crawling utilities
+- `chapter6` — IntSet bit-vector implementation
+- `chapter8/search` — Parallel web search (Google, Bing)
+- `cmd` — Cobra CLI root and subcommands
+
+## Build and Run
+
+```
+go build ./...
+go test ./...
+the-gpl server --port=8080
+docker build -t the-gpl . && docker run -p 8080:8080 the-gpl
+```
