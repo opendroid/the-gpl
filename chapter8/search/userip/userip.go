@@ -1,4 +1,6 @@
-// Package userip is similar to golang.org/x/blog/content/context/userip
+// Package userip stores and retrieves a client's IP address in a context.Context.
+// This is the canonical pattern for threading request-scoped values through a call stack
+// without extending every function signature. Modelled after golang.org/x/blog/content/context/userip.
 package userip
 
 import (
@@ -14,7 +16,7 @@ type key int
 // userIPKey where userIP is stored
 const userIPKey key = 0
 
-// FromRequest gets the userIP from a request
+// FromRequest extracts the client IP address from req.RemoteAddr.
 func FromRequest(req *http.Request) (net.IP, error) {
 	ip, _, err := net.SplitHostPort(req.RemoteAddr)
 	if err != nil {
@@ -27,12 +29,12 @@ func FromRequest(req *http.Request) (net.IP, error) {
 	return userIP, nil
 }
 
-// NewContext creates a new context with request scoped value ["0"]: "IP"
+// NewContext returns a copy of ctx with userIP stored under the package-private key.
 func NewContext(ctx context.Context, userIP net.IP) context.Context {
 	return context.WithValue(ctx, userIPKey, userIP)
 }
 
-// FromContext gets  the value from ctx
+// FromContext retrieves the IP address stored by NewContext. ok is false if none was set.
 func FromContext(ctx context.Context) (net.IP, bool) {
 	// ctx.Value returns nil if ctx has no value for "userIPKey"
 	// net.IP assertion return ok=false for nil
