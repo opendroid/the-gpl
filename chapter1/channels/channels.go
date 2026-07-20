@@ -56,12 +56,12 @@ func FetchTimeInfo(url string, ch chan<- string) {
 func Fetch(url string) (string, error) {
 	resp, err := http.Get(url)
 	if err != nil {
-		return "", fmt.Errorf("err: %v", err)
+		return "", fmt.Errorf("err: %w", err)
 	}
 	data, err := io.ReadAll(resp.Body)
 	_ = resp.Body.Close()
 	if err != nil {
-		return "", fmt.Errorf("parse err: %v", err)
+		return "", fmt.Errorf("parse err: %w", err)
 	}
 	if resp.StatusCode != http.StatusOK {
 		return "", fmt.Errorf("invalid status: %v", resp.Status)
