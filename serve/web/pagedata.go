@@ -55,6 +55,7 @@ const (
 	sqSVGImagePath     string    = "/sqSVG.svg"
 	sincSVGImagePath   string    = "/sincSVG.svg"
 	eggSVGImagePath    string    = "/eggSVG.svg"
+	llmsTxt            string    = "/llms.txt"
 	robotsTxt          string    = "/robots.txt"
 	sitemapXML         string    = "/sitemap.xml"
 	favicon16          string    = "/public/images/icons/favicon-16x16.png"

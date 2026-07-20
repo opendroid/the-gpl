@@ -63,7 +63,8 @@ func init() {
 	// AI tutor
 	handlers["/ask"] = askHandler
 
-	// SEO related
+	// SEO and AI crawler related
+	handlers[llmsTxt] = fileHandler("llms.txt")
 	handlers[robotsTxt] = fileHandler("public/robots.txt")
 	handlers[sitemapXML] = fileHandler("public/sitemap.xml")
 	handlers[favicon] = fileHandler("public/images/icons/favicon-16x16.png")

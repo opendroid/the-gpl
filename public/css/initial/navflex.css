@@ -56,20 +56,39 @@
     color: #000000 !important;
 }
 
-/* Responsive cards */
+/* Mobile: single horizontal-scroll strip instead of vertical stack */
 @media screen and (max-width: 600px) {
     .flex-navigation {
-        flex-flow: column;
+        flex-flow: row nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* hide scrollbar track — tabs still swipeable */
+    .flex-navigation::-webkit-scrollbar {
+        display: none;
     }
 
     .flex-nav-tab {
-        width: 100%;
+        width: auto;
+        flex-shrink: 0;
+    }
+
+    .flex-nav-tab a {
+        padding: 8px 10px;
+        font-size: 0.85rem;
+        white-space: nowrap;
+    }
+
+    /* spacer has no effect in a nowrap row — hide it */
+    .flex-nav-tab-last-spacer {
+        display: none;
     }
 
     .flex-nav-tab-last {
-        border-left: none;
+        border-left: 1px solid #bbb;
         border-right: none;
-        border-bottom: 3px solid #bbb;;
-        align-self: stretch;
+        border-bottom: none;
+        align-self: auto;
     }
 }
