@@ -3,8 +3,9 @@
         <!--- Quote at top of every page -->
         <q class="the-gpl-header-title" cite="https://blacklivesmatter.com/">Black Lives Matter</q>
         <header class="the-gpl-header">
+            <button class="nav-hamburger" id="navToggle" aria-label="Menu" aria-expanded="false">&#9776; Menu</button>
             <!--- Navigation bar, . is name of Active page  -->
-            <nav class="flex-navigation">
+            <nav class="flex-navigation" id="flexNav">
                 <div class="flex-nav-tab"><a{{if eq . "post"}} class="flex-nav-active" {{end}} href="post">Post Data</a></div>
                 <div class="flex-nav-tab"><a{{if eq . "lis"}} class="flex-nav-active" {{end}} href="lis">Lissajous</a></div>
                 <div class="flex-nav-tab"><a{{if eq . "sinc"}} class="flex-nav-active" {{end}} href="sinc">Sinc</a></div>
@@ -18,4 +19,16 @@
             </nav>
         </header>
     </aside>
+    <script>
+    (function(){
+        var btn = document.getElementById('navToggle');
+        var nav = document.getElementById('flexNav');
+        if (!btn || !nav) return;
+        btn.addEventListener('click', function() {
+            var open = nav.classList.toggle('nav-open');
+            btn.setAttribute('aria-expanded', String(open));
+            btn.innerHTML = open ? '&#10005; Close' : '&#9776; Menu';
+        });
+    })();
+    </script>
 {{end}}

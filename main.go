@@ -5,6 +5,7 @@ import (
 	"log/slog"
 	"os"
 
+	"github.com/opendroid/the-gpl/aitutor"
 	"github.com/opendroid/the-gpl/chapter1/bot"
 	"github.com/opendroid/the-gpl/chapter1/channels"
 	"github.com/opendroid/the-gpl/chapter1/lissajous"
@@ -49,6 +50,9 @@ func main() {
 	rootCmd.AddCommand(chapter8.NewServiceCmd())
 	rootCmd.AddCommand(chapter8.NewClientCmd())
 	rootCmd.AddCommand(chapter8.NewDuCmd())
+
+	// AI Tutor
+	rootCmd.AddCommand(aitutor.NewTutorCmd())
 
 	// Serve
 	rootCmd.AddCommand(web.NewServerCmd())

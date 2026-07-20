@@ -3,13 +3,15 @@ package aitutor
 
 import (
 	"context"
+	_ "embed"
 	"fmt"
 
 	anthropic "github.com/anthropics/anthropic-sdk-go"
 	"github.com/anthropics/anthropic-sdk-go/option"
 )
 
-const systemPrompt = `You are a Go programming tutor teaching from "The Go Programming Language" by Alan Donovan and Brian Kernighan. Answer questions about Go concepts and the examples in this repository (github.com/opendroid/the-gpl). Keep answers concise and include runnable code snippets where helpful.`
+//go:embed prompt.md
+var systemPrompt string
 
 // Ask sends a question to the Claude API and returns the answer.
 // chapterContext is optional additional context (e.g., a chapter README).
@@ -28,7 +30,7 @@ func Ask(question, chapterContext string) (string, error) {
 	}
 
 	msg, err := client.Messages.New(ctx, anthropic.MessageNewParams{
-		Model:     anthropic.ModelClaudeOpus4_8,
+		Model:     anthropic.ModelClaudeSonnet4_5,
 		MaxTokens: 1024,
 		System: []anthropic.TextBlockParam{
 			{Text: systemPrompt},
