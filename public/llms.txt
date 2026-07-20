@@ -18,6 +18,7 @@ Source: https://github.com/opendroid/the-gpl
 - [Chapter 6 — Methods](https://github.com/opendroid/the-gpl/tree/master/chapter6): IntSet type using a bit-vector, method sets, pointer vs value receivers.
 - [Chapter 7 — Interfaces](https://github.com/opendroid/the-gpl/tree/master/chapter7): Temperature converter interface, http.Handler counter, sort.Interface, cobra CLI wired through interfaces.
 - [Chapter 8 — Goroutines and Channels](https://github.com/opendroid/the-gpl/tree/master/chapter8): Clock/reverb/chat TCP servers and clients, concurrent disk-usage (du), FTP server, parallel web search (Google/Bing).
+- [Chapter 9 — Concurrency / Shared Variables](https://github.com/opendroid/the-gpl/tree/master/chapter9): sync.Mutex SafeBank, sync.RWMutex RWBank, sync.Once lazy Icon, concurrency-safe Memo cache.
 
 ## Web Routes (https://the-gpl.com)
 
@@ -31,6 +32,9 @@ Source: https://github.com/opendroid/the-gpl
 - [/valley](https://the-gpl.com/valley) — 3-D valley surface (SVG)
 - [/sq](https://the-gpl.com/sq) — 3-D square surface (SVG)
 - [/search?q=...&Timeout=3s](https://the-gpl.com/search) — Parallel web search
+- [/chapters](https://the-gpl.com/chapters) — All book chapters overview
+- [/ask-page](https://the-gpl.com/ask-page) — AI Go Tutor chat UI (Claude-powered)
+- [/ask?q=...&chapter=N](https://the-gpl.com/ask) — AI tutor JSON API
 - [/who](https://the-gpl.com/who) — Repository info (JSON)
 - [/llms.txt](https://the-gpl.com/llms.txt) — This file
 
@@ -46,6 +50,7 @@ the-gpl parse --type=links --site=https://example.com  # HTML parsing
 the-gpl du --dir=$HOME              # Concurrent disk usage
 the-gpl service -sp="clock:9999"    # Start TCP clock service
 the-gpl client  -cp="clock:9999"    # Connect TCP clock client
+the-gpl tutor --q="What is a goroutine?"  # Ask the AI Go tutor
 the-gpl bot --project=gcp-project   # Dialogflow chatbot
 the-gpl stt --port=9999             # Speech-to-text from RTP stream
 ```
@@ -54,12 +59,14 @@ the-gpl stt --port=9999             # Speech-to-text from RTP stream
 
 - `serve/web` — HTTP handlers, HTML templates, static file serving
 - `chapter1/lissajous` — Lissajous GIF generator
+- `chapter1/aitutor` — Claude-powered Go tutor (wraps Anthropic SDK, answers chapter questions)
 - `chapter1/bot` — Dialogflow conversational agent
 - `chapter1/livecaption` — Google Speech-to-Text over RTP/UDP
 - `chapter3` — Mandelbrot and 3-D surface renderers
 - `chapter5` — HTML parsing and web crawling utilities
 - `chapter6` — IntSet bit-vector implementation
 - `chapter8/search` — Parallel web search (Google, Bing)
+- `chapter9` — sync.Mutex, sync.RWMutex, sync.Once concurrency patterns
 - `cmd` — Cobra CLI root and subcommands
 
 ## Build and Run
