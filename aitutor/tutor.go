@@ -3,13 +3,15 @@ package aitutor
 
 import (
 	"context"
+	_ "embed"
 	"fmt"
 	"os"
 
 	anthropic "github.com/anthropics/anthropic-sdk-go"
 )
 
-const systemPrompt = `You are a Go programming tutor teaching from "The Go Programming Language" by Alan Donovan and Brian Kernighan. Answer questions about Go concepts and the examples in this repository (github.com/opendroid/the-gpl). Keep answers concise and include runnable code snippets where helpful.`
+//go:embed prompt.md
+var systemPrompt string
 
 // Ask sends a question to the Claude API and returns the answer.
 // chapterContext is optional additional context (e.g., a chapter README).
