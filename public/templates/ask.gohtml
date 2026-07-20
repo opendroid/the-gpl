@@ -28,6 +28,10 @@
         .chat-box h3, .chat-box h4, .chat-box h5 {
             color: #e8e8e8; margin: 0.5rem 0 0.2rem;
         }
+        .chat-box table { border-collapse: collapse; margin: 0.5rem 0; font-size: 0.88rem; }
+        .chat-box th, .chat-box td { border: 1px solid #555; padding: 4px 10px; text-align: left; }
+        .chat-box th { background: #3a3250; color: #e8e8e8; }
+        .chat-box tr:nth-child(even) td { background: #251e32; }
         .chat-form { display: flex; gap: 0.5rem; }
         .chat-form input[type=text] {
             flex: 1; padding: 0.5rem 0.7rem;
@@ -81,6 +85,26 @@ function parseMarkdown(text) {
     text = text.replace(/^### (.+)$/gm, '<h5>$1</h5>');
     text = text.replace(/^## (.+)$/gm,  '<h4>$1</h4>');
     text = text.replace(/^# (.+)$/gm,   '<h3>$1</h3>');
+    // Tables: match header row + separator row + one or more data rows
+    text = text.replace(/((?:^\|.+\|\n)+)/gm, function(block) {
+        var lines = block.trimEnd().split('\n').filter(Boolean);
+        if (lines.length < 2) return block;
+        var sep = lines[1];
+        if (!/^\|[\s\-:|]+\|/.test(sep)) return block;
+        var cols = function(row) {
+            return row.replace(/^\||\|$/g,'').split('|').map(function(c){ return c.trim(); });
+        };
+        var html = '<table><thead><tr>';
+        cols(lines[0]).forEach(function(h){ html += '<th>' + h + '</th>'; });
+        html += '</tr></thead><tbody>';
+        for (var i = 2; i < lines.length; i++) {
+            html += '<tr>';
+            cols(lines[i]).forEach(function(c){ html += '<td>' + c + '</td>'; });
+            html += '</tr>';
+        }
+        html += '</tbody></table>';
+        return html;
+    });
     text = text.replace(/\n/g, '<br>');
     return text;
 }
