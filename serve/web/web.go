@@ -60,6 +60,10 @@ func init() {
 	handlers[eggSVGImagePath] = gzipSVG(chapter3.EggHandlerSVG)
 	handlers[sqSVGImagePath] = gzipSVG(chapter3.SquaresHandlerSVG)
 
+	// Content pages
+	handlers["/chapters"] = chaptersHandler
+	handlers["/ask-page"] = askPageHandler
+
 	// AI tutor
 	handlers["/ask"] = askHandler
 

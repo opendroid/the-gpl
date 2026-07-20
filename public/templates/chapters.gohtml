@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chapters — The GPL</title>
+    {{template "head"}}
+    <link rel="stylesheet" href="/public/css/initial/indextable.css">
+    <style>
+        .chapters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.2rem;
+            padding: 1.5rem;
+        }
+        .chapter-card {
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            padding: 1rem 1.2rem;
+            background: #fafafa;
+        }
+        .chapter-card h3 { margin: 0 0 0.4rem; font-size: 1.05rem; }
+        .chapter-card p  { margin: 0; font-size: 0.9rem; color: #444; }
+        .chapter-card a  { text-decoration: none; color: inherit; }
+        .chapter-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+    </style>
+</head>
+<body>
+{{template "navflex" .Active}}
+<main role="main">
+    <section style="padding:1rem 1.5rem">
+        <h2>Book Chapters</h2>
+        <p>Each chapter mirrors a chapter from <em>The Go Programming Language</em> by Donovan &amp; Kernighan.</p>
+    </section>
+    <div class="chapters-grid">
+        {{range .Chapters}}
+        <div class="chapter-card">
+            <h3><a href="{{.Path}}">Chapter {{.Number}} — {{.Title}}</a></h3>
+            <p>{{.Description}}</p>
+        </div>
+        {{end}}
+    </div>
+</main>
+{{template "footer"}}
+</body>
+</html>

@@ -134,6 +134,36 @@ func gzipSVG(handler func(writer io.Writer)) http.HandlerFunc {
 	}
 }
 
+// chaptersHandler renders the /chapters page listing all book chapters.
+func chaptersHandler(w http.ResponseWriter, _ *http.Request) {
+	slog.Info("chaptersHandler.")
+	data := ChaptersPageData{
+		Active: Chapters.String(),
+		Chapters: []ChapterEntry{
+			{1, "Tutorial", "Goroutines, channels, CLI utilities, Lissajous GIF, Dialogflow bot, Speech-to-Text.", "/chapters"},
+			{2, "Program Structure", "Bit counting (three strategies), temperature conversion types, package-level vars.", "/chapters"},
+			{3, "Basic Data Types", "Mandelbrot PNG, 3-D surface plots (SVG), string utilities.", "/chapters"},
+			{4, "Composite Types", "JSON marshalling, HTML templating, GitHub issue search.", "/chapters"},
+			{5, "Functions", "HTML traversal, web crawler, topological sort, variadic max/min, generic MaxOf/MinOf.", "/chapters"},
+			{6, "Methods", "IntSet bit-vector: Union, Intersect, Difference, SymmetricDifference.", "/chapters"},
+			{7, "Interfaces", "Writer implementations, CountWriter, BroadcastWriters, temperature flag.", "/chapters"},
+			{8, "Goroutines & Channels", "TCP services (clock, reverb, chat, FTP), concurrent DU, web search with context.", "/chapters"},
+			{9, "Concurrency / Shared Variables", "sync.Mutex SafeBank, sync.RWMutex RWBank, sync.Once Icon, Memo cache.", "/chapters"},
+		},
+	}
+	if err := templates.ExecuteTemplate(w, ChaptersPage, &data); err != nil {
+		slog.Error("chaptersHandler", "err", err)
+	}
+}
+
+// askPageHandler renders the AI tutor chat UI at /ask-page.
+func askPageHandler(w http.ResponseWriter, _ *http.Request) {
+	slog.Info("askPageHandler.")
+	if err := templates.ExecuteTemplate(w, AskPage, &AskPageData{Active: Ask.String()}); err != nil {
+		slog.Error("askPageHandler", "err", err)
+	}
+}
+
 // fileHandler serves specific static files in /public
 func fileHandler(filename string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {

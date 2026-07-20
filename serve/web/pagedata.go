@@ -22,6 +22,10 @@ const (
 	Square Active = "sq"
 	// About page
 	About Active = "about"
+	// Chapters lists all book chapters
+	Chapters Active = "chapters"
+	// Ask is the AI tutor chat page
+	Ask Active = "ask"
 )
 
 // IndexPageData contains Active Page name and Data for the index page
@@ -80,12 +84,35 @@ const (
 	valleyPath SVGSurfacePath = "/valley"
 )
 
+// ChapterEntry holds metadata for one book chapter shown on /chapters.
+type ChapterEntry struct {
+	Number      int
+	Title       string
+	Description string
+	Path        string
+}
+
+// ChaptersPageData is the template data for /chapters.
+type ChaptersPageData struct {
+	Active   string
+	Chapters []ChapterEntry
+}
+
+// AskPageData is the template data for /ask-page.
+type AskPageData struct {
+	Active string
+}
+
 // Template names and Page headings
 const (
 	// IndexPage entry point go HTML page
 	IndexPage = "index.gohtml"
 	// AboutPage shows about page
 	AboutPage = "about.gohtml"
+	// ChaptersPage lists all book chapters
+	ChaptersPage = "chapters.gohtml"
+	// AskPage shows the AI tutor chat UI
+	AskPage = "ask.gohtml"
 	// LisMandelPage shows Lissajous and Mandelbrot images
 	LisMandelPage = "lismandel.gohtml"
 	// SurfacesPage shows computed SVG images
