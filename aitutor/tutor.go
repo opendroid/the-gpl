@@ -27,7 +27,7 @@ func Ask(question, chapterContext string) (string, error) {
 	}
 
 	msg, err := client.Messages.New(context.Background(), anthropic.MessageNewParams{
-		Model:     anthropic.ModelClaudeOpus4_8,
+		Model:     anthropic.ModelClaudeSonnet4_5,
 		MaxTokens: 1024,
 		System: []anthropic.TextBlockParam{
 			{Text: systemPrompt},
