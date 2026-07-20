@@ -8,34 +8,48 @@
     <style>
         .chat-container { max-width: 720px; margin: 1.5rem auto; padding: 0 1rem; }
         .chat-box {
-            border: 1px solid #ccc; border-radius: 6px;
+            border: 1px solid #555; border-radius: 6px;
             min-height: 260px; max-height: 480px;
             overflow-y: auto; padding: 1rem;
-            background: #f9f9f9; font-size: 0.95rem; margin-bottom: 1rem;
+            background: #2a2433; color: #e8e8e8; font-size: 0.95rem; margin-bottom: 1rem;
         }
         .chat-msg { margin-bottom: 0.8rem; }
-        .chat-msg.user  { color: #0055aa; }
-        .chat-msg.tutor { color: #1a1a1a; white-space: pre-wrap; }
+        .chat-msg.user  { color: #7ab3f7; }
+        .chat-msg.tutor { color: #e8e8e8; }
+        .chat-box code {
+            background: #1a1228; padding: 1px 4px;
+            border-radius: 3px; font-family: monospace;
+        }
+        .chat-box pre {
+            background: #1a1228; padding: 0.6rem;
+            border-radius: 4px; overflow-x: auto; margin: 0.4rem 0;
+        }
+        .chat-box pre code { background: none; padding: 0; }
+        .chat-box h3, .chat-box h4, .chat-box h5 {
+            color: #e8e8e8; margin: 0.5rem 0 0.2rem;
+        }
         .chat-form { display: flex; gap: 0.5rem; }
         .chat-form input[type=text] {
             flex: 1; padding: 0.5rem 0.7rem;
-            border: 1px solid #bbb; border-radius: 4px; font-size: 1rem;
+            border: 1px solid #666; border-radius: 4px; font-size: 1rem;
+            background: #2a2433; color: #e8e8e8;
         }
         .chat-form select {
-            padding: 0.5rem; border: 1px solid #bbb; border-radius: 4px;
+            padding: 0.5rem; border: 1px solid #666; border-radius: 4px;
+            background: #2a2433; color: #e8e8e8;
         }
         .chat-form button {
             padding: 0.5rem 1.2rem; background: #0055aa; color: #fff;
             border: none; border-radius: 4px; cursor: pointer; font-size: 1rem;
         }
-        .chat-form button:disabled { background: #888; cursor: not-allowed; }
+        .chat-form button:disabled { background: #555; cursor: not-allowed; }
     </style>
 </head>
 <body>
 {{template "navflex" .Active}}
 <main role="main">
     <div class="chat-container">
-        <h2>Go Tutor <small style="font-size:0.6em;color:#666">(powered by Claude)</small></h2>
+        <h2>Go Tutor <small style="font-size:0.6em;color:#aaa">(powered by Claude)</small></h2>
         <p>Ask any question about Go or the chapters in this repo. Set <code>ANTHROPIC_API_KEY</code> on the server to enable.</p>
         <div class="chat-box" id="chatBox">
             <div class="chat-msg tutor">Hello! I'm your Go tutor. Ask me anything about Go or the book chapters.</div>
@@ -59,6 +73,18 @@
 </main>
 {{template "footer"}}
 <script>
+function parseMarkdown(text) {
+    text = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    text = text.replace(/```[^\n]*\n([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
+    text = text.replace(/`([^`\n]+)`/g, '<code>$1</code>');
+    text = text.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    text = text.replace(/^### (.+)$/gm, '<h5>$1</h5>');
+    text = text.replace(/^## (.+)$/gm,  '<h4>$1</h4>');
+    text = text.replace(/^# (.+)$/gm,   '<h3>$1</h3>');
+    text = text.replace(/\n/g, '<br>');
+    return text;
+}
+
 function sendQuestion() {
     var q = document.getElementById('questionInput').value.trim();
     var chapter = document.getElementById('chapterSelect').value;
@@ -84,7 +110,7 @@ function sendQuestion() {
         .then(function(data){
             var tutorDiv = document.createElement('div');
             tutorDiv.className = 'chat-msg tutor';
-            tutorDiv.textContent = 'Tutor: ' + (data.answer || data.error || 'No response.');
+            tutorDiv.innerHTML = '<strong>Tutor:</strong> ' + parseMarkdown(data.answer || data.error || 'No response.');
             box.appendChild(tutorDiv);
             box.scrollTop = box.scrollHeight;
         })
