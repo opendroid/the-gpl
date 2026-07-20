@@ -76,13 +76,17 @@ func mandelbrot(z complex128, b MandelbrotImage) color.Color {
 	return color.Black
 }
 
-// MBGraphHandler returns a color image.
+// MBGraphHandler is an HTTP handler that writes a colour Mandelbrot PNG to w.
+// Registered at GET /mandelimage.png; rendered in the browser via /mandel.
 func MBGraphHandler(w http.ResponseWriter, _ *http.Request) { mandelbrotImage(w, MBColor) }
 
-// MBGraphBWHandler in black
+// MBGraphBWHandler is an HTTP handler that writes a greyscale Mandelbrot PNG to w.
+// Registered at GET /mandelbwimage.png; rendered in the browser via /mandelbw.
 func MBGraphBWHandler(w http.ResponseWriter, _ *http.Request) { mandelbrotImage(w, MBBlackAndWhite) }
 
-// SetColor total at subsequent z for ith iteration
+// SetColor accumulates RGB colour components for a Mandelbrot pixel.
+// z is the complex number at the pixel, iteration is the escape depth.
+// Called once per sub-pixel sample; the caller averages MBSubPixels samples.
 func (cp *colorComponents) SetColor(z complex128, iteration float64) {
 	f := cmplx.Abs(z) / maxAmp // fraction
 	cp.blue += f * MBContrast * iteration

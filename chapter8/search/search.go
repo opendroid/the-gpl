@@ -51,7 +51,7 @@ func Query(w http.ResponseWriter, req *http.Request) {
 	start := time.Now()
 	results, err := google.Search(ctx, q)
 	if err != nil {
-		errMessage := fmt.Errorf("google search API is deprecated: %v", err)
+		errMessage := fmt.Errorf("google search API is deprecated: %w", err)
 		http.Error(w, errMessage.Error(), http.StatusInternalServerError)
 		return
 	}

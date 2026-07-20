@@ -26,11 +26,13 @@ const (
 	MaxGoRoutines = 32
 )
 
+// MandelbrotImage selects the colour mode used by the Mandelbrot renderer.
 type MandelbrotImage int
 
 const (
-	// MBBlackAndWhite draws MB in Black and White
+	// MBBlackAndWhite renders the Mandelbrot set in greyscale (Exercise 3.5).
 	MBBlackAndWhite MandelbrotImage = iota
+	// MBColor renders the Mandelbrot set with RGB super-sampling anti-aliasing (Exercise 3.6).
 	MBColor
 )
 
@@ -61,6 +63,8 @@ const (
 )
 
 const (
-	EggDenominator     = 10
+	// EggDenominator scales the egg surface z-values to a visible range.
+	EggDenominator = 10
+	// SquaresDenominator scales the square-wave surface z-values to a visible range.
 	SquaresDenominator = 5
 )

@@ -1,4 +1,7 @@
-// Package chapter5 is Functions, covers examples and exercises in the chapter.
+// Package chapter5 covers Chapter 5 of The Go Programming Language: Functions.
+//
+// Demonstrates recursion, first-class functions, closures, variadic arguments,
+// multiple return values, and error handling through HTML parsing and web crawling examples.
 package chapter5
 
 import (
@@ -8,7 +11,8 @@ import (
 	"golang.org/x/net/html"
 )
 
-// E51FindLinks Exercise 5.1 make  links using traversal non-loop recursive
+// E51FindLinks collects all href values from the HTML parse tree rooted at n.
+// Uses recursive traversal (FirstChild + NextSibling) instead of a loop. Exercise 5.1.
 func E51FindLinks(href []string, n *html.Node) []string {
 	if n == nil { // Terminal node reached. Return
 		return href
@@ -82,7 +86,8 @@ func endElement(n *html.Node) {
 	}
 }
 
-// Expand exercise 5.9 replaces $var with f(var) and returns output
+// Expand replaces each $var token in s by calling f("var") and returns the result.
+// Exercise 5.9.
 func Expand(s string, f func(string) string) string {
 	chars := strings.Split(s, " ")
 	for i, word := range chars {
