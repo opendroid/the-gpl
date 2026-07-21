@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.26"
+          cache: true
+
+      - name: Build
+        run: go build ./...
+
+      - name: Gofmt
+        run: |
+          fmt_out="$(gofmt -l .)"
+          if [ -n "$fmt_out" ]; then
+            echo "The following files are not gofmt-ed:"
+            echo "$fmt_out"
+            exit 1
+          fi
+
+      - name: Vet
+        run: go vet ./...
+
+      - name: Lint
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            REV="origin/${{ github.event.pull_request.base.ref }}"
+          else
+            REV="HEAD~1"
+          fi
+          go run github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest run --new-from-rev="$REV"
+
+      - name: Test
+        run: go test ./...

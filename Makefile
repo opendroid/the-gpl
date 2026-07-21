@@ -1,4 +1,4 @@
-.PHONY: build install test clean
+.PHONY: build install test clean fmt vet lint check
 
 # Default GOBIN if not set
 GOBIN ?= $(shell go env GOBIN)
@@ -14,8 +14,19 @@ build:
 install:
 	go install .
 
+fmt:
+	gofmt -l .
+
+vet:
+	go vet ./...
+
+lint:
+	golangci-lint run --new-from-rev=origin/master
+
 test:
 	go test ./...
+
+check: fmt vet lint test
 
 clean:
 	go clean
