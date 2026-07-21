@@ -36,7 +36,7 @@ func readSecret(ctx context.Context, project string) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("secretmanager client: %w", err)
 	}
-	defer client.Close()
+	defer func() { _ = client.Close() }()
 
 	name := fmt.Sprintf("projects/%s/secrets/%s/versions/latest", project, secretName)
 	result, err := client.AccessSecretVersion(ctx, &secretmanagerpb.AccessSecretVersionRequest{Name: name})

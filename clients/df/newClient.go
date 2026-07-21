@@ -32,7 +32,7 @@ func New(logger *log.Logger, gcpProject string, lang string) Bot {
 	}
 
 	ctx := context.Background() // Get a top level context
-	client, err := dialogflow.NewSessionsClient(ctx, option.WithCredentialsFile(gcpAuthFile))
+	client, err := dialogflow.NewSessionsClient(ctx, option.WithAuthCredentialsFile(option.ServiceAccount, gcpAuthFile))
 	if err != nil {
 		logger.Printf("Project %s, %s\n", gcpProject, err.Error())
 		return nil
