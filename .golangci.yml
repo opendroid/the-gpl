@@ -1,0 +1,21 @@
+version: "2"
+
+linters:
+  default: none
+  enable:
+    - govet
+    - errcheck
+    - staticcheck
+    - errorlint
+    - forbidigo
+  settings:
+    forbidigo:
+      forbid:
+        - pattern: '^log\.Printf$'
+          msg: use log/slog instead
+        - pattern: '^log\.Println$'
+          msg: use log/slog instead
+
+formatters:
+  enable:
+    - gofmt
