@@ -55,25 +55,22 @@ func (ath ThakurCopy) ValueDescribe() {
 	fmt.Printf("Value describe Thakur: %s: %d\n", ath.Name, ath.Age)
 }
 
-// ThoughtIGotMarried does not change the original. Ignore the [lint warning].
-//
-// [lint warning]: https://golangci-lint.run/usage/false-positives/
-//
-//nolint:staticcheck
+// ThoughtIGotMarried mutates only the local copy the value receiver got;
+// the caller's original ThakurCopy is untouched. Printing the copy here
+// makes that assignment observable instead of a dead store.
 func (ath ThakurCopy) ThoughtIGotMarried() {
 	ath.Name = "Mrs. " + ath.Name
+	fmt.Printf("ThoughtIGotMarried (local copy only): %s\n", ath.Name)
 }
 
-// GotMarried adds a Mrs in beginning, it is ineffective, ignore the lint warning.
-//
-//nolint:staticcheck
+// GotMarried mutates only the local copy; see ThoughtIGotMarried.
 func (ath ThakurCopy) GotMarried() {
 	ath.Name = "Mrs. " + ath.Name
+	fmt.Printf("GotMarried (local copy only): %s\n", ath.Name)
 }
 
-// ChangeToHeadOfHousehold changes the name and age
-//
-//nolint:staticcheck
+// ChangeToHeadOfHousehold mutates only the local copy; see ThoughtIGotMarried.
 func (ath ThakurCopy) ChangeToHeadOfHousehold() {
 	ath.Name, ath.Age = "Sofia", 40
+	fmt.Printf("ChangeToHeadOfHousehold (local copy only): %s: %d\n", ath.Name, ath.Age)
 }
