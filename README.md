@@ -47,6 +47,16 @@ $ ffmpeg -f avfoundation -i ":1" -acodec pcm_s16le -ar 48000 -f s16le udp://loca
 $ the-gpl stt --port=9999 # Will listen to RTP stream on port 9999 for 2 minutes and transcribe in real time
 ```
 
+### AI Tutor (Claude)
+The `tutor` CLI command and the `/ask` web endpoint are powered by Claude. Set:
+1. **ANTHROPIC_API_KEY** shell variable — required either way; used directly for local development, or as the fallback if Secret Manager is unavailable.
+2. **GOOGLE_CLOUD_PROJECT** shell variable — when set, `ANTHROPIC_API_KEY` is instead read from Google Cloud Secret Manager (`projects/{project}/secrets/ANTHROPIC_API_KEY/versions/latest`). This is set automatically on Cloud Run; set it manually to test Secret Manager locally.
+
+```shell script
+$ the-gpl tutor --q="What is a goroutine?"
+$ the-gpl tutor --chapter=5 --q="How does HTML traversal work?"
+```
+
 ### Simple Examples from book
 Use these commands to run utilities:
 1. bits: That counts number of 1 bits in a Hex input 
