@@ -7,6 +7,7 @@ import (
 	"bufio"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net"
@@ -116,7 +117,7 @@ func sendStreamToGCP(w io.Writer, r io.Reader, s speechpb.Speech_StreamingRecogn
 		n, err := r.Read(buf) // Blocks on read until read.
 
 		secs := time.Since(timeStart).Seconds()
-		if err == io.EOF || secs > audioSpeakingTimeSec { // No more input
+		if errors.Is(err, io.EOF) || secs > audioSpeakingTimeSec { // No more input
 			ok := s.CloseSend()
 			if ok != nil {
 				_, _ = fmt.Fprintf(w, "Stream not closed: %s\n", ok)
@@ -149,7 +150,7 @@ func recvStreamFromGCP(w io.Writer, s speechpb.Speech_StreamingRecognizeClient,
 	defer wg.Done()
 	for {
 		resp, err := s.Recv()
-		if err == io.EOF {
+		if errors.Is(err, io.EOF) {
 			break
 		}
 		if err != nil {
