@@ -21,7 +21,7 @@ vet:
 	go vet ./...
 
 lint:
-	golangci-lint run
+	golangci-lint run --new-from-rev=origin/master
 
 test:
 	go test ./...

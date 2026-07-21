@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-go@v5
         with:
@@ -33,7 +35,13 @@ jobs:
         run: go vet ./...
 
       - name: Lint
-        run: go run github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest run
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            REV="origin/${{ github.event.pull_request.base.ref }}"
+          else
+            REV="HEAD~1"
+          fi
+          go run github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest run --new-from-rev="$REV"
 
       - name: Test
         run: go test ./...
