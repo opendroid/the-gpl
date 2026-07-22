@@ -1,4 +1,4 @@
-package aitutor
+package clients
 
 import (
 	"fmt"
@@ -11,8 +11,8 @@ import (
 	anthropicMock "github.com/opendroid/the-gpl/mocks/anthropic"
 )
 
-// TestTutor_Ask_Success tests a plain question with no chapter context.
-func TestTutor_Ask_Success(t *testing.T) {
+// TestGateway_Ask_Success tests a plain question with no chapter context.
+func TestGateway_Ask_Success(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 
@@ -22,15 +22,15 @@ func TestTutor_Ask_Success(t *testing.T) {
 		Return("A goroutine is a lightweight thread.", nil).
 		Times(1)
 
-	tutor := NewTutor(mockClient)
-	answer, err := tutor.Ask("What is a goroutine?", "")
+	gw := NewGateway(nil, mockClient)
+	answer, err := gw.Ask("What is a goroutine?", "")
 	assert.NoError(t, err)
 	assert.Equal(t, "A goroutine is a lightweight thread.", answer)
 }
 
-// TestTutor_Ask_ChapterContext tests that chapter context is folded into the
+// TestGateway_Ask_ChapterContext tests that chapter context is folded into the
 // user content sent to the client.
-func TestTutor_Ask_ChapterContext(t *testing.T) {
+func TestGateway_Ask_ChapterContext(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 
@@ -45,14 +45,14 @@ func TestTutor_Ask_ChapterContext(t *testing.T) {
 		}).
 		Times(1)
 
-	tutor := NewTutor(mockClient)
-	answer, err := tutor.Ask("How does HTML traversal work?", "package chapter5")
+	gw := NewGateway(nil, mockClient)
+	answer, err := gw.Ask("How does HTML traversal work?", "package chapter5")
 	assert.NoError(t, err)
 	assert.Equal(t, "It walks the DOM tree.", answer)
 }
 
-// TestTutor_Ask_Error tests that client errors propagate to the caller.
-func TestTutor_Ask_Error(t *testing.T) {
+// TestGateway_Ask_Error tests that client errors propagate to the caller.
+func TestGateway_Ask_Error(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 
@@ -62,8 +62,8 @@ func TestTutor_Ask_Error(t *testing.T) {
 		Return("", fmt.Errorf("claude API error: rate limited")).
 		Times(1)
 
-	tutor := NewTutor(mockClient)
-	answer, err := tutor.Ask("What is a goroutine?", "")
+	gw := NewGateway(nil, mockClient)
+	answer, err := gw.Ask("What is a goroutine?", "")
 	assert.Error(t, err)
 	assert.Equal(t, "", answer)
 }

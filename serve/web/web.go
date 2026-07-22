@@ -7,22 +7,28 @@
 package web
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"log/slog"
 	"net/http"
 	"sync"
 
-	"github.com/opendroid/the-gpl/aitutor"
 	"github.com/opendroid/the-gpl/chapter1/lissajous"
 	"github.com/opendroid/the-gpl/chapter3"
 	"github.com/opendroid/the-gpl/chapter8/search"
+	"github.com/opendroid/the-gpl/clients"
+	anthropicclient "github.com/opendroid/the-gpl/clients/anthropic"
 )
 
 // Local file variables
 // mutex provides safe read and write for counter variable
 var mutex sync.Mutex
 var counter int
+
+// gateway is the package-level Gateway used by askHandler. Tests can
+// substitute gateway.Anthropic with a mock.
+var gateway clients.Gateway
 
 // handlers stores URLS to HandlerFunc
 var handlers = map[string]func(http.ResponseWriter, *http.Request){
@@ -139,7 +145,18 @@ func askHandler(w http.ResponseWriter, r *http.Request) {
 		_ = json.NewEncoder(w).Encode(map[string]string{"error": "q parameter is required"})
 		return
 	}
-	answer, err := aitutor.Ask(q, "")
+	if gateway.Anthropic == nil {
+		client, err := anthropicclient.New(context.Background())
+		if err != nil {
+			slog.Error("askHandler: tutor client init error", "err", err)
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusInternalServerError)
+			_ = json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
+			return
+		}
+		gateway = clients.NewGateway(nil, client)
+	}
+	answer, err := gateway.Ask(q, "")
 	w.Header().Set("Content-Type", "application/json")
 	if err != nil {
 		slog.Error("askHandler: tutor error", "err", err)
