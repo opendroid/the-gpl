@@ -3,7 +3,6 @@
 package aitutor
 
 import (
-	"context"
 	"fmt"
 	"log/slog"
 	"os"
@@ -12,13 +11,12 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/opendroid/the-gpl/clients"
-	anthropicclient "github.com/opendroid/the-gpl/clients/anthropic"
 )
 
 // gateway is the package-level Gateway used by the tutor command.
 // Tests can substitute gateway.Anthropic with a mock before calling
 // cmd.Execute().
-var gateway clients.Gateway
+var gateway *clients.Gateway
 
 // NewTutorCmd creates the tutor command.
 func NewTutorCmd() *cobra.Command {
@@ -45,14 +43,14 @@ Examples:
 					slog.Warn("tutor: chapter README not found", "chapter", chapter, "path", path)
 				}
 			}
-			if gateway.Anthropic == nil {
-				client, err := anthropicclient.New(context.Background())
+			if gateway == nil || gateway.Anthropic == nil {
+				client, err := clients.NewAnthropicClient(cmd.Context())
 				if err != nil {
 					return err
 				}
 				gateway = clients.NewGateway(nil, client)
 			}
-			answer, err := gateway.Ask(question, chapterCtx)
+			answer, err := gateway.Ask(cmd.Context(), question, chapterCtx)
 			if err != nil {
 				return err
 			}

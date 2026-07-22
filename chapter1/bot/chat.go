@@ -6,21 +6,20 @@ import (
 	"os"
 
 	"github.com/opendroid/the-gpl/clients"
-	"github.com/opendroid/the-gpl/clients/df"
 )
 
 var (
-	gateway clients.Gateway // gateway to communicate with Dialogflow
+	gateway *clients.Gateway // gateway to communicate with Dialogflow
 	logger  = log.New(os.Stdout, "BOT ", log.LstdFlags)
 )
 
-func chatWithBot(scan *bufio.Scanner, l *log.Logger, env df.Environment, gcpProjectID string, isChat bool) {
+func chatWithBot(scan *bufio.Scanner, l *log.Logger, env clients.DialogflowEnvironment, gcpProjectID string, isChat bool) {
 	l.Printf("ExecCmd: bot %s. Say:\n", gcpProjectID)
-	if gateway.DialogFlowES == nil {
+	if gateway == nil || gateway.Dialogflow == nil {
 		l.Printf("ExecCmd: Bot Error Creating DF session.")
 		return
 	}
-	s := df.NewAgentSession(env, gcpProjectID)
+	s := clients.NewDialogflowSession(env, gcpProjectID)
 	// Read from std input or use existing text
 	for scan.Scan() { // Scan line by line.
 		q := scan.Text()
