@@ -10,6 +10,7 @@ import (
 
 	"github.com/golang/mock/gomock"
 
+	"github.com/opendroid/the-gpl/clients"
 	"github.com/opendroid/the-gpl/clients/df"
 	"github.com/stretchr/testify/assert"
 )
@@ -40,15 +41,15 @@ var agentResponses = []string{"cochatbot.hi_hcihy"}
 func TestCLI_ExecCmd(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
-	oldBot := bot
+	oldGateway := gateway
 	logger = log.New(&bytes.Buffer{}, "BOT ", log.LstdFlags)
-	defer func() { bot = oldBot }() // Restore bot
+	defer func() { gateway = oldGateway }() // Restore gateway
 	mockBot := dfMock.NewMockBot(mockCtrl)
 	first := mockBot.EXPECT().Converse(gomock.Any(), "hello").Return(agentResponses, nil).Times(1)
 	second := mockBot.EXPECT().Converse(gomock.Any(), "i like to cancel").Return(agentResponses, nil).Times(1)
 	third := mockBot.EXPECT().Converse(gomock.Any(), "taking too long").Return(agentResponses, nil).Times(1)
 	gomock.InOrder(first, second, third)
-	bot = mockBot
+	gateway = clients.NewGateway(mockBot, nil)
 
 	cmd := NewBotCmd()
 	cmd.SetArgs([]string{"--chat=false", "--project=unit-test"})
@@ -58,7 +59,7 @@ func TestCLI_ExecCmd(t *testing.T) {
 
 // TestCLI_ExecCmd_BotNil tests the chatting with the bot when bot is nil.
 func TestCLI_ExecCmd_BotNil(t *testing.T) {
-	bot = nil
+	gateway = clients.Gateway{}
 	logger = log.New(&bytes.Buffer{}, "BOT ", log.LstdFlags)
 
 	cmd := NewBotCmd()
@@ -71,12 +72,12 @@ func TestCLI_ExecCmd_BotNil(t *testing.T) {
 func TestCLI_ExecCmd_ConverseError(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
-	oldBot := bot
+	oldGateway := gateway
 	logger = log.New(&bytes.Buffer{}, "BOT ", log.LstdFlags)
-	defer func() { bot = oldBot }() // Restore bot
+	defer func() { gateway = oldGateway }() // Restore gateway
 	mockBot := dfMock.NewMockBot(mockCtrl)
 	mockBot.EXPECT().Converse(gomock.Any(), "hello").Return(nil, fmt.Errorf("mock Error.")).Times(1)
-	bot = mockBot
+	gateway = clients.NewGateway(mockBot, nil)
 
 	cmd := NewBotCmd()
 	cmd.SetArgs([]string{"--chat=false", "--project=unit-test"})

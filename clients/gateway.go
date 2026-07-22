@@ -33,3 +33,8 @@ func (g Gateway) Ask(question, chapterContext string) (string, error) {
 	}
 	return g.Anthropic.Ask(context.Background(), systemPrompt, userContent)
 }
+
+// Converse sends a message to the Gateway's Dialogflow client and returns the agent's responses.
+func (g Gateway) Converse(s *df.AgentSession, q string) ([]string, error) {
+	return g.DialogFlowES.Converse(s, q)
+}
