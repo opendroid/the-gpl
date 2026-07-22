@@ -6,45 +6,46 @@ import (
 	_ "embed"
 	"fmt"
 
-	anthropic "github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
+	anthropicclient "github.com/opendroid/the-gpl/clients/anthropic"
 )
 
 //go:embed prompt.md
 var systemPrompt string
 
-// Ask sends a question to the Claude API and returns the answer.
+// Tutor answers Go questions via an injected Anthropic client, so callers
+// can substitute a mock in tests.
+type Tutor struct {
+	client anthropicclient.Client
+}
+
+// NewTutor creates a Tutor backed by the given Anthropic client.
+func NewTutor(client anthropicclient.Client) *Tutor {
+	return &Tutor{client: client}
+}
+
+// Ask sends a question to Claude and returns the answer.
 // chapterContext is optional additional context (e.g., a chapter README).
-func Ask(question, chapterContext string) (string, error) {
-	ctx := context.Background()
-	apiKey, err := getAPIKey(ctx)
-	if err != nil {
-		return "", err
-	}
-
-	client := anthropic.NewClient(option.WithAPIKey(apiKey))
-
+func (t *Tutor) Ask(question, chapterContext string) (string, error) {
 	userContent := question
 	if chapterContext != "" {
 		userContent = fmt.Sprintf("Chapter context:\n%s\n\nQuestion: %s", chapterContext, question)
 	}
+	return t.client.Ask(context.Background(), systemPrompt, userContent)
+}
 
-	msg, err := client.Messages.New(ctx, anthropic.MessageNewParams{
-		Model:     anthropic.ModelClaudeHaiku4_5,
-		MaxTokens: 1024,
-		System: []anthropic.TextBlockParam{
-			{Text: systemPrompt},
-		},
-		Messages: []anthropic.MessageParam{
-			anthropic.NewUserMessage(anthropic.NewTextBlock(userContent)),
-		},
-	})
-	if err != nil {
-		return "", fmt.Errorf("claude API error: %w", err)
-	}
+// defaultTutor is a lazily-initialized Tutor backed by the real Anthropic
+// client, used by the package-level Ask function below.
+var defaultTutor *Tutor
 
-	if len(msg.Content) == 0 {
-		return "", fmt.Errorf("empty response from claude")
+// Ask sends a question to the Claude API and returns the answer.
+// chapterContext is optional additional context (e.g., a chapter README).
+func Ask(question, chapterContext string) (string, error) {
+	if defaultTutor == nil {
+		client, err := anthropicclient.New(context.Background())
+		if err != nil {
+			return "", err
+		}
+		defaultTutor = NewTutor(client)
 	}
-	return msg.Content[0].Text, nil
+	return defaultTutor.Ask(question, chapterContext)
 }
