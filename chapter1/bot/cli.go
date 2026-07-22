@@ -7,8 +7,14 @@ import (
 	"strings"
 
 	"github.com/opendroid/the-gpl/clients"
-	"github.com/opendroid/the-gpl/clients/df"
 	"github.com/spf13/cobra"
+)
+
+// defaultGCPProjectID and sampleConvo are example values for local CLI use,
+// not general-purpose client defaults.
+const (
+	defaultGCPProjectID = "your-gcp-project-id"
+	sampleConvo         = "hello\ni like to cancel\ntaking too long"
 )
 
 // NewBotCmd creates the bot command
@@ -29,20 +35,25 @@ func NewBotCmd() *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			fmt.Printf("chat: %t, project: %s\n", chat, gcpProjectName)
 			if gcpProjectName != "unit-test" {
-				gateway = clients.NewGateway(df.New(logger, gcpProjectName, lang), nil)
+				dfBot, err := clients.NewDialogflowClient(cmd.Context(), logger, gcpProjectName, lang)
+				if err != nil {
+					logger.Printf("bot: dialogflow init error: %s\n", err)
+				} else {
+					gateway = clients.NewGateway(dfBot, nil)
+				}
 			}
-			scan := bufio.NewScanner(strings.NewReader(df.SampleConvo))
+			scan := bufio.NewScanner(strings.NewReader(sampleConvo))
 			if chat {
 				scan = bufio.NewScanner(os.Stdin) // Read from std input
 			}
-			chatWithBot(scan, logger, df.Environment(env), gcpProjectName, chat)
+			chatWithBot(scan, logger, clients.DialogflowEnvironment(env), gcpProjectName, chat)
 		},
 	}
 
-	cmd.Flags().StringVar(&gcpProjectName, "project", df.GCPProjectID, "GCP Project Name")
-	cmd.Flags().StringVar(&lang, "lang", df.DefaultLanguage, "Bot language en or en-US")
+	cmd.Flags().StringVar(&gcpProjectName, "project", defaultGCPProjectID, "GCP Project Name")
+	cmd.Flags().StringVar(&lang, "lang", clients.DefaultDialogflowLanguage, "Bot language en or en-US")
 	cmd.Flags().BoolVar(&chat, "chat", false, "true if you want to chat via command line")
-	cmd.Flags().StringVar(&env, "env", string(df.Draft), "name of environment to connect with")
+	cmd.Flags().StringVar(&env, "env", string(clients.DialogflowDraft), "name of environment to connect with")
 
 	return cmd
 }
