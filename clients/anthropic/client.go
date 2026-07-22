@@ -13,7 +13,7 @@ import (
 // Client interface defines methods available to talk to the Anthropic API.
 // Generate the mock interface for this.
 //
-//go:generate mockgen -destination=mocks/anthropic/mock_client.go -package=mocks -source=clients/anthropic/client.go Client
+//go:generate mockgen -destination=../../mocks/anthropic/mock_client.go -package=mocks -source=client.go Client
 type Client interface {
 	Ask(ctx context.Context, systemPrompt, userContent string) (string, error)
 }
