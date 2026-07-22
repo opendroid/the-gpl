@@ -22,7 +22,10 @@ Source: https://github.com/opendroid/the-gpl
 
 ## Web Routes (https://the-gpl.com)
 
-- [/index](https://the-gpl.com/index) — Home page
+- [/](https://the-gpl.com/) — Home / landing page (hero, stats, demos strip)
+- [/demos](https://the-gpl.com/demos) — Interactive demos gallery
+- [/post](https://the-gpl.com/post) — Request inspector (submit form fields, echoes the request)
+- [/index](https://the-gpl.com/index) — Request inspector (headers echo)
 - [/about](https://the-gpl.com/about) — About page
 - [/lis](https://the-gpl.com/lis) — Lissajous animated GIF
 - [/mandel](https://the-gpl.com/mandel) — Mandelbrot fractal (color)

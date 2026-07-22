@@ -1,39 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    <!--  created with Free Online Sitemap Generator www.xml-sitemaps.com  -->
     <url>
         <loc>https://the-gpl.com/</loc>
-        <lastmod>2020-12-30T19:46:18+00:00</lastmod>
+        <lastmod>2026-07-22T00:00:00+00:00</lastmod>
         <priority>1.00</priority>
     </url>
     <url>
+        <loc>https://the-gpl.com/chapters</loc>
+        <lastmod>2026-07-22T00:00:00+00:00</lastmod>
+        <priority>0.90</priority>
+    </url>
+    <url>
+        <loc>https://the-gpl.com/demos</loc>
+        <lastmod>2026-07-22T00:00:00+00:00</lastmod>
+        <priority>0.90</priority>
+    </url>
+    <url>
+        <loc>https://the-gpl.com/post</loc>
+        <lastmod>2026-07-22T00:00:00+00:00</lastmod>
+        <priority>0.70</priority>
+    </url>
+    <url>
         <loc>https://the-gpl.com/lis</loc>
-        <lastmod>2020-12-30T19:46:18+00:00</lastmod>
+        <lastmod>2026-07-22T00:00:00+00:00</lastmod>
         <priority>0.80</priority>
     </url>
     <url>
         <loc>https://the-gpl.com/sinc</loc>
-        <lastmod>2020-12-30T19:46:18+00:00</lastmod>
+        <lastmod>2026-07-22T00:00:00+00:00</lastmod>
         <priority>0.80</priority>
     </url>
     <url>
         <loc>https://the-gpl.com/egg</loc>
-        <lastmod>2020-12-30T19:46:18+00:00</lastmod>
+        <lastmod>2026-07-22T00:00:00+00:00</lastmod>
         <priority>0.80</priority>
     </url>
     <url>
         <loc>https://the-gpl.com/valley</loc>
-        <lastmod>2020-12-30T19:46:18+00:00</lastmod>
+        <lastmod>2026-07-22T00:00:00+00:00</lastmod>
         <priority>0.80</priority>
     </url>
     <url>
         <loc>https://the-gpl.com/sq</loc>
-        <lastmod>2020-12-30T19:46:18+00:00</lastmod>
+        <lastmod>2026-07-22T00:00:00+00:00</lastmod>
         <priority>0.80</priority>
     </url>
     <url>
+        <loc>https://the-gpl.com/ask-page</loc>
+        <lastmod>2026-07-22T00:00:00+00:00</lastmod>
+        <priority>0.70</priority>
+    </url>
+    <url>
         <loc>https://the-gpl.com/about</loc>
-        <lastmod>2020-12-30T19:46:18+00:00</lastmod>
+        <lastmod>2026-07-22T00:00:00+00:00</lastmod>
         <priority>0.80</priority>
     </url>
 </urlset>

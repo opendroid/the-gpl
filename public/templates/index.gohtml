@@ -2,53 +2,41 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>The GPL</title>
+    <title>Post Data — The GPL</title>
     {{template "head"}}
-    <link rel="stylesheet" href="/public/css/initial/indextable.css">
+    <link rel="stylesheet" href="/public/css/redesign/post.css">
 </head>
 <body>
-<!-- Horizontal navigation section: Fill in navigation template -->
 {{template "navflex" .Active}}
-
-<!-- Table for Header key/values -->
 <main role="main">
-    <section class="index-first-section">
-        <h3> Data received from this browser by server:</h3>
-        <table class="params">
-            <tr>
-                <th>Header</th>
-                <th>Values</th>
-            </tr>
-            <!-- Fill in the data -->
-            {{range $key, $values := .Data}}
-                <tr>
-                    <td>{{$key}}</td>
-                    <td>{{$values}}</td>
-                </tr>
-            {{end}}
-        </table>
-    </section>
-    <!-- Send data to server as a GET -->
-    <section class="index-table-section">
-        <h4>Send any test attributes using method "get"</h4>
-        <form class="arbitrary-input" action="/" method="get">
-            <div class="input-label-field">
-                <label for="field1" class="input-field-label"> Field 1:</label>
-                <input type="text" name="value1" id="field1" class="input-field-input"
-                       autocomplete="off" placeholder="Try sending any sentence.">
-            </div>
-            <div class="input-label-field">
-                <label for="field2" class="input-field-label"> Field 2:</label>
-                <input type="text" name="value2" id="field2" class="input-field-input"
-                       autocomplete="off" placeholder="Try sending another sentence.">
-            </div>
-            <input type="submit" class="input-field-submit" value="Submit">
+    <section class="container-900 fade-up post-section">
+        <div class="kicker">// request inspector</div>
+        <h1>Post Data</h1>
+        <p class="lede post-lede">Send fields to the server and it echoes back exactly what your browser transmitted &mdash; headers and all.</p>
+
+        <!-- Send data to server as a GET; /post is handled by indexHandler. -->
+        <form class="post-form" action="/post" method="get">
+            <label class="post-field">
+                <span class="post-field-label">field 1</span>
+                <input class="post-input" type="text" name="value1" autocomplete="off" placeholder="anything…">
+            </label>
+            <label class="post-field">
+                <span class="post-field-label">field 2</span>
+                <input class="post-input" type="text" name="value2" autocomplete="off" placeholder="anything…">
+            </label>
+            <button class="btn btn-accent post-submit" type="submit">Send &amp; inspect</button>
         </form>
+
+        <div class="post-response">
+            <div class="post-response-label">headers seen by the server</div>
+            <div class="code-panel">
+                {{range $key, $values := .Data}}
+                <div><span class="k">{{$key}}</span><span class="sep"> : </span><span class="v">{{$values}}</span></div>
+                {{end}}
+            </div>
+        </div>
     </section>
 </main>
-
-<!-- Footer quote -->
 {{template "footer"}}
-
 </body>
 </html>

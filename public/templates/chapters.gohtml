@@ -4,41 +4,27 @@
     <meta charset="UTF-8">
     <title>Chapters — The GPL</title>
     {{template "head"}}
-    <link rel="stylesheet" href="/public/css/initial/indextable.css">
-    <style>
-        .chapters-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.2rem;
-            padding: 1.5rem;
-        }
-        .chapter-card {
-            border: 1px solid #555;
-            border-radius: 6px;
-            padding: 1rem 1.2rem;
-            background: #2a2433;
-        }
-        .chapter-card h3 { margin: 0 0 0.4rem; font-size: 1.05rem; color: #e8e8e8; text-align: left; }
-        .chapter-card p  { margin: 0; font-size: 0.9rem; color: #b0b0b0; }
-        .chapter-card a  { text-decoration: none; color: #7ab3f7; }
-        .chapter-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.4); border-color: #7ab3f7; }
-    </style>
+    <link rel="stylesheet" href="/public/css/redesign/chapters.css">
 </head>
 <body>
 {{template "navflex" .Active}}
 <main role="main">
-    <section style="padding:1rem 1.5rem; color:#e8e8e8">
-        <h2>Book Chapters</h2>
-        <p>Each chapter mirrors a chapter from <em>The Go Programming Language</em> by Donovan &amp; Kernighan.</p>
-    </section>
-    <div class="chapters-grid">
-        {{range .Chapters}}
-        <div class="chapter-card">
-            <h3><a href="{{.Path}}">Chapter {{.Number}} — {{.Title}}</a></h3>
-            <p>{{.Description}}</p>
+    <section class="container-960 fade-up chapters-section">
+        <div class="kicker">// the book</div>
+        <h1>Chapters</h1>
+        <p class="lede chapters-lede">Each chapter mirrors one from <em>The Go Programming Language</em> and ships with the programs that make it concrete.</p>
+        <div class="chapters-list">
+            {{range .Chapters}}
+            <a class="chapter-card" href="{{.Path}}" target="_blank" rel="noopener">
+                <div class="chapter-no">{{printf "%02d" .Number}}</div>
+                <div class="chapter-body">
+                    <h3 class="chapter-title">{{.Title}}</h3>
+                    <p class="chapter-desc">{{.Description}}</p>
+                </div>
+            </a>
+            {{end}}
         </div>
-        {{end}}
-    </div>
+    </section>
 </main>
 {{template "footer"}}
 </body>

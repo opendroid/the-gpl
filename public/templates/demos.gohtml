@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demos — The GPL</title>
+    {{template "head"}}
+    <link rel="stylesheet" href="/public/css/redesign/demos.css">
+</head>
+<body>
+{{template "navflex" .Active}}
+<main role="main">
+    <section class="container fade-up demos-section">
+        <div class="kicker">// server-rendered graphics</div>
+        <h1>Demos</h1>
+        <p class="lede demos-lede">Each plot is generated on the server in Go and streamed back as a GIF or SVG. Open one to see its parameters and run it live.</p>
+        <div class="demo-grid demo-grid-gallery">
+            {{range .Demos}}
+            <a class="demo-card" href="{{.Path}}">
+                <div class="demo-card-preview demo-card-preview-center stripes">
+                    {{if .Preview}}<img class="demo-card-img" src="{{.Preview}}" alt="{{.Name}}" loading="lazy">{{end}}
+                    <span class="badge badge-route demo-card-badge">{{.Route}}</span>
+                </div>
+                <div class="demo-card-body">
+                    <div class="demo-card-body-head">
+                        <div class="demo-card-name">{{.Name}}</div>
+                        <span class="badge badge-tag">{{.Tag}}</span>
+                    </div>
+                    <div class="demo-card-short">{{.Short}}</div>
+                </div>
+            </a>
+            {{end}}
+            <!-- Post Data tool card (not a rendered demo; links to the request inspector) -->
+            <a class="demo-card" href="/post">
+                <div class="demo-card-preview demo-card-preview-center stripes">
+                    <span class="demo-card-plain">/post</span>
+                </div>
+                <div class="demo-card-body">
+                    <div class="demo-card-body-head">
+                        <div class="demo-card-name">Post Data</div>
+                        <span class="badge badge-tag">tool &middot; echo</span>
+                    </div>
+                    <div class="demo-card-short">Send fields and inspect the exact request the server receives.</div>
+                </div>
+            </a>
+        </div>
+    </section>
+</main>
+{{template "footer"}}
+</body>
+</html>

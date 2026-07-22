@@ -2,24 +2,42 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{.Active}}</title>
+    <title>{{.Heading}} — The GPL</title>
     {{template "head"}}
+    <link rel="stylesheet" href="/public/css/redesign/demos.css">
 </head>
 <body>
-
+{{template "navflex" .Active}}
 <main role="main">
-    <!-- Horizontal navigation section: Fill in navigation template -->
-    {{template "navflex" .Active}}
+    <section class="container-960 fade-up demo-detail">
+        <a class="demo-back" href="/demos">&larr; all demos</a>
+        <div class="demo-detail-head">
+            <h1>{{.Heading}}</h1>
+            {{if .Tag}}<span class="demo-detail-tag">{{.Tag}}</span>{{end}}
+        </div>
+        {{if .Description}}<p class="lede demo-detail-desc">{{.Description}}</p>{{end}}
 
-    <section class="surfaces-info">
-        <!-- Table for Header key/values -->
-        <h3>{{.Heading}}</h3>
-
-        <!-- Image SVG Content -->
-        <object data="{{.SVGImageName}}" type="image/svg+xml"></object>
+        <div class="demo-output">
+            <div class="demo-output-preview stripes">
+                <img class="demo-output-img" src="{{.SVGImageName}}" alt="{{.Heading}}">
+                <span class="demo-output-badge">rendered output &middot; GET {{.SVGImageName}}</span>
+                {{if .Format}}<span class="demo-output-format">{{.Format}}</span>{{end}}
+            </div>
+            <div class="demo-params">
+                <div class="demo-params-label">parameters</div>
+                <div class="demo-params-list">
+                    {{range .Params}}
+                    <div class="demo-param">
+                        <code class="demo-param-name">{{.Name}}</code>
+                        <span class="demo-param-note">{{.Note}}</span>
+                    </div>
+                    {{end}}
+                </div>
+                <a class="btn btn-dark demo-run" href="{{.SVGImageName}}" target="_blank" rel="noopener">Run on server &rarr;</a>
+            </div>
+        </div>
     </section>
-    <!-- Footer quote -->
-    {{template "footer"}}
 </main>
+{{template "footer"}}
 </body>
 </html>

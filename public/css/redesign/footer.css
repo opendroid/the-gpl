@@ -1,0 +1,59 @@
+/* the-gpl redesign — footer: MLK quote + BLM + book/tools columns + bottom strip. */
+
+.site-footer {
+    flex-shrink: 0;
+    border-top: 1px solid var(--border);
+    background: var(--footer-bg);
+}
+.site-footer-inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 40px 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    justify-content: space-between;
+}
+
+.footer-quote { max-width: 44ch; }
+.footer-quote blockquote {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink);
+}
+.footer-quote-attr {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 8px;
+}
+.footer-blm {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    margin-top: 16px;
+}
+
+.footer-cols { display: flex; gap: 36px; flex-wrap: wrap; }
+.footer-col { display: flex; flex-direction: column; gap: 8px; }
+.footer-col-head {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--faint);
+    margin-bottom: 2px;
+}
+.footer-col a {
+    font-size: 14px;
+    color: var(--ink);
+}
+.footer-col a:hover { color: var(--accent); }
+
+.footer-strip { border-top: 1px solid var(--border); }
+.footer-strip-inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 16px 24px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--faint);
+}

@@ -30,7 +30,9 @@ var gateway *clients.Gateway
 
 // handlers stores URLS to HandlerFunc
 var handlers = map[string]func(http.ResponseWriter, *http.Request){
-	"/":                  indexHandler, // 	"/" - root page
+	"/":                  homeHandler,  // 	"/" - landing page (also 404-guards unknown paths)
+	"/post":              indexHandler, // request inspector (was reached via "/" catch-all)
+	"/demos":             demosHandler,
 	"/test":              testHandler,
 	"/lisimage.gif":      lissajous.Figure,
 	"/mandelimage.png":   chapter3.MBGraphHandler,

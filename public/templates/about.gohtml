@@ -2,22 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>About</title>
+    <title>About — The GPL</title>
     {{template "head"}}
-    <link rel="stylesheet" href="/public/css/initial/socialcard.css">
+    <link rel="stylesheet" href="/public/css/redesign/about.css">
 </head>
 <body>
-<!-- Horizontal navigation section: Fill in navigation template -->
 {{template "navflex" .Active}}
-
-<!-- Table for Header key/values -->
-<section class="about-connect-info-cards">
-    <h3> To connect use these channels:</h3>
-
-    <!-- Add social cards -->
-    {{template "socialcard" .Data}}
-</section>
-<!-- Footer quote -->
+<main role="main">
+    <section class="container-820 fade-up about-section">
+        <div class="kicker">// about</div>
+        <h1>Ajay Thakur</h1>
+        <p class="lede about-lede">Engineer working through <em>The Go Programming Language</em> in public. The source for every demo lives on GitHub &mdash; say hello on any of these.</p>
+        {{template "socialcard" .Data}}
+    </section>
+</main>
 {{template "footer"}}
 </body>
 </html>
