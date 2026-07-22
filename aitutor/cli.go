@@ -1,13 +1,24 @@
+// Package aitutor provides the `tutor` CLI command for the Claude-powered
+// Go tutor. The Anthropic client and Ask logic live in clients.Gateway.
 package aitutor
 
 import (
+	"context"
 	"fmt"
 	"log/slog"
 	"os"
 	"strconv"
 
 	"github.com/spf13/cobra"
+
+	"github.com/opendroid/the-gpl/clients"
+	anthropicclient "github.com/opendroid/the-gpl/clients/anthropic"
 )
+
+// gateway is the package-level Gateway used by the tutor command.
+// Tests can substitute gateway.Anthropic with a mock before calling
+// cmd.Execute().
+var gateway clients.Gateway
 
 // NewTutorCmd creates the tutor command.
 func NewTutorCmd() *cobra.Command {
@@ -34,7 +45,14 @@ Examples:
 					slog.Warn("tutor: chapter README not found", "chapter", chapter, "path", path)
 				}
 			}
-			answer, err := Ask(question, chapterCtx)
+			if gateway.Anthropic == nil {
+				client, err := anthropicclient.New(context.Background())
+				if err != nil {
+					return err
+				}
+				gateway = clients.NewGateway(nil, client)
+			}
+			answer, err := gateway.Ask(question, chapterCtx)
 			if err != nil {
 				return err
 			}

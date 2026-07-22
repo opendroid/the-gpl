@@ -1,4 +1,4 @@
-package aitutor
+package anthropic
 
 import (
 	"context"
