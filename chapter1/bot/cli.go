@@ -6,6 +6,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/opendroid/the-gpl/clients"
 	"github.com/opendroid/the-gpl/clients/df"
 	"github.com/spf13/cobra"
 )
@@ -28,7 +29,7 @@ func NewBotCmd() *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			fmt.Printf("chat: %t, project: %s\n", chat, gcpProjectName)
 			if gcpProjectName != "unit-test" {
-				bot = df.New(logger, gcpProjectName, lang)
+				gateway = clients.NewGateway(df.New(logger, gcpProjectName, lang), nil)
 			}
 			scan := bufio.NewScanner(strings.NewReader(df.SampleConvo))
 			if chat {
