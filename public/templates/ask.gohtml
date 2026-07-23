@@ -19,7 +19,7 @@
         </div>
 
         <form class="chat-form" id="chatForm" onsubmit="return sendQuestion()">
-            <textarea id="questionInput" rows="12" placeholder="e.g. When should I use a buffered channel? Paste code, error output, or a full question — there's room." autocomplete="off" required></textarea>
+            <textarea id="questionInput" rows="2" placeholder="e.g. When should I use a buffered channel? Paste code, error output, or a full question — there's room." autocomplete="off" required></textarea>
             <div class="chat-chips">
                 <button type="button" class="chip" data-q="What's the difference between a buffered and an unbuffered channel?" onclick="fillPrompt(this)">buffered vs unbuffered</button>
                 <button type="button" class="chip" data-q="When should I use a sync.Mutex instead of a channel?" onclick="fillPrompt(this)">when to use a mutex</button>
