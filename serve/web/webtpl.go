@@ -72,6 +72,30 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// homeHandler renders the landing page at "/". Because net/http's "/" pattern
+// is a catch-all, this also guards unknown paths: anything other than "/" gets
+// a 404 instead of silently rendering the home page.
+func homeHandler(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/" {
+		http.NotFound(w, r)
+		return
+	}
+	slog.Info("homeHandler.")
+	data := HomePageData{Active: Home.String(), Stats: homeStats, Demos: demoCards}
+	if err := templates.ExecuteTemplate(w, HomePage, &data); err != nil {
+		slog.Error("homeHandler", "err", err)
+	}
+}
+
+// demosHandler renders the /demos gallery of interactive demos.
+func demosHandler(w http.ResponseWriter, _ *http.Request) {
+	slog.Info("demosHandler.")
+	data := DemosPageData{Active: Demos.String(), Demos: demoCards}
+	if err := templates.ExecuteTemplate(w, DemosPage, &data); err != nil {
+		slog.Error("demosHandler", "err", err)
+	}
+}
+
 // aboutHandler parses about templates and presents to use
 func aboutHandler(w http.ResponseWriter, _ *http.Request) {
 	slog.Info("aboutHandler.")
@@ -82,13 +106,18 @@ func aboutHandler(w http.ResponseWriter, _ *http.Request) {
 
 // imageHandler injects image template data in LisMandelPage
 func imageHandler(activePage, heading, imagePath string) http.HandlerFunc {
+	meta := demoMeta[activePage]
 	return func(w http.ResponseWriter, r *http.Request) {
 		slog.Info("imageHandler", "path", r.URL.Path)
 		if err := templates.ExecuteTemplate(w, LisMandelPage,
 			&ImagesPageData{
-				Active:    activePage,
-				ImageName: imagePath,
-				Heading:   heading,
+				Active:      activePage,
+				ImageName:   imagePath,
+				Heading:     heading,
+				Tag:         meta.Tag,
+				Description: meta.Description,
+				Format:      meta.Format,
+				Params:      meta.Params,
 			}); err != nil {
 			slog.Error("imageHandler", "path", imagePath, "err", err)
 		}
@@ -97,6 +126,7 @@ func imageHandler(activePage, heading, imagePath string) http.HandlerFunc {
 
 // surfaceHandler injects surface template data in SurfacesPage
 func surfaceHandler(activePage, heading, svgPage string) http.HandlerFunc {
+	meta := demoMeta[activePage]
 	return func(w http.ResponseWriter, r *http.Request) {
 		slog.Info("surfaceHandler", "path", r.URL.Path)
 		// Execute the Surface template with appropriate data
@@ -104,6 +134,10 @@ func surfaceHandler(activePage, heading, svgPage string) http.HandlerFunc {
 			Active:       activePage,
 			SVGImageName: svgPage,
 			Heading:      heading,
+			Tag:          meta.Tag,
+			Description:  meta.Description,
+			Format:       meta.Format,
+			Params:       meta.Params,
 		}); err != nil {
 			slog.Error("surfaceHandler", "err", err)
 		}
@@ -134,21 +168,26 @@ func gzipSVG(handler func(writer io.Writer)) http.HandlerFunc {
 	}
 }
 
+// chapterURL returns the GitHub source directory for a chapter number.
+func chapterURL(n int) string {
+	return fmt.Sprintf("https://github.com/opendroid/the-gpl/tree/master/chapter%d", n)
+}
+
 // chaptersHandler renders the /chapters page listing all book chapters.
 func chaptersHandler(w http.ResponseWriter, _ *http.Request) {
 	slog.Info("chaptersHandler.")
 	data := ChaptersPageData{
 		Active: Chapters.String(),
 		Chapters: []ChapterEntry{
-			{1, "Tutorial", "Goroutines, channels, CLI utilities, Lissajous GIF, Dialogflow bot, Speech-to-Text.", "/chapters"},
-			{2, "Program Structure", "Bit counting (three strategies), temperature conversion types, package-level vars.", "/chapters"},
-			{3, "Basic Data Types", "Mandelbrot PNG, 3-D surface plots (SVG), string utilities.", "/chapters"},
-			{4, "Composite Types", "JSON marshalling, HTML templating, GitHub issue search.", "/chapters"},
-			{5, "Functions", "HTML traversal, web crawler, topological sort, variadic max/min, generic MaxOf/MinOf.", "/chapters"},
-			{6, "Methods", "IntSet bit-vector: Union, Intersect, Difference, SymmetricDifference.", "/chapters"},
-			{7, "Interfaces", "Writer implementations, CountWriter, BroadcastWriters, temperature flag.", "/chapters"},
-			{8, "Goroutines & Channels", "TCP services (clock, reverb, chat, FTP), concurrent DU, web search with context.", "/chapters"},
-			{9, "Concurrency / Shared Variables", "sync.Mutex SafeBank, sync.RWMutex RWBank, sync.Once Icon, Memo cache.", "/chapters"},
+			{1, "Tutorial", "Goroutines, channels, CLI utilities, the Lissajous GIF, a Dialogflow bot, and Speech-to-Text.", chapterURL(1)},
+			{2, "Program Structure", "Bit counting via three strategies, temperature-conversion types, and package-level variables.", chapterURL(2)},
+			{3, "Basic Data Types", "Mandelbrot PNG, 3-D surface plots as SVG, and string utilities.", chapterURL(3)},
+			{4, "Composite Types", "JSON marshalling, HTML templating, and GitHub issue search.", chapterURL(4)},
+			{5, "Functions", "HTML traversal, a web crawler, topological sort, variadic max/min, generic MaxOf/MinOf.", chapterURL(5)},
+			{6, "Methods", "An IntSet bit-vector: Union, Intersect, Difference, SymmetricDifference.", chapterURL(6)},
+			{7, "Interfaces", "Writer implementations, CountWriter, BroadcastWriters, and a temperature flag.", chapterURL(7)},
+			{8, "Goroutines & Channels", "TCP services (clock, reverb, chat, FTP), concurrent du, and web search with context.", chapterURL(8)},
+			{9, "Concurrency & Shared Variables", "sync.Mutex SafeBank, sync.RWMutex RWBank, sync.Once Icon, and a Memo cache.", chapterURL(9)},
 		},
 	}
 	if err := templates.ExecuteTemplate(w, ChaptersPage, &data); err != nil {

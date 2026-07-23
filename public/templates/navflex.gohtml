@@ -1,33 +1,37 @@
 {{define "navflex"}}
-    <aside class="the-gpl-header-and-nav">
-        <!--- Quote at top of every page -->
-        <q class="the-gpl-header-title" cite="https://blacklivesmatter.com/">Black Lives Matter</q>
-        <header class="the-gpl-header">
-            <button class="nav-hamburger" id="navToggle" aria-label="Menu" aria-expanded="false">&#9776; Menu</button>
-            <!--- Navigation bar, . is name of Active page  -->
-            <nav class="flex-navigation" id="flexNav">
-                <div class="flex-nav-tab"><a{{if eq . "post"}} class="flex-nav-active" {{end}} href="post">Post Data</a></div>
-                <div class="flex-nav-tab"><a{{if eq . "lis"}} class="flex-nav-active" {{end}} href="lis">Lissajous</a></div>
-                <div class="flex-nav-tab"><a{{if eq . "sinc"}} class="flex-nav-active" {{end}} href="sinc">Sinc</a></div>
-                <div class="flex-nav-tab"><a{{if eq . "egg"}} class="flex-nav-active" {{end}} href="egg">Egg</a></div>
-                <div class="flex-nav-tab"><a{{if eq . "valley"}} class="flex-nav-active" {{end}} href="valley">Valley</a></div>
-                <div class="flex-nav-tab"><a{{if eq . "sq"}} class="flex-nav-active" {{end}} href="sq">Squares</a></div>
-                <div class="flex-nav-tab"><a{{if eq . "chapters"}} class="flex-nav-active" {{end}} href="chapters">Chapters</a></div>
-                <div class="flex-nav-tab"><a{{if eq . "ask"}} class="flex-nav-active" {{end}} href="ask-page">Tutor</a></div>
-                <div class="flex-nav-tab flex-nav-tab-last-spacer"></div>
-                <div class="flex-nav-tab flex-nav-tab-last"><a{{if eq . "about"}} class="flex-nav-active" {{end}} href="about">About</a></div>
+    <header class="site-header">
+        <div class="site-header-inner">
+            <a class="wordmark" href="/">
+                <span class="wordmark-glyph">g</span>
+                <span class="wordmark-text">the-gpl</span>
+            </a>
+            <!-- Desktop nav. . is the Active page string. -->
+            <nav class="site-nav">
+                <a class="nav-pill{{if eq . "chapters"}} active{{end}}" href="/chapters">Chapters</a>
+                <a class="nav-pill{{if eq . "demos" "lis" "mandel" "mandelbw" "sinc" "egg" "valley" "sq"}} active{{end}}" href="/demos">Demos</a>
+                <a class="nav-pill{{if eq . "ask"}} active{{end}}" href="/ask-page">Tutor</a>
+                <a class="nav-pill{{if eq . "about"}} active{{end}}" href="/about">About</a>
             </nav>
-        </header>
-    </aside>
+            <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+        <!-- Mobile sheet -->
+        <div class="nav-sheet" id="navSheet">
+            <a class="nav-pill{{if eq . "chapters"}} active{{end}}" href="/chapters">Chapters</a>
+            <a class="nav-pill{{if eq . "demos" "lis" "mandel" "mandelbw" "sinc" "egg" "valley" "sq"}} active{{end}}" href="/demos">Demos</a>
+            <a class="nav-pill{{if eq . "ask"}} active{{end}}" href="/ask-page">Tutor</a>
+            <a class="nav-pill{{if eq . "about"}} active{{end}}" href="/about">About</a>
+        </div>
+    </header>
     <script>
     (function(){
         var btn = document.getElementById('navToggle');
-        var nav = document.getElementById('flexNav');
-        if (!btn || !nav) return;
+        var sheet = document.getElementById('navSheet');
+        if (!btn || !sheet) return;
         btn.addEventListener('click', function() {
-            var open = nav.classList.toggle('nav-open');
+            var open = sheet.classList.toggle('open');
             btn.setAttribute('aria-expanded', String(open));
-            btn.innerHTML = open ? '&#10005; Close' : '&#9776; Menu';
         });
     })();
     </script>

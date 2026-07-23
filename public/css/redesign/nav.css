@@ -1,0 +1,112 @@
+/* the-gpl redesign — sticky blurred header + wordmark + nav pills. */
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(247, 246, 243, 0.86);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+}
+.site-header-inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+/* wordmark */
+.wordmark {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.wordmark:hover { color: inherit; }
+.wordmark-glyph {
+    width: 26px;
+    height: 26px;
+    border-radius: var(--radius-sm);
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 14px;
+}
+.wordmark-text {
+    font-family: var(--mono);
+    font-weight: 500;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+}
+
+/* desktop nav */
+.site-nav { display: flex; align-items: center; gap: 4px; }
+.nav-pill {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-family: var(--ui);
+    font-size: 14px;
+    font-weight: 500;
+    color: #4a4e55;
+    transition: background 0.15s, color 0.15s;
+}
+.nav-pill:hover { color: var(--ink); }
+.nav-pill.active { background: var(--accent-tint); color: var(--accent-hover); }
+
+/* hamburger — hidden on desktop */
+.nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 42px;
+    height: 42px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+}
+.nav-toggle span {
+    display: block;
+    width: 18px;
+    height: 2px;
+    background: var(--ink);
+    border-radius: 2px;
+}
+
+/* mobile sheet — hidden by default */
+.nav-sheet {
+    display: none;
+    border-top: 1px solid var(--border);
+    background: var(--bg);
+    padding: 8px 16px 16px;
+}
+.nav-sheet .nav-pill {
+    display: block;
+    width: 100%;
+    text-align: left;
+    border-radius: 0;
+    border-bottom: 1px solid #ecebe6;
+    padding: 14px 8px;
+    font-size: 16px;
+}
+.nav-sheet .nav-pill:last-child { border-bottom: none; }
+
+@media (max-width: 760px) {
+    .site-nav { display: none; }
+    .nav-toggle { display: flex; }
+    .nav-sheet.open { display: block; }
+}

@@ -1,0 +1,32 @@
+/* the-gpl redesign — /about. */
+
+.about-section { padding-top: clamp(40px, 6vw, 72px); padding-bottom: clamp(40px, 6vw, 72px); }
+.about-lede { margin-top: 16px; margin-bottom: 40px; max-width: 56ch; }
+
+.social-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+}
+.social-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    color: inherit;
+}
+.social-card:hover { color: inherit; border-color: var(--accent); }
+.social-card-cover { height: 150px; overflow: hidden; background: var(--hairline); }
+.social-card-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.social-card-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 18px;
+}
+.social-card-meta { display: flex; flex-direction: column; gap: 3px; }
+.social-card-platform { font-family: var(--mono); font-size: 12px; color: var(--faint); }
+.social-card-handle { font-size: 17px; font-weight: 600; color: var(--ink); }
+.social-card-arrow { font-family: var(--mono); color: var(--accent); font-size: 15px; }

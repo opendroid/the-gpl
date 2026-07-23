@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The GPL — Working code for The Go Programming Language</title>
+    {{template "head"}}
+    <link rel="stylesheet" href="/public/css/redesign/home.css">
+</head>
+<body>
+{{template "navflex" .Active}}
+<main role="main">
+    <div class="fade-up">
+        <section class="container home-hero">
+            <div class="kicker">// companion site &middot; Go by example</div>
+            <h1 class="hero-title">Working code for <span class="accent-ink">The Go Programming Language</span>.</h1>
+            <p class="lede home-hero-lede">Nine chapters from Donovan &amp; Kernighan, rebuilt as runnable programs &mdash; from goroutines and channels to server-rendered graphics. Read the chapter, then run the demo.</p>
+            <div class="home-hero-actions">
+                <a class="btn btn-dark" href="/chapters">Browse chapters</a>
+                <a class="btn btn-light" href="/demos">See the demos</a>
+            </div>
+        </section>
+
+        <section class="container home-stats-section">
+            <div class="home-stats">
+                {{range .Stats}}
+                <div class="stat card">
+                    <div class="stat-num">{{.Num}}</div>
+                    <div class="stat-label">{{.Label}}</div>
+                </div>
+                {{end}}
+            </div>
+        </section>
+
+        <section class="container home-demos-section">
+            <div class="home-demos-head">
+                <h2>Interactive demos</h2>
+                <a class="home-demos-viewall" href="/demos">view all &rarr;</a>
+            </div>
+            <div class="demo-grid demo-grid-home">
+                {{range .Demos}}
+                <a class="demo-card" href="{{.Path}}">
+                    <div class="demo-card-preview stripes">
+                        {{if .Preview}}<img class="demo-card-img" src="{{.Preview}}" alt="{{.Name}}" loading="lazy">{{end}}
+                        <span class="badge badge-route demo-card-badge">{{.Tag}}</span>
+                    </div>
+                    <div class="demo-card-body">
+                        <div class="demo-card-name">{{.Name}}</div>
+                        <div class="demo-card-short">{{.Short}}</div>
+                    </div>
+                </a>
+                {{end}}
+            </div>
+        </section>
+    </div>
+</main>
+{{template "footer"}}
+</body>
+</html>

@@ -59,7 +59,8 @@ the-gpl server --port=8080   # start web server
 ## Architecture
 
 - **Single binary**: `main.go` wires cobra commands from all chapters + the web server.
-- **Web server** (`serve/web/`): `Start()` in `web.go` registers all `http.HandleFunc` entries defined in `handlers` map; templates are in `webtpl.go`; page-data types in `pagedata.go`.
+- **Web server** (`serve/web/`): `Start()` in `web.go` registers all `http.HandleFunc` entries defined in `handlers` map; templates are in `webtpl.go`; page-data types in `pagedata.go`; home/demos static data in `demodata.go`.
+- **Theme**: `public/css/redesign/` is the live theme (light, JetBrains Mono + Helvetica), linked from `head.gohtml`. `public/css/initial/` is the previous dark theme, kept for rollback — switch back by pointing the `head.gohtml` links at `initial/`.
 - **Cloud Run**: deployed as a single container (`Dockerfile`, `cloudbuild.yaml`) with one instance — no shared state concerns between replicas.
 - **External APIs**: Dialogflow and Speech-to-Text require `GOOGLE_APPLICATION_CREDENTIALS` to point to a GCP service-account JSON file. Never commit credentials.
 
