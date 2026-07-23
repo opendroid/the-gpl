@@ -95,6 +95,16 @@ p { margin: 0; line-height: 1.5; }
     line-height: 1.5;
 }
 
+/* back link to the demos gallery (demo detail + post data pages) */
+.demo-back {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 22px;
+}
+.demo-back:hover { color: var(--accent); }
+
 /* buttons / links styled as buttons */
 .btn {
     display: inline-block;

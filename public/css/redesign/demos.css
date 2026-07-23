@@ -16,14 +16,7 @@
 
 /* ---- demo detail ---- */
 .demo-detail { padding-top: clamp(28px, 5vw, 56px); padding-bottom: clamp(28px, 5vw, 56px); }
-.demo-back {
-    display: inline-block;
-    font-family: var(--mono);
-    font-size: 13px;
-    color: var(--muted);
-    margin-bottom: 22px;
-}
-.demo-back:hover { color: var(--accent); }
+/* .demo-back is shared (main.css) — also used on the Post Data page */
 .demo-detail-head {
     display: flex;
     align-items: center;
