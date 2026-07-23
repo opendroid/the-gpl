@@ -2,14 +2,6 @@
 
 .tutor-section { padding-top: clamp(40px, 6vw, 72px); padding-bottom: clamp(40px, 6vw, 72px); }
 .tutor-lede { margin-top: 16px; margin-bottom: 32px; max-width: 56ch; }
-.tutor-lede code {
-    font-family: var(--mono);
-    font-size: 0.85em;
-    background: var(--hairline);
-    border-radius: 4px;
-    padding: 1px 5px;
-    color: var(--ink);
-}
 
 .chat-box {
     background: var(--panel);
