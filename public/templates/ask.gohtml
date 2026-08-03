@@ -18,8 +18,11 @@
             <div class="chat-msg tutor">Hello! I'm your Go tutor. Ask me anything about Go or the book chapters.</div>
         </div>
 
-        <form class="chat-form" id="chatForm" onsubmit="return sendQuestion()">
-            <textarea id="questionInput" rows="2" placeholder="Ask anything about Go — or pick a suggestion below." autocomplete="off" required></textarea>
+        <!-- autocomplete/data-*ignore attributes keep password managers (iCloud
+             Passwords, 1Password, LastPass, Bitwarden, Dashlane) from offering to
+             autofill this free-text question box. -->
+        <form class="chat-form" id="chatForm" onsubmit="return sendQuestion()" autocomplete="off" data-form-type="other">
+            <textarea id="questionInput" rows="2" placeholder="Ask anything about Go — or pick a suggestion below." autocomplete="off" data-form-type="other" data-1p-ignore data-lpignore="true" data-bwignore required></textarea>
             <div class="chat-chips" id="chatChips"></div>
             <div class="chat-actions">
                 <select id="chapterSelect">
