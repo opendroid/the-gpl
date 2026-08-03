@@ -105,6 +105,32 @@ tutor CLI (aitutor/cli.go)     ─┘         │                  (Firestore | 
   context. `chapterPrompts` drives the suggestion chips, marshalled into the page as
   `AskPageData.PromptsJSON`.
 
+### Local development: the ADC gotcha
+
+`GOOGLE_APPLICATION_CREDENTIALS` is exported locally so the Dialogflow bot and
+Speech-to-Text work, but it also selects the Application Default Credentials used
+by *every* Google client in the process — including the tutor's Firestore and
+Secret Manager clients. If that service account lacks `roles/datastore.user` and
+`roles/secretmanager.secretAccessor` (the Dialogflow/STT account has no reason to
+hold either), the tutor quietly degrades to the in-process cache and the
+`ANTHROPIC_API_KEY` environment variable. Answers stay correct, so the only
+symptom is that every local run misses the cache and pays for an API call.
+
+The signature is two WARN lines at startup:
+
+```
+"tutor cache: firestore unreachable, falling back to memory"  err=...PermissionDenied
+"anthropic key: Secret Manager read failed, trying environment"  err=...denied
+```
+
+Either grant that service account the two roles, or bypass the key file so ADC
+falls back to user credentials:
+
+```bash
+env -u GOOGLE_APPLICATION_CREDENTIALS GOOGLE_CLOUD_PROJECT=the-gpl \
+  go run . tutor --chapter 4 --q "What is a nil map?"
+```
+
 ### Diagnosing the tutor from logs
 
 Both external dependencies report which source they resolved to, so a misconfiguration

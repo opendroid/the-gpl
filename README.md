@@ -57,6 +57,42 @@ $ the-gpl tutor --q="What is a goroutine?"
 $ the-gpl tutor --chapter=5 --q="How does HTML traversal work?"
 ```
 
+#### Answer cache
+Identical questions (same text, ignoring case and extra whitespace, plus the same chapter) are served
+from an answer cache instead of calling the paid API. The CLI and the website share one cache, so a
+question already answered on https://the-gpl.com is free from the CLI and vice versa. When
+`GOOGLE_CLOUD_PROJECT` is set and Firestore is reachable, answers persist in the `tutor_cache`
+collection; otherwise the cache lives only as long as the process. The active backend is logged at
+startup as `tutor: cache initialised backend=firestore|memory`.
+
+#### Gotcha: `GOOGLE_APPLICATION_CREDENTIALS` also decides the tutor's credentials
+The variable you set above for Dialogflow and Speech-to-Text selects the Application Default
+Credentials for *every* Google client in the process — including the tutor's Firestore and Secret
+Manager clients. If that service account lacks `roles/datastore.user` and
+`roles/secretmanager.secretAccessor`, the tutor still answers correctly but silently falls back to the
+in-process cache and the `ANTHROPIC_API_KEY` variable, so every run misses the shared cache and pays
+for a fresh API call. Two WARN lines at startup give it away:
+
+```
+"tutor cache: firestore unreachable, falling back to memory"   err=...PermissionDenied
+"anthropic key: Secret Manager read failed, trying environment" err=...denied
+```
+
+Either grant that service account the two roles:
+```shell script
+$ SA='serviceAccount:your-sa@your-project.iam.gserviceaccount.com'
+$ gcloud projects add-iam-policy-binding your-project --member="$SA" --role='roles/datastore.user'
+$ gcloud secrets add-iam-policy-binding ANTHROPIC_API_KEY --member="$SA" \
+    --role='roles/secretmanager.secretAccessor' --project=your-project
+```
+
+...or bypass the key file for the tutor so ADC falls back to your user credentials
+(`gcloud auth application-default login` first):
+```shell script
+$ env -u GOOGLE_APPLICATION_CREDENTIALS GOOGLE_CLOUD_PROJECT=your-project \
+    the-gpl tutor --chapter=4 --q="What is the zero value of a nil map in Go?"
+```
+
 ### Simple Examples from book
 Use these commands to run utilities:
 1. bits: That counts number of 1 bits in a Hex input 
