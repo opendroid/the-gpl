@@ -7,6 +7,7 @@
 package web
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"log/slog"
@@ -27,6 +28,11 @@ var counter int
 // gateway is the package-level Gateway used by askHandler. Tests can
 // substitute gateway.Anthropic with a mock.
 var gateway *clients.Gateway
+
+// tutorCache is the package-level answer cache used by askHandler. It is lazily
+// created on first use (Firestore in prod, in-memory otherwise). Tests can
+// substitute an in-memory cache.
+var tutorCache clients.TutorCache
 
 // handlers stores URLS to HandlerFunc
 var handlers = map[string]func(http.ResponseWriter, *http.Request){
@@ -133,36 +139,69 @@ func testHandler(w http.ResponseWriter, _ *http.Request) {
 	_, _ = fmt.Fprintln(w, "Hello from server")
 }
 
-// askHandler answers a Go tutor question via Claude.
+// askResponse is the JSON body returned by /ask.
+type askResponse struct {
+	Answer string `json:"answer,omitempty"`
+	Error  string `json:"error,omitempty"`
+	Cached bool   `json:"cached"`
+}
+
+// askHandler answers a Go tutor question via Claude. Exact-match repeats
+// (same normalized question + chapter) are served from the tutor cache without
+// calling the model. The selected chapter is passed to the model as context.
 //
 // GET /ask?q=<question>&chapter=<N>
-// Returns JSON: {"answer": "..."}  or  {"error": "..."}
+// Returns JSON: {"answer": "...", "cached": bool}  or  {"error": "..."}
 func askHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	q := r.URL.Query().Get("q")
 	if q == "" {
-		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
-		_ = json.NewEncoder(w).Encode(map[string]string{"error": "q parameter is required"})
+		_ = json.NewEncoder(w).Encode(askResponse{Error: "q parameter is required"})
 		return
 	}
+	chapter := r.URL.Query().Get("chapter")
+
+	// Lazily create the cache: Firestore when GOOGLE_CLOUD_PROJECT is set,
+	// in-memory otherwise. context.Background so the client outlives the request.
+	if tutorCache == nil {
+		c, backend := clients.NewTutorCache(context.Background())
+		tutorCache = c
+		slog.Info("askHandler: tutor cache initialised", "backend", backend)
+	}
+
+	// Exact-match cache hit → serve without calling the model.
+	key := clients.TutorCacheKey(q, chapter)
+	if answer, found, err := tutorCache.Get(r.Context(), key); err != nil {
+		slog.Error("askHandler: cache get", "err", err) // treat as a miss
+	} else if found {
+		slog.Info("askHandler: cache hit", "chapter", chapter)
+		_ = json.NewEncoder(w).Encode(askResponse{Answer: answer, Cached: true})
+		return
+	}
+
+	// Miss → ensure a gateway, then ask the model with chapter context.
 	if gateway == nil || gateway.Anthropic == nil {
 		client, err := clients.NewAnthropicClient(r.Context())
 		if err != nil {
 			slog.Error("askHandler: tutor client init error", "err", err)
-			w.Header().Set("Content-Type", "application/json")
 			w.WriteHeader(http.StatusInternalServerError)
-			_ = json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
+			_ = json.NewEncoder(w).Encode(askResponse{Error: err.Error()})
 			return
 		}
 		gateway = clients.NewGateway(nil, client)
 	}
-	answer, err := gateway.Ask(r.Context(), q, "")
-	w.Header().Set("Content-Type", "application/json")
+	answer, err := gateway.Ask(r.Context(), q, chapterContext(chapter))
 	if err != nil {
 		slog.Error("askHandler: tutor error", "err", err)
 		w.WriteHeader(http.StatusInternalServerError)
-		_ = json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
+		_ = json.NewEncoder(w).Encode(askResponse{Error: err.Error()})
 		return
 	}
-	_ = json.NewEncoder(w).Encode(map[string]string{"answer": answer})
+
+	// Best-effort store; a cache failure must not fail the response.
+	if err := tutorCache.Put(r.Context(), key, q, chapter, answer); err != nil {
+		slog.Error("askHandler: cache put", "err", err)
+	}
+	_ = json.NewEncoder(w).Encode(askResponse{Answer: answer, Cached: false})
 }
