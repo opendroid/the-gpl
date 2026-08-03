@@ -12,13 +12,13 @@ import (
 	clientsMock "github.com/opendroid/the-gpl/mocks/clients"
 )
 
-// withTutorState swaps the package-level gateway + tutorCache for a test and
-// restores them on cleanup.
+// withTutorState swaps the package-level tutor for one backed by gw and cache,
+// and restores it on cleanup.
 func withTutorState(t *testing.T, gw *clients.Gateway, cache clients.TutorCache) {
 	t.Helper()
-	origGw, origCache := gateway, tutorCache
-	gateway, tutorCache = gw, cache
-	t.Cleanup(func() { gateway, tutorCache = origGw, origCache })
+	orig := tutor
+	tutor = clients.NewCachingAsker(gw, cache)
+	t.Cleanup(func() { tutor = orig })
 }
 
 // askResp is the decoded /ask body used in tests.
@@ -83,7 +83,7 @@ func Test_askHandler_missStores(t *testing.T) {
 
 // Test_askHandler_missingQuery: no q → 400 with an error body.
 func Test_askHandler_missingQuery(t *testing.T) {
-	withTutorState(t, gateway, clients.NewMemoryTutorCache())
+	withTutorState(t, clients.NewGateway(nil, nil), clients.NewMemoryTutorCache())
 	rr := serve(t, askHandler, "/ask")
 	assert.Equal(t, 400, rr.Code)
 

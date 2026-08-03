@@ -13,10 +13,10 @@ import (
 	"github.com/opendroid/the-gpl/clients"
 )
 
-// gateway is the package-level Gateway used by the tutor command.
-// Tests can substitute gateway.Anthropic with a mock before calling
-// cmd.Execute().
-var gateway *clients.Gateway
+// tutor answers questions for the CLI, sharing the same answer cache as the web
+// tutor so a question already asked on the site costs nothing here. Tests can
+// substitute it before calling cmd.Execute().
+var tutor *clients.CachingAsker
 
 // NewTutorCmd creates the tutor command.
 func NewTutorCmd() *cobra.Command {
@@ -43,17 +43,22 @@ Examples:
 					slog.Warn("tutor: chapter README not found", "chapter", chapter, "path", path)
 				}
 			}
-			if gateway == nil || gateway.Anthropic == nil {
-				client, err := clients.NewAnthropicClient(cmd.Context())
-				if err != nil {
-					return err
-				}
-				gateway = clients.NewGateway(nil, client)
+			if tutor == nil {
+				cache, backend := clients.NewTutorCache(cmd.Context())
+				slog.Info("tutor: cache initialised", "backend", backend)
+				tutor = clients.NewCachingAsker(clients.NewLazyGateway(), cache)
 			}
-			answer, err := gateway.Ask(cmd.Context(), question, chapterCtx)
+			// Key on the chapter number only, matching the web tutor, so both
+			// share cached answers. 0 means no chapter, same as the site's "".
+			chapterKey := ""
+			if chapter > 0 {
+				chapterKey = strconv.Itoa(chapter)
+			}
+			answer, cached, err := tutor.Ask(cmd.Context(), question, chapterKey, chapterCtx)
 			if err != nil {
 				return err
 			}
+			slog.Info("tutor: answered", "cached", cached)
 			fmt.Println(answer)
 			return nil
 		},
