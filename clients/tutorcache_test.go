@@ -49,3 +49,14 @@ func TestNewTutorCache_DefaultsToMemory(t *testing.T) {
 	_, backend := clients.NewTutorCache(context.Background())
 	assert.Equal(t, "memory", backend)
 }
+
+// TestNewTutorCache_UnreachableFallsBackToMemory verifies that a project with no
+// usable Firestore is reported as "memory" rather than "firestore". Both routes
+// land on the fallback: without ADC the client cannot be built at all, and with
+// ADC the reachability probe fails against a project that does not exist. The
+// probe is bounded by tutorProbeTimeout, so this stays fast either way.
+func TestNewTutorCache_UnreachableFallsBackToMemory(t *testing.T) {
+	t.Setenv("GOOGLE_CLOUD_PROJECT", "the-gpl-no-such-project-8f3a1c")
+	_, backend := clients.NewTutorCache(context.Background())
+	assert.Equal(t, "memory", backend)
+}

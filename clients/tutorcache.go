@@ -4,13 +4,16 @@ import (
 	"context"
 	"crypto/sha256"
 	"encoding/hex"
+	"errors"
 	"fmt"
+	"log/slog"
 	"os"
 	"strings"
 	"sync"
 	"time"
 
 	"cloud.google.com/go/firestore"
+	"google.golang.org/api/iterator"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -29,6 +32,9 @@ type TutorCache interface {
 const (
 	tutorCacheCollection = "tutor_cache"
 	tutorProjectEnv      = "GOOGLE_CLOUD_PROJECT"
+	// tutorProbeTimeout bounds the startup reachability check so a slow or
+	// unresponsive Firestore cannot stall the first /ask request.
+	tutorProbeTimeout = 5 * time.Second
 )
 
 // TutorCacheKey builds a stable exact-match key from a question and chapter.
@@ -109,17 +115,46 @@ func (c *firestoreCache) Put(ctx context.Context, key, question, chapter, answer
 	return nil
 }
 
+// probeFirestore checks that the database is actually reachable and readable.
+//
+// firestore.NewClient only resolves credentials — it never contacts the server —
+// so a client is returned successfully even when the project has no Firestore
+// database at all. Listing root collections is a cheap read that distinguishes
+// the cases: an empty-but-healthy database ends the iterator immediately, while
+// a missing database or a service account without access returns an error.
+func probeFirestore(ctx context.Context, client *firestore.Client) error {
+	ctx, cancel := context.WithTimeout(ctx, tutorProbeTimeout)
+	defer cancel()
+	if _, err := client.Collections(ctx).Next(); err != nil && !errors.Is(err, iterator.Done) {
+		return fmt.Errorf("firestore probe: %w", err)
+	}
+	return nil
+}
+
 // NewTutorCache returns a Firestore-backed cache when GOOGLE_CLOUD_PROJECT is set
-// and a client can be created; otherwise it returns an in-memory cache. The
+// and the database is reachable; otherwise it returns an in-memory cache. The
 // second return value names the active backend ("firestore" or "memory") so the
 // caller can log it. Reuses the same ADC/project configuration as the Anthropic
 // key lookup.
+//
+// The backend is probed before being reported, so "firestore" means answers are
+// really being persisted. Without the probe an unreachable database degrades
+// silently: every Get fails and is treated as a miss, every Put fails, and the
+// cache never holds anything while still reporting itself as Firestore-backed.
 func NewTutorCache(ctx context.Context) (TutorCache, string) {
 	project := os.Getenv(tutorProjectEnv)
-	if project != "" {
-		if client, err := firestore.NewClient(ctx, project); err == nil {
-			return &firestoreCache{client: client}, "firestore"
-		}
+	if project == "" {
+		return newMemoryCache(), "memory"
 	}
-	return newMemoryCache(), "memory"
+	client, err := firestore.NewClient(ctx, project)
+	if err != nil {
+		slog.Warn("tutor cache: firestore client unavailable, falling back to memory", "err", err)
+		return newMemoryCache(), "memory"
+	}
+	if err := probeFirestore(ctx, client); err != nil {
+		slog.Warn("tutor cache: firestore unreachable, falling back to memory", "err", err)
+		_ = client.Close()
+		return newMemoryCache(), "memory"
+	}
+	return &firestoreCache{client: client}, "firestore"
 }
