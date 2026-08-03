@@ -25,14 +25,29 @@ import (
 var mutex sync.Mutex
 var counter int
 
-// gateway is the package-level Gateway used by askHandler. Tests can
-// substitute gateway.Anthropic with a mock.
-var gateway *clients.Gateway
+// tutor answers /ask questions, serving exact-match repeats from a cache. It is
+// built on first use and guarded by tutorMu, since handlers run concurrently.
+// Tests substitute it directly.
+var (
+	tutorMu sync.Mutex
+	tutor   *clients.CachingAsker
+)
 
-// tutorCache is the package-level answer cache used by askHandler. It is lazily
-// created on first use (Firestore in prod, in-memory otherwise). Tests can
-// substitute an in-memory cache.
-var tutorCache clients.TutorCache
+// tutorAsker returns the shared tutor, creating it on first call. The cache is
+// Firestore-backed when GOOGLE_CLOUD_PROJECT is set and in-memory otherwise, and
+// is given context.Background so its client outlives the request that built it.
+// The model client behind LazyGateway is deferred further still, so cache hits
+// are served even when no API key is available.
+func tutorAsker() *clients.CachingAsker {
+	tutorMu.Lock()
+	defer tutorMu.Unlock()
+	if tutor == nil {
+		cache, backend := clients.NewTutorCache(context.Background())
+		slog.Info("askHandler: tutor cache initialised", "backend", backend)
+		tutor = clients.NewCachingAsker(clients.NewLazyGateway(), cache)
+	}
+	return tutor
+}
 
 // handlers stores URLS to HandlerFunc
 var handlers = map[string]func(http.ResponseWriter, *http.Request){
@@ -162,46 +177,12 @@ func askHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	chapter := r.URL.Query().Get("chapter")
 
-	// Lazily create the cache: Firestore when GOOGLE_CLOUD_PROJECT is set,
-	// in-memory otherwise. context.Background so the client outlives the request.
-	if tutorCache == nil {
-		c, backend := clients.NewTutorCache(context.Background())
-		tutorCache = c
-		slog.Info("askHandler: tutor cache initialised", "backend", backend)
-	}
-
-	// Exact-match cache hit → serve without calling the model.
-	key := clients.TutorCacheKey(q, chapter)
-	if answer, found, err := tutorCache.Get(r.Context(), key); err != nil {
-		slog.Error("askHandler: cache get", "err", err) // treat as a miss
-	} else if found {
-		slog.Info("askHandler: cache hit", "chapter", chapter)
-		_ = json.NewEncoder(w).Encode(askResponse{Answer: answer, Cached: true})
-		return
-	}
-
-	// Miss → ensure a gateway, then ask the model with chapter context.
-	if gateway == nil || gateway.Anthropic == nil {
-		client, err := clients.NewAnthropicClient(r.Context())
-		if err != nil {
-			slog.Error("askHandler: tutor client init error", "err", err)
-			w.WriteHeader(http.StatusInternalServerError)
-			_ = json.NewEncoder(w).Encode(askResponse{Error: err.Error()})
-			return
-		}
-		gateway = clients.NewGateway(nil, client)
-	}
-	answer, err := gateway.Ask(r.Context(), q, chapterContext(chapter))
+	answer, cached, err := tutorAsker().Ask(r.Context(), q, chapter, chapterContext(chapter))
 	if err != nil {
 		slog.Error("askHandler: tutor error", "err", err)
 		w.WriteHeader(http.StatusInternalServerError)
 		_ = json.NewEncoder(w).Encode(askResponse{Error: err.Error()})
 		return
 	}
-
-	// Best-effort store; a cache failure must not fail the response.
-	if err := tutorCache.Put(r.Context(), key, q, chapter, answer); err != nil {
-		slog.Error("askHandler: cache put", "err", err)
-	}
-	_ = json.NewEncoder(w).Encode(askResponse{Answer: answer, Cached: false})
+	_ = json.NewEncoder(w).Encode(askResponse{Answer: answer, Cached: cached})
 }
