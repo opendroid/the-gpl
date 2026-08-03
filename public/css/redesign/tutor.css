@@ -73,3 +73,4 @@
 }
 .chat-form select:focus { outline: none; border-color: var(--accent); }
 #sendBtn:disabled { background: var(--faint); cursor: not-allowed; }
+.cached-badge { font-family: var(--mono); font-size: 11px; color: var(--faint); }

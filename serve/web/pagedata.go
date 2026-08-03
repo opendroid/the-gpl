@@ -1,5 +1,7 @@
 package web
 
+import "html/template"
+
 // Active defines current active page, one of enums
 type Active string
 
@@ -145,9 +147,11 @@ type ChaptersPageData struct {
 	Chapters []ChapterEntry
 }
 
-// AskPageData is the template data for /ask-page.
+// AskPageData is the template data for /ask-page. PromptsJSON is the marshaled
+// chapterPrompts map, injected into the page for the chapter-based suggestions.
 type AskPageData struct {
-	Active string
+	Active      string
+	PromptsJSON template.JS
 }
 
 // Template names and Page headings

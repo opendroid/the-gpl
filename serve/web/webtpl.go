@@ -2,6 +2,7 @@ package web
 
 import (
 	"compress/gzip"
+	"encoding/json"
 	"fmt"
 	"html/template"
 	"io"
@@ -177,28 +178,25 @@ func chapterURL(n int) string {
 func chaptersHandler(w http.ResponseWriter, _ *http.Request) {
 	slog.Info("chaptersHandler.")
 	data := ChaptersPageData{
-		Active: Chapters.String(),
-		Chapters: []ChapterEntry{
-			{1, "Tutorial", "Goroutines, channels, CLI utilities, the Lissajous GIF, a Dialogflow bot, and Speech-to-Text.", chapterURL(1)},
-			{2, "Program Structure", "Bit counting via three strategies, temperature-conversion types, and package-level variables.", chapterURL(2)},
-			{3, "Basic Data Types", "Mandelbrot PNG, 3-D surface plots as SVG, and string utilities.", chapterURL(3)},
-			{4, "Composite Types", "JSON marshalling, HTML templating, and GitHub issue search.", chapterURL(4)},
-			{5, "Functions", "HTML traversal, a web crawler, topological sort, variadic max/min, generic MaxOf/MinOf.", chapterURL(5)},
-			{6, "Methods", "An IntSet bit-vector: Union, Intersect, Difference, SymmetricDifference.", chapterURL(6)},
-			{7, "Interfaces", "Writer implementations, CountWriter, BroadcastWriters, and a temperature flag.", chapterURL(7)},
-			{8, "Goroutines & Channels", "TCP services (clock, reverb, chat, FTP), concurrent du, and web search with context.", chapterURL(8)},
-			{9, "Concurrency & Shared Variables", "sync.Mutex SafeBank, sync.RWMutex RWBank, sync.Once Icon, and a Memo cache.", chapterURL(9)},
-		},
+		Active:   Chapters.String(),
+		Chapters: bookChapters,
 	}
 	if err := templates.ExecuteTemplate(w, ChaptersPage, &data); err != nil {
 		slog.Error("chaptersHandler", "err", err)
 	}
 }
 
-// askPageHandler renders the AI tutor chat UI at /ask-page.
+// askPageHandler renders the AI tutor chat UI at /ask-page, injecting the
+// chapter-based suggested questions as JSON.
 func askPageHandler(w http.ResponseWriter, _ *http.Request) {
 	slog.Info("askPageHandler.")
-	if err := templates.ExecuteTemplate(w, AskPage, &AskPageData{Active: Ask.String()}); err != nil {
+	promptsJSON, err := json.Marshal(chapterPrompts)
+	if err != nil {
+		slog.Error("askPageHandler: marshal prompts", "err", err)
+		promptsJSON = []byte("{}")
+	}
+	data := AskPageData{Active: Ask.String(), PromptsJSON: template.JS(promptsJSON)}
+	if err := templates.ExecuteTemplate(w, AskPage, &data); err != nil {
 		slog.Error("askPageHandler", "err", err)
 	}
 }

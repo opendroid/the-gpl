@@ -19,12 +19,8 @@
         </div>
 
         <form class="chat-form" id="chatForm" onsubmit="return sendQuestion()">
-            <textarea id="questionInput" rows="2" placeholder="e.g. When should I use a buffered channel? Paste code, error output, or a full question — there's room." autocomplete="off" required></textarea>
-            <div class="chat-chips">
-                <button type="button" class="chip" data-q="What's the difference between a buffered and an unbuffered channel?" onclick="fillPrompt(this)">buffered vs unbuffered</button>
-                <button type="button" class="chip" data-q="When should I use a sync.Mutex instead of a channel?" onclick="fillPrompt(this)">when to use a mutex</button>
-                <button type="button" class="chip" data-q="How does the select statement work in Go?" onclick="fillPrompt(this)">select statement</button>
-            </div>
+            <textarea id="questionInput" rows="12" placeholder="Ask anything about Go — or pick a suggestion below." autocomplete="off" required></textarea>
+            <div class="chat-chips" id="chatChips"></div>
             <div class="chat-actions">
                 <select id="chapterSelect">
                     <option value="">No chapter</option>
@@ -44,11 +40,74 @@
 </main>
 {{template "footer"}}
 <script>
+// Chapter-based suggested questions, injected by askPageHandler (static, trusted).
+var CHAPTER_PROMPTS = {{ .PromptsJSON }};
+
+// Every prompt's full question, used to tell a still-default textbox from one the
+// user has edited (so a chapter change never clobbers the user's own text).
+var KNOWN_DEFAULTS = (function() {
+    var s = {};
+    Object.keys(CHAPTER_PROMPTS).forEach(function(k) {
+        (CHAPTER_PROMPTS[k] || []).forEach(function(p) { s[p.q] = true; });
+    });
+    return s;
+})();
+
+function promptsFor(chapter) {
+    return CHAPTER_PROMPTS[chapter] || CHAPTER_PROMPTS[''] || [];
+}
+
+function defaultTextFor(chapter) {
+    var list = promptsFor(chapter);
+    return list.length ? list[0].q : '';
+}
+
+function isReplaceable(value) {
+    var v = value.trim();
+    return v === '' || KNOWN_DEFAULTS[v] === true;
+}
+
+function renderChips(chapter) {
+    var wrap = document.getElementById('chatChips');
+    wrap.innerHTML = '';
+    promptsFor(chapter).forEach(function(p) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'chip';
+        b.textContent = p.label;
+        b.dataset.q = p.q;
+        b.addEventListener('click', function() { fillPrompt(b); });
+        wrap.appendChild(b);
+    });
+}
+
 function fillPrompt(btn) {
     var input = document.getElementById('questionInput');
     input.value = btn.dataset.q;
-    input.focus();
+    input.focus(); // focus handler selects the (default) text so it's easy to replace
 }
+
+// Wire up chapter-driven suggestions + a real, selectable default question.
+(function() {
+    var sel = document.getElementById('chapterSelect');
+    var input = document.getElementById('questionInput');
+    renderChips(sel.value);
+    input.value = defaultTextFor(sel.value);
+    sel.addEventListener('change', function() {
+        renderChips(sel.value);
+        if (isReplaceable(input.value)) {
+            input.value = defaultTextFor(sel.value);
+        }
+    });
+    // Select the default text on focus so the first keystroke replaces it; once
+    // the user has typed their own question, focusing leaves it alone.
+    input.addEventListener('focus', function() {
+        if (isReplaceable(input.value)) {
+            input.select();
+        }
+    });
+})();
+
 function parseMarkdown(text) {
     text = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     text = text.replace(/```[^\n]*\n([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
@@ -106,7 +165,8 @@ function sendQuestion() {
         .then(function(data){
             var tutorDiv = document.createElement('div');
             tutorDiv.className = 'chat-msg tutor';
-            tutorDiv.innerHTML = '<strong>Tutor:</strong> ' + parseMarkdown(data.answer || data.error || 'No response.');
+            var cachedTag = data.cached ? ' <span class="cached-badge">· cached</span>' : '';
+            tutorDiv.innerHTML = '<strong>Tutor:</strong> ' + parseMarkdown(data.answer || data.error || 'No response.') + cachedTag;
             box.appendChild(tutorDiv);
             box.scrollTop = box.scrollHeight;
         })

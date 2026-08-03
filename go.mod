@@ -4,6 +4,7 @@ go 1.26.0
 
 require (
 	cloud.google.com/go/dialogflow v1.85.0
+	cloud.google.com/go/firestore v1.24.0
 	cloud.google.com/go/secretmanager v1.21.0
 	cloud.google.com/go/speech v1.36.0
 	github.com/anthropics/anthropic-sdk-go v1.58.0
@@ -13,6 +14,7 @@ require (
 	github.com/stretchr/testify v1.11.1
 	golang.org/x/net v0.57.0
 	google.golang.org/api v0.289.0
+	google.golang.org/grpc v1.82.1
 )
 
 require (
@@ -58,7 +60,6 @@ require (
 	google.golang.org/genproto v0.0.0-20260720171339-e059f2f05d78 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20260720171339-e059f2f05d78 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20260720171339-e059f2f05d78 // indirect
-	google.golang.org/grpc v1.82.1 // indirect
 	google.golang.org/protobuf v1.36.11 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
