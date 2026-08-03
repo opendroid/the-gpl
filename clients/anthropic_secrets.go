@@ -3,6 +3,7 @@ package clients
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"os"
 
 	secretmanager "cloud.google.com/go/secretmanager/apiv1"
@@ -15,18 +16,28 @@ const anthropicSecretName = "ANTHROPIC_API_KEY"
 
 // getAnthropicAPIKey returns the Anthropic API key.
 // On Cloud Run it reads from Secret Manager; falls back to the environment for local dev.
+//
+// Which source won is logged (never the key itself). Without that, a broken
+// Secret Manager setup — missing secret, missing secretAccessor role, wrong
+// project — is invisible: the read fails, the environment variable quietly
+// covers for it, and the deployment looks healthy while not using the secret at
+// all.
 func getAnthropicAPIKey(ctx context.Context) (string, error) {
 	project := os.Getenv(anthropicProjectEnv)
 	if project != "" {
 		key, err := readAnthropicSecret(ctx, project)
 		if err == nil {
+			slog.Info("anthropic key: read from Secret Manager", "project", project)
 			return key, nil
 		}
+		slog.Warn("anthropic key: Secret Manager read failed, trying environment",
+			"project", project, "secret", anthropicSecretName, "err", err)
 	}
 	key := os.Getenv(anthropicAPIKeyEnv)
 	if key == "" {
 		return "", fmt.Errorf("%s not set and Secret Manager unavailable", anthropicAPIKeyEnv)
 	}
+	slog.Info("anthropic key: read from environment", "var", anthropicAPIKeyEnv)
 	return key, nil
 }
 
