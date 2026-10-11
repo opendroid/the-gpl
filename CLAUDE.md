@@ -179,3 +179,6 @@ on the Cloud Run runtime service account.
 - The `Asker` seam between `CachingAsker` and `Gateway` — folding the cache into
   `Gateway` was considered and rejected; it would key on chapter prose instead of the
   chapter id and force a cache-hit flag onto the Dialogflow side of `Gateway`.
+- The `GOTOOLCHAIN=local` prefix on the lint command — without it golangci-lint is
+  built with its own go.mod's older toolchain and refuses to lint this module.
+  The CI lint step sets the same variable for the same reason.
