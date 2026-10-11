@@ -7,7 +7,7 @@ Live at **https://the-gpl.com** (GCP Cloud Run).
 ## Module
 
 ```
-github.com/opendroid/the-gpl   (Go 1.26)
+github.com/opendroid/the-gpl   (Go 1.27)
 ```
 
 ## Repository Layout
@@ -40,7 +40,13 @@ go build ./...          # build everything
 go test ./...           # run all tests
 go vet ./...            # static analysis
 gofmt -l ./...          # list files needing formatting
-golangci-lint run       # full lint pass (requires golangci-lint)
+
+# Full lint pass. GOTOOLCHAIN=local is required: golangci-lint refuses to run
+# when the Go it was built with is older than the module's go directive, and
+# `go run ...@latest` otherwise builds it with the toolchain golangci-lint's own
+# go.mod names (currently 1.26.x) rather than this module's 1.27. A system
+# golangci-lint built against an older Go fails the same way.
+GOTOOLCHAIN=local go run github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest run ./...
 
 the-gpl server --port=8080   # start web server
 ```
