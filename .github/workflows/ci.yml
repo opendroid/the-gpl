@@ -16,7 +16,7 @@ jobs:
 
       - uses: actions/setup-go@v5
         with:
-          go-version: "1.26"
+          go-version: "1.27"
           cache: true
 
       - name: Build
@@ -35,6 +35,13 @@ jobs:
         run: go vet ./...
 
       - name: Lint
+        # GOTOOLCHAIN=local forces golangci-lint to be compiled with the Go
+        # installed above. Without it, `go run ...@latest` builds it with the
+        # toolchain golangci-lint's own go.mod asks for (currently 1.26.x), and
+        # it then refuses to run: "the Go language version (go1.26) used to
+        # build golangci-lint is lower than the targeted Go version (1.27.0)".
+        env:
+          GOTOOLCHAIN: local
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             REV="origin/${{ github.event.pull_request.base.ref }}"
